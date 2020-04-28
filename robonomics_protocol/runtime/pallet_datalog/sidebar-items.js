@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["record",""]],"struct":[["RecordArgs","Arguments for datalog record call. "]],"trait":[["Datalog","The subset of the `pallet_robonomics_datalog::Trait` that a client must implement."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SinkCmd",""],["SourceCmd",""]],"mod":[["error","Errors that can occur during the cli operations."]],"struct":[["IoCmd","Substrate friendly CLI I/O subsystem interaction command."]]});

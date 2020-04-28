@@ -1,0 +1,14 @@
+var ALIASES = {};
+ALIASES["ipci_runtime"] = {};
+ALIASES["node_cli"] = {};
+ALIASES["node_primitives"] = {};
+ALIASES["pallet_robonomics_datalog"] = {};
+ALIASES["pallet_robonomics_liability"] = {};
+ALIASES["robonomics"] = {};
+ALIASES["robonomics_cli"] = {};
+ALIASES["robonomics_io"] = {};
+ALIASES["robonomics_protocol"] = {};
+ALIASES["robonomics_runtime"] = {};
+ALIASES["subkey"] = {};
+ALIASES["substrate_ros_api"] = {};
+ALIASES["substrate_ros_msgs"] = {};

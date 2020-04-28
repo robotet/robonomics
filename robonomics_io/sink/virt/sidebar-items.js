@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Datalog","Datalog submitter."],["PubSub","PubSub publisher."],["Stdout","Simple standart output."]]});

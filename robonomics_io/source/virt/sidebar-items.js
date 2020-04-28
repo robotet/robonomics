@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["PubSub","PubSub subscription."],["Stdin","Simple standart input."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["start",""]],"mod":[["author",""],["chain",""],["state",""],["system",""]],"struct":[["SystemInfo","Substrate API in ROS namespace. Running node's static details."]]});

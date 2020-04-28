@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["pallet_datalog","Robonomics Datalog pallet. SubXt compatible robonomics-datalog pallet abstration."]],"struct":[["Robonomics","Robonomics Network family runtimes."]],"type":[["AccountId","Robonomics account is MultiSignature account."]]});
