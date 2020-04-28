@@ -85,7 +85,7 @@
     }
 }
 
-<span class="doccomment">/// Consumer is a pipe that returns empty data.</span>
+<span class="doccomment">/// Consumer is a pipe that consume some data and returns empty type `()`.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Consumer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="lifetime">&#39;a</span><span class="op">&gt;</span>: <span class="ident">Pipe</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, ()<span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">consume</span>(<span class="self">self</span>, <span class="ident">input</span>: <span class="ident">PipeStream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PipeFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, ()<span class="op">&gt;</span> {
         <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="self">self</span>.<span class="ident">pipe</span>(<span class="ident">input</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">future</span>::<span class="ident">ready</span>(())))

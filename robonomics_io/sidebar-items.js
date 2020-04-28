@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["error","Errors that can occur during the I/O operations."],["pipe","Stream based pipes."],["sink","Robonomics actions subsystem."],["source",""]]});
+initSidebarItems({"mod":[["error","Errors that can occur during the I/O operations."],["pipe","Stream based pipes."],["sink","Robonomics data sink."],["source","Robonomics data sources."]]});

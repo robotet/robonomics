@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["virt",""]]});
+initSidebarItems({"mod":[["virt","Collection of virtual devices (like stdout)."]]});

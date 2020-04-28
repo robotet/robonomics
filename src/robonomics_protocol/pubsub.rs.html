@@ -69,8 +69,6 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -89,7 +87,7 @@
 <span class="comment">//  limitations under the License.</span>
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
-<span class="doccomment">///! Robonomics Network broadcasting layer.</span>
+<span class="doccomment">//! Robonomics Network broadcasting layer.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">pin</span>::<span class="ident">Pin</span>;
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Stream</span>;
@@ -97,12 +95,10 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libp2p</span>::{<span class="ident">PeerId</span>, <span class="ident">Multiaddr</span>};
 
-<span class="doccomment">/// PubSub implementation using libp2p Gossipsub.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gossipsub</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">gossipsub</span>::<span class="ident">PubSub</span> <span class="kw">as</span> <span class="ident">Gossipsub</span>;
-
-<span class="doccomment">/// Simple PubSub based node discovery.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">gossipsub</span>::<span class="ident">PubSub</span> <span class="kw">as</span> <span class="ident">Gossipsub</span>;
 
 <span class="doccomment">/// Robonomics PubSub message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>

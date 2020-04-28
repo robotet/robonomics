@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["PubSub","PubSub subscription."],["Stdin","Simple standart input."]]});
+initSidebarItems({"struct":[["PubSub","Subscribe for data from PubSub topic."],["Stdin","Standart input stream (console)."]]});

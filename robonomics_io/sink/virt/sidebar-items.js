@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Datalog","Datalog submitter."],["PubSub","PubSub publisher."],["Stdout","Simple standart output."]]});
+initSidebarItems({"struct":[["Datalog","Submit signed data record into blockchain."],["PubSub","Publish data into PubSub topic. "],["Stdout","Standart console output."]]});

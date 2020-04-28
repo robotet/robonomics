@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["serial","Robonomics sensing subsystem. "],["virt",""]]});
+initSidebarItems({"mod":[["serial","Serial port sensors collection."],["virt","Virtual sensors collection."]]});

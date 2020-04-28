@@ -19,6 +19,11 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -37,7 +42,12 @@
 <span class="comment">//  limitations under the License.</span>
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
-<span class="doccomment">///! Robonomics sensing subsystem. </span>
+<span class="doccomment">//! Robonomics data sources.</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! In terms of Robonomics Framework data source could be used as a `Stream` of</span>
+<span class="doccomment">//! data. It could be as real devices like `SDS011` particle sensor as same as</span>
+<span class="doccomment">//! virtual data sources like a PubSub topic subscription.</span>
+<span class="doccomment">//!</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">serial</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">virt</span>;

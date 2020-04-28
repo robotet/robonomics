@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["datalog",""],["error","Errors that can occur during the protocol operations."],["id","Robonomics Network node identity."],["pubsub",""],["runtime","SubXt compatible Robonomics Network runtime abstration."]]});
+initSidebarItems({"mod":[["datalog","Robonomics data blockchainization."],["error","Errors that can occur during the protocol operations."],["id","Robonomics Network node identity."],["pubsub","Robonomics Network broadcasting layer."],["runtime","SubXt compatible Robonomics Network runtime abstration."]]});

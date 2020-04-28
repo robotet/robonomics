@@ -101,6 +101,8 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -119,7 +121,13 @@
 <span class="comment">//  limitations under the License.</span>
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
-<span class="doccomment">///! Robonomics Publisher/Subscriber protocol node discovery.</span>
+<span class="doccomment">//! Robonomics Publisher/Subscriber protocol node discovery.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Simple node discovery algorithm consist of following steps:</span>
+<span class="doccomment">//! 1. All nodes subscribed for DISCOVERY_TOPIC_NAME.</span>
+<span class="doccomment">//! 2. Each node periodically send listened addresses into DISCOVERY_TOPIC_NAME.</span>
+<span class="doccomment">//! 3. If node received discovery message then try to connect remove node.</span>
+<span class="doccomment">//!</span>
 
 <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">Future</span>, <span class="ident">FutureExt</span>, <span class="ident">StreamExt</span>, <span class="ident">future</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::{<span class="ident">Duration</span>, <span class="ident">SystemTime</span>};
@@ -139,11 +147,7 @@
 <span class="doccomment">/// Peer discovery topic name.</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DISCOVERY_TOPIC_NAME</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;_robonomics_pubsub_peer_discovery&quot;</span>;
 
-<span class="doccomment">/// Simple node discovery algorithm.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// 1. All nodes subscribed for DISCOVERY_TOPIC_NAME.</span>
-<span class="doccomment">/// 2. Each node periodically send listened addresses into DISCOVERY_TOPIC_NAME.</span>
-<span class="doccomment">/// 3. If node received discovery message then try to connect remove node.</span>
+<span class="doccomment">/// Start peer discovery service.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PubSub</span><span class="op">&gt;</span>(<span class="ident">pubsub</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> {
     <span class="ident">future</span>::<span class="ident">join</span>(
         <span class="comment">// Message broadcasting task </span>
