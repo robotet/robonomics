@@ -52,6 +52,10 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -72,11 +76,14 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Robonomics I/O CLI interface.</span>
 
+<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="prelude-ty">Result</span>;
 
-<span class="doccomment">/// Substrate friendly CLI I/O subsystem interaction command.</span>
+<span class="doccomment">/// Substrate friendly CLI I/O subsystem interaction.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">structopt</span>::<span class="ident">StructOpt</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IoCmd</span> {
+    <span class="doccomment">/// I/O device operation to run.</span>
     <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">subcommand</span>)]</span>
     <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">Operation</span>,
 	<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
@@ -91,6 +98,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">IoCmd</span> {
+    <span class="doccomment">/// Run I/O operation on device.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">operation</span> {
             <span class="ident">Operation</span>::<span class="ident">Read</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">run</span>(),
@@ -104,7 +112,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operation</span> {
     <span class="doccomment">/// Read information from device.</span>
     <span class="ident">Read</span>(<span class="kw">super</span>::<span class="ident">SourceCmd</span>),
-    <span class="doccomment">/// Write information to device.</span>
+    <span class="doccomment">/// Write information into device.</span>
     <span class="ident">Write</span>(<span class="kw">super</span>::<span class="ident">SinkCmd</span>),
 }
 </pre></div>
