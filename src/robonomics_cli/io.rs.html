@@ -50,6 +50,8 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -100,7 +102,9 @@
 <span class="doccomment">/// I/O operation command.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">structopt</span>::<span class="ident">StructOpt</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operation</span> {
+    <span class="doccomment">/// Read information from device.</span>
     <span class="ident">Read</span>(<span class="kw">super</span>::<span class="ident">SourceCmd</span>),
+    <span class="doccomment">/// Write information to device.</span>
     <span class="ident">Write</span>(<span class="kw">super</span>::<span class="ident">SinkCmd</span>),
 }
 </pre></div>

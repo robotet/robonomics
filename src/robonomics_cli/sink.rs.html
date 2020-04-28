@@ -75,6 +75,15 @@
 <span id="75">75</span>
 <span id="76">76</span>
 <span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -100,6 +109,7 @@
 <span class="kw">use</span> <span class="ident">robonomics_io</span>::<span class="ident">source</span>::<span class="ident">virt</span>::<span class="ident">Stdin</span>;
 <span class="kw">use</span> <span class="ident">robonomics_io</span>::<span class="ident">sink</span>::<span class="ident">virt</span>;
 <span class="kw">use</span> <span class="ident">robonomics_io</span>::<span class="ident">Consumer</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">StreamExt</span>;
 <span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>;
 
@@ -124,6 +134,13 @@
             <span class="ident">use_delimiter</span> <span class="op">=</span> <span class="bool-val">true</span>,
         )]</span>
         <span class="ident">bootnodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Multiaddr</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// How often node should check another nodes availability, in secs.</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(
+            <span class="ident">long</span>,
+            <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;HEARTBEAT_SECS&quot;</span>,
+            <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>,
+        )]</span>
+        <span class="ident">hearbeat_secs</span>: <span class="ident">u64</span>
     },
     <span class="doccomment">/// Data blockchainization subsystem command.</span>
     <span class="ident">Datalog</span> {
@@ -140,8 +157,9 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">stdin</span> <span class="op">=</span> <span class="ident">Stdin</span>::<span class="ident">new</span>().<span class="ident">boxed</span>();
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">clone</span>() {
-            <span class="ident">SinkCmd</span>::<span class="ident">PubSub</span> { <span class="ident">topic_name</span>, <span class="ident">listen</span>, <span class="ident">bootnodes</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> <span class="ident">virt</span>::<span class="ident">PubSub</span>::<span class="ident">new</span>(<span class="ident">listen</span>, <span class="ident">bootnodes</span>, <span class="ident">topic_name</span>).<span class="ident">unwrap</span>();
+            <span class="ident">SinkCmd</span>::<span class="ident">PubSub</span> { <span class="ident">topic_name</span>, <span class="ident">listen</span>, <span class="ident">bootnodes</span>, <span class="ident">hearbeat_secs</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="ident">hearbeat</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">hearbeat_secs</span>);
+                <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> <span class="ident">virt</span>::<span class="ident">PubSub</span>::<span class="ident">new</span>(<span class="ident">listen</span>, <span class="ident">bootnodes</span>, <span class="ident">topic_name</span>, <span class="ident">hearbeat</span>).<span class="ident">unwrap</span>();
                 <span class="ident">task</span>::<span class="ident">block_on</span>(<span class="ident">device</span>.<span class="ident">consume</span>(<span class="ident">stdin</span>))
             }
             <span class="ident">SinkCmd</span>::<span class="ident">Datalog</span> { <span class="ident">remote</span>, <span class="ident">suri</span> } <span class="op">=</span><span class="op">&gt;</span> {
