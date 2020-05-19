@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["PubSub","Subscribe for data from PubSub topic."],["Stdin","Standart input stream (console)."]]});
+initSidebarItems({"fn":[["ipfs","Download some data from IPFS network."],["pubsub","Subscribe for data from PubSub topic."],["stdin","Read line from standard console input."]]});

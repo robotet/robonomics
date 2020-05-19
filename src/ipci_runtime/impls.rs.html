@@ -104,10 +104,19 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -123,26 +132,33 @@
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Balances</span>, <span class="ident">System</span>, <span class="ident">MaximumBlockWeight</span>,};
-<span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">traits</span>::<span class="ident">Get</span>, <span class="ident">weights</span>::<span class="ident">Weight</span>,};
-<span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>::{<span class="ident">Convert</span>, <span class="ident">Saturating</span>,};
-<span class="kw">use</span> <span class="ident">sp_runtime</span>::{<span class="ident">Fixed64</span>, <span class="ident">Perbill</span>,};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Balances</span>, <span class="ident">MaximumBlockWeight</span>, <span class="ident">System</span>};
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">NonZeroI128</span>;
+<span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">traits</span>::<span class="ident">Get</span>, <span class="ident">weights</span>::<span class="ident">Weight</span>};
 <span class="kw">use</span> <span class="ident">node_primitives</span>::<span class="ident">Balance</span>;
+<span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>::{<span class="ident">Convert</span>, <span class="ident">Saturating</span>};
+<span class="kw">use</span> <span class="ident">sp_runtime</span>::{<span class="ident">Fixed128</span>, <span class="ident">Perquintill</span>};
 
 <span class="doccomment">/// Struct that handles the conversion of Balance -&gt; `u64`. This is used for staking&#39;s election</span>
 <span class="doccomment">/// calculation.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CurrencyToVoteHandler</span>;
 
 <span class="kw">impl</span> <span class="ident">CurrencyToVoteHandler</span> {
-    <span class="kw">fn</span> <span class="ident">factor</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Balance</span> { (<span class="ident">Balances</span>::<span class="ident">total_issuance</span>() <span class="op">/</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">Balance</span>).<span class="ident">max</span>(<span class="number">1</span>) }
+    <span class="kw">fn</span> <span class="ident">factor</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Balance</span> {
+        (<span class="ident">Balances</span>::<span class="ident">total_issuance</span>() <span class="op">/</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">Balance</span>).<span class="ident">max</span>(<span class="number">1</span>)
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Balance</span>, <span class="ident">u64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CurrencyToVoteHandler</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="ident">x</span>: <span class="ident">Balance</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> { (<span class="ident">x</span> <span class="op">/</span> <span class="self">Self</span>::<span class="ident">factor</span>()) <span class="kw">as</span> <span class="ident">u64</span> }
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="ident">x</span>: <span class="ident">Balance</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        (<span class="ident">x</span> <span class="op">/</span> <span class="self">Self</span>::<span class="ident">factor</span>()) <span class="kw">as</span> <span class="ident">u64</span>
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">u128</span>, <span class="ident">Balance</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CurrencyToVoteHandler</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="ident">x</span>: <span class="ident">u128</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Balance</span> { <span class="ident">x</span> <span class="op">*</span> <span class="self">Self</span>::<span class="ident">factor</span>() }
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="ident">x</span>: <span class="ident">u128</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Balance</span> {
+        <span class="ident">x</span> <span class="op">*</span> <span class="self">Self</span>::<span class="ident">factor</span>()
+    }
 }
 
 <span class="doccomment">/// Convert from weight to balance via a simple coefficient multiplication</span>
@@ -160,37 +176,38 @@
 
 <span class="doccomment">/// Update the given multiplier based on the following formula</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///   diff = (target_weight - previous_block_weight)</span>
+<span class="doccomment">///   diff = (previous_block_weight - target_weight)/max_weight</span>
 <span class="doccomment">///   v = 0.00004</span>
-<span class="doccomment">///   next_weight = weight * (1 + (v . diff) + (v . diff)^2 / 2)</span>
+<span class="doccomment">///   next_weight = weight * (1 + (v * diff) + (v * diff)^2 / 2)</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Where `target_weight` must be given as the `Get` implementation of the `T` generic type.</span>
 <span class="doccomment">/// https://research.web3.foundation/en/latest/polkadot/Token%20Economics/#relay-chain-transaction-fees</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TargetedFeeAdjustment</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">sp_std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Get</span><span class="op">&lt;</span><span class="ident">Perbill</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Fixed64</span>, <span class="ident">Fixed64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">TargetedFeeAdjustment</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="ident">multiplier</span>: <span class="ident">Fixed64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fixed64</span> {
-        <span class="kw">let</span> <span class="ident">block_weight</span> <span class="op">=</span> <span class="ident">System</span>::<span class="ident">all_extrinsics_weight</span>();
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Get</span><span class="op">&lt;</span><span class="ident">Perquintill</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Fixed128</span>, <span class="ident">Fixed128</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">TargetedFeeAdjustment</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="ident">multiplier</span>: <span class="ident">Fixed128</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fixed128</span> {
         <span class="kw">let</span> <span class="ident">max_weight</span> <span class="op">=</span> <span class="ident">MaximumBlockWeight</span>::<span class="ident">get</span>();
+        <span class="kw">let</span> <span class="ident">block_weight</span> <span class="op">=</span> <span class="ident">System</span>::<span class="ident">all_extrinsics_weight</span>().<span class="ident">total</span>().<span class="ident">min</span>(<span class="ident">max_weight</span>);
         <span class="kw">let</span> <span class="ident">target_weight</span> <span class="op">=</span> (<span class="ident">T</span>::<span class="ident">get</span>() <span class="op">*</span> <span class="ident">max_weight</span>) <span class="kw">as</span> <span class="ident">u128</span>;
         <span class="kw">let</span> <span class="ident">block_weight</span> <span class="op">=</span> <span class="ident">block_weight</span> <span class="kw">as</span> <span class="ident">u128</span>;
 
         <span class="comment">// determines if the first_term is positive</span>
         <span class="kw">let</span> <span class="ident">positive</span> <span class="op">=</span> <span class="ident">block_weight</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">target_weight</span>;
         <span class="kw">let</span> <span class="ident">diff_abs</span> <span class="op">=</span> <span class="ident">block_weight</span>.<span class="ident">max</span>(<span class="ident">target_weight</span>) <span class="op">-</span> <span class="ident">block_weight</span>.<span class="ident">min</span>(<span class="ident">target_weight</span>);
-        <span class="comment">// diff is within u32, safe.</span>
-        <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">Fixed64</span>::<span class="ident">from_rational</span>(<span class="ident">diff_abs</span> <span class="kw">as</span> <span class="ident">i64</span>, <span class="ident">max_weight</span> <span class="kw">as</span> <span class="ident">u64</span>);
+        <span class="comment">// safe, diff_abs cannot exceed u64 and it can always be computed safely even with the lossy</span>
+        <span class="comment">// `Fixed128::from_rational`.</span>
+        <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">Fixed128</span>::<span class="ident">from_rational</span>(
+            <span class="ident">diff_abs</span> <span class="kw">as</span> <span class="ident">i128</span>,
+            <span class="ident">NonZeroI128</span>::<span class="ident">new</span>(<span class="ident">max_weight</span>.<span class="ident">max</span>(<span class="number">1</span>) <span class="kw">as</span> <span class="ident">i128</span>).<span class="ident">unwrap</span>(),
+        );
         <span class="kw">let</span> <span class="ident">diff_squared</span> <span class="op">=</span> <span class="ident">diff</span>.<span class="ident">saturating_mul</span>(<span class="ident">diff</span>);
 
         <span class="comment">// 0.00004 = 4/100_000 = 40_000/10^9</span>
-        <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Fixed64</span>::<span class="ident">from_rational</span>(<span class="number">4</span>, <span class="number">100_000</span>);
-        <span class="comment">// 0.00004^2 = 16/10^10 ~= 2/10^9. Taking the future /2 into account, then it is just 1</span>
-        <span class="comment">// parts from a billionth.</span>
-        <span class="kw">let</span> <span class="ident">v_squared_2</span> <span class="op">=</span> <span class="ident">Fixed64</span>::<span class="ident">from_rational</span>(<span class="number">1</span>, <span class="number">1_000_000_000</span>);
+        <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Fixed128</span>::<span class="ident">from_rational</span>(<span class="number">4</span>, <span class="ident">NonZeroI128</span>::<span class="ident">new</span>(<span class="number">100_000</span>).<span class="ident">unwrap</span>());
+        <span class="comment">// 0.00004^2 = 16/10^10 Taking the future /2 into account... 8/10^10</span>
+        <span class="kw">let</span> <span class="ident">v_squared_2</span> <span class="op">=</span> <span class="ident">Fixed128</span>::<span class="ident">from_rational</span>(<span class="number">8</span>, <span class="ident">NonZeroI128</span>::<span class="ident">new</span>(<span class="number">10_000_000_000</span>).<span class="ident">unwrap</span>());
 
         <span class="kw">let</span> <span class="ident">first_term</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">saturating_mul</span>(<span class="ident">diff</span>);
-        <span class="comment">// It is very unlikely that this will exist (in our poor perbill estimate) but we are giving</span>
-        <span class="comment">// it a shot.</span>
         <span class="kw">let</span> <span class="ident">second_term</span> <span class="op">=</span> <span class="ident">v_squared_2</span>.<span class="ident">saturating_mul</span>(<span class="ident">diff_squared</span>);
 
         <span class="kw">if</span> <span class="ident">positive</span> {
@@ -199,15 +216,16 @@
             <span class="kw">let</span> <span class="ident">excess</span> <span class="op">=</span> <span class="ident">first_term</span>.<span class="ident">saturating_add</span>(<span class="ident">second_term</span>);
             <span class="ident">multiplier</span>.<span class="ident">saturating_add</span>(<span class="ident">excess</span>)
         } <span class="kw">else</span> {
-            <span class="comment">// Proof: first_term &gt; second_term. Safe subtraction.</span>
-            <span class="kw">let</span> <span class="ident">negative</span> <span class="op">=</span> <span class="ident">first_term</span> <span class="op">-</span> <span class="ident">second_term</span>;
-            <span class="ident">multiplier</span>.<span class="ident">saturating_sub</span>(<span class="ident">negative</span>)
+            <span class="comment">// Defensive-only: first_term &gt; second_term. Safe subtraction.</span>
+            <span class="kw">let</span> <span class="ident">negative</span> <span class="op">=</span> <span class="ident">first_term</span>.<span class="ident">saturating_sub</span>(<span class="ident">second_term</span>);
+            <span class="ident">multiplier</span>
+                .<span class="ident">saturating_sub</span>(<span class="ident">negative</span>)
                 <span class="comment">// despite the fact that apply_to saturates weight (final fee cannot go below 0)</span>
                 <span class="comment">// it is crucially important to stop here and don&#39;t further reduce the weight fee</span>
                 <span class="comment">// multiplier. While at -1, it means that the network is so un-congested that all</span>
                 <span class="comment">// transactions have no weight fee. We stop here and only increase if the network</span>
                 <span class="comment">// became more busy.</span>
-                .<span class="ident">max</span>(<span class="ident">Fixed64</span>::<span class="ident">from_rational</span>(<span class="op">-</span><span class="number">1</span>, <span class="number">1</span>))
+                .<span class="ident">max</span>(<span class="ident">Fixed128</span>::<span class="ident">from_natural</span>(<span class="op">-</span><span class="number">1</span>))
         }
     }
 }

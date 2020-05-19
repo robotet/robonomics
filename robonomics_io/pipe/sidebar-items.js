@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["Consumer","Consumer is a pipe that consume some data and returns empty type `()`."],["Pipe","Pipe joins two streams."]],"type":[["PipeFuture","Result of transition function."],["PipeStream","Common stream type for pipes."]]});

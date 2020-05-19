@@ -40,10 +40,14 @@
 <span id="40">40</span>
 <span id="41">41</span>
 <span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -61,27 +65,31 @@
 <span class="doccomment">//! Robonomics data blockchainization.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="prelude-ty">Result</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">runtime</span>::<span class="ident">Robonomics</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">runtime</span>::<span class="ident">pallet_datalog</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">runtime</span>::<span class="ident">Robonomics</span>;
+<span class="kw">use</span> <span class="ident">pallet_datalog</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">crypto</span>::<span class="ident">Pair</span>;
 
 <span class="doccomment">/// Sign datalog record and send using remote Robonomics node.</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">submit</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pair</span><span class="op">&gt;</span>(<span class="ident">signer</span>: <span class="ident">T</span>, <span class="ident">remote</span>: <span class="ident">String</span>, <span class="ident">record</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">sp_runtime</span>::<span class="ident">MultiSigner</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span><span class="op">&gt;</span>,
-          <span class="ident">sp_runtime</span>::<span class="ident">MultiSignature</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span><span class="op">&gt;</span>,
-          <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span>: <span class="ident">codec</span>::<span class="ident">Codec</span>,
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">submit</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pair</span><span class="op">&gt;</span>(<span class="ident">signer</span>: <span class="ident">T</span>, <span class="ident">remote</span>: <span class="ident">String</span>, <span class="ident">data_record</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">32</span>]<span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">sp_runtime</span>::<span class="ident">MultiSigner</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span><span class="op">&gt;</span>,
+    <span class="ident">sp_runtime</span>::<span class="ident">MultiSignature</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span><span class="op">&gt;</span>,
+    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span>: <span class="ident">codec</span>::<span class="ident">Codec</span>,
 {
     <span class="kw">let</span> <span class="ident">xt_hash</span> <span class="op">=</span> <span class="ident">substrate_subxt</span>::<span class="ident">ClientBuilder</span>::<span class="op">&lt;</span><span class="ident">Robonomics</span><span class="op">&gt;</span>::<span class="ident">new</span>()
         .<span class="ident">set_url</span>(<span class="ident">remote</span>.<span class="ident">as_str</span>())
-        .<span class="ident">build</span>().<span class="kw">await</span><span class="question-mark">?</span>
-        .<span class="ident">xt</span>(<span class="ident">signer</span>, <span class="prelude-val">None</span>).<span class="kw">await</span><span class="question-mark">?</span>
-        .<span class="ident">submit</span>(<span class="ident">pallet_datalog</span>::<span class="ident">record</span>::<span class="op">&lt;</span><span class="ident">Robonomics</span><span class="op">&gt;</span>(<span class="ident">record</span>))
+        .<span class="ident">build</span>()
+        .<span class="kw">await</span><span class="question-mark">?</span>
+        .<span class="ident">xt</span>(<span class="ident">signer</span>, <span class="prelude-val">None</span>)
+        .<span class="kw">await</span><span class="question-mark">?</span>
+        .<span class="ident">record</span>(<span class="ident">data_record</span>)
         .<span class="kw">await</span><span class="question-mark">?</span>;
-    <span class="ident">log</span>::<span class="macro">info</span><span class="macro">!</span>(
+    <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(
         <span class="ident">target</span>: <span class="string">&quot;robonomics-datalog&quot;</span>,
         <span class="string">&quot;Data record submited in extrinsic with hash {}&quot;</span>, <span class="ident">xt_hash</span>
     );
-    <span class="prelude-val">Ok</span>(())
+    <span class="prelude-val">Ok</span>(<span class="ident">xt_hash</span>.<span class="ident">into</span>())
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "robonomics_protocol";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -72,7 +72,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -89,14 +89,14 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Robonomics Network broadcasting layer.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">pin</span>::<span class="ident">Pin</span>;
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Stream</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">FutureResult</span>;
+<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Stream</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">pin</span>::<span class="ident">Pin</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libp2p</span>::{<span class="ident">PeerId</span>, <span class="ident">Multiaddr</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libp2p</span>::{<span class="ident">Multiaddr</span>, <span class="ident">PeerId</span>};
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gossipsub</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gossipsub</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">gossipsub</span>::<span class="ident">PubSub</span> <span class="kw">as</span> <span class="ident">Gossipsub</span>;
 

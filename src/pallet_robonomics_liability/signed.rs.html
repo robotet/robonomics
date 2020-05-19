@@ -180,23 +180,10 @@
 <span id="180">180</span>
 <span id="181">181</span>
 <span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -213,15 +200,18 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Signed liability implementation.</span>
 
-<span class="kw">use</span> <span class="ident">codec</span>::{<span class="ident">Encode</span>, <span class="ident">Decode</span>};
-<span class="kw">use</span> <span class="ident">sp_runtime</span>::{
-    <span class="ident">traits</span>::{<span class="ident">Verify</span>, <span class="ident">IdentifyAccount</span>},
-    <span class="ident">RuntimeDebug</span>, <span class="ident">DispatchResult</span>
+<span class="kw">use</span> <span class="ident">codec</span>::{<span class="ident">Decode</span>, <span class="ident">Encode</span>};
+<span class="kw">use</span> <span class="ident">frame_support</span>::{
+    <span class="ident">dispatch</span>,
+    <span class="ident">traits</span>::{<span class="ident">BalanceStatus</span>, <span class="ident">ReservableCurrency</span>},
 };
+<span class="kw">use</span> <span class="ident">frame_system</span>::<span class="ident">offchain</span>::<span class="ident">AppCrypto</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">crypto</span>::{<span class="ident">Pair</span>, <span class="ident">Public</span>};
-<span class="kw">use</span> <span class="ident">frame_system</span>::<span class="ident">offchain</span>::<span class="ident">Signer</span>;
-<span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">dispatch</span>, <span class="ident">traits</span>::{<span class="ident">ReservableCurrency</span>, <span class="ident">BalanceStatus</span>}};
+<span class="kw">use</span> <span class="ident">sp_runtime</span>::{
+    <span class="ident">traits</span>::{<span class="ident">IdentifyAccount</span>, <span class="ident">Verify</span>},
+    <span class="ident">DispatchResult</span>, <span class="ident">RuntimeDebug</span>,
+};
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">economics</span>::{<span class="ident">Communism</span>, <span class="ident">OpenMarket</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">traits</span>::<span class="kw-2">*</span>;
@@ -229,34 +219,41 @@
 <span class="doccomment">/// Agreement that could be proven by asymmetric cryptography.</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Eq</span>))]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Encode</span>, <span class="ident">Decode</span>, <span class="ident">RuntimeDebug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="kw">where</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span>
+<span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Technical</span>,
     <span class="ident">E</span>: <span class="ident">Economical</span>,
-    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span><span class="op">=</span><span class="ident">A</span><span class="op">&gt;</span>,
-    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span><span class="op">=</span><span class="ident">I</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">I</span><span class="op">&gt;</span>,
     <span class="ident">I</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
 {
-    <span class="ident">technics</span>:  <span class="ident">T</span>::<span class="ident">Parameter</span>,
+    <span class="ident">technics</span>: <span class="ident">T</span>::<span class="ident">Parameter</span>,
     <span class="ident">economics</span>: <span class="ident">E</span>::<span class="ident">Parameter</span>,
-    <span class="ident">promisee</span>:  <span class="ident">I</span>,
-    <span class="ident">promisor</span>:  <span class="ident">I</span>,
-    <span class="ident">_phantom</span>:  <span class="ident">sp_std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>,
+    <span class="ident">promisee</span>: <span class="ident">I</span>,
+    <span class="ident">promisor</span>: <span class="ident">I</span>,
+    <span class="ident">_phantom</span>: <span class="ident">sp_std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Processing</span> <span class="kw">for</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Communism</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="kw">where</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Processing</span> <span class="kw">for</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Communism</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span>
+<span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Technical</span>,
-    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span><span class="op">=</span><span class="ident">A</span><span class="op">&gt;</span>,
-    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span><span class="op">=</span><span class="ident">I</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">I</span><span class="op">&gt;</span>,
     <span class="ident">I</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
 {
-    <span class="kw">fn</span> <span class="ident">on_start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResult</span> { <span class="prelude-val">Ok</span>(()) }
-    <span class="kw">fn</span> <span class="ident">on_finish</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_success</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResult</span> { <span class="prelude-val">Ok</span>(()) }
+    <span class="kw">fn</span> <span class="ident">on_start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResult</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+    <span class="kw">fn</span> <span class="ident">on_finish</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_success</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResult</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Processing</span> <span class="kw">for</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OpenMarket</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">I</span><span class="op">&gt;</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="kw">where</span> 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Processing</span> <span class="kw">for</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OpenMarket</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">I</span><span class="op">&gt;</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span>
+<span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Technical</span>,
-    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span><span class="op">=</span><span class="ident">A</span><span class="op">&gt;</span>,
-    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span><span class="op">=</span><span class="ident">I</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">I</span><span class="op">&gt;</span>,
     <span class="ident">C</span>: <span class="ident">ReservableCurrency</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>,
     <span class="ident">I</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
 {
@@ -271,7 +268,8 @@
                 <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">promisor</span>,
                 <span class="self">self</span>.<span class="ident">economics</span>,
                 <span class="ident">BalanceStatus</span>::<span class="ident">Free</span>,
-            ).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
+            )
+            .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
         } <span class="kw">else</span> {
             <span class="kw">if</span> <span class="ident">C</span>::<span class="ident">unreserve</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">promisee</span>, <span class="self">self</span>.<span class="ident">economics</span>) <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">economics</span> {
                 <span class="prelude-val">Ok</span>(())
@@ -282,59 +280,47 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Agreement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="kw">where</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Agreement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">V</span>, <span class="ident">A</span>, <span class="ident">I</span><span class="op">&gt;</span>
+<span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Technical</span>,
     <span class="ident">E</span>: <span class="ident">Economical</span>,
-    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span><span class="op">=</span><span class="ident">I</span><span class="op">&gt;</span>,
-    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span><span class="op">=</span><span class="ident">A</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
+    <span class="ident">A</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">I</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">Verify</span><span class="op">&lt;</span><span class="ident">Signer</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
     <span class="ident">I</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
 {
     <span class="kw">type</span> <span class="ident">Index</span> <span class="op">=</span> <span class="ident">u64</span>;
     <span class="kw">type</span> <span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">I</span>;
     <span class="kw">type</span> <span class="ident">Proof</span> <span class="op">=</span> <span class="ident">V</span>;
 
-    <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">technics</span>:  <span class="ident">T</span>::<span class="ident">Parameter</span>,
-        <span class="ident">economics</span>: <span class="ident">E</span>::<span class="ident">Parameter</span>,
-        <span class="ident">promisee</span>:  <span class="ident">I</span>,
-        <span class="ident">promisor</span>:  <span class="ident">I</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">technics</span>: <span class="ident">T</span>::<span class="ident">Parameter</span>, <span class="ident">economics</span>: <span class="ident">E</span>::<span class="ident">Parameter</span>, <span class="ident">promisee</span>: <span class="ident">I</span>, <span class="ident">promisor</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">SignedLiability</span> {
             <span class="ident">technics</span>,
             <span class="ident">economics</span>,
             <span class="ident">promisee</span>,
             <span class="ident">promisor</span>,
-            <span class="ident">_phantom</span>: <span class="ident">Default</span>::<span class="ident">default</span>()
+            <span class="ident">_phantom</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">check_params</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">proof</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Proof</span>,
-        <span class="ident">sender</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">AccountId</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">check_params</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">proof</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Proof</span>, <span class="ident">sender</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">AccountId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         (<span class="self">self</span>.<span class="ident">technics</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">economics</span>.<span class="ident">clone</span>())
             .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">proof</span>.<span class="ident">verify</span>(<span class="ident">params</span>, <span class="ident">sender</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">check_report</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Index</span>,
-        <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Report</span>,
-        <span class="ident">proof</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Proof</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        (<span class="ident">index</span>.<span class="ident">clone</span>(), <span class="ident">report</span>.<span class="ident">clone</span>())
-            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">proof</span>.<span class="ident">verify</span>(<span class="ident">params</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">promisor</span>))
+    <span class="kw">fn</span> <span class="ident">check_report</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Index</span>, <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Report</span>, <span class="ident">proof</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Proof</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        (<span class="ident">index</span>.<span class="ident">clone</span>(), <span class="ident">report</span>.<span class="ident">clone</span>()).<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">proof</span>.<span class="ident">verify</span>(<span class="ident">params</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">promisor</span>))
     }
 }
 
 <span class="doccomment">/// Runtime AppCrypto proof builder.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AppProofSigner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">sp_std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">AccountId</span>, <span class="ident">Signature</span>, <span class="ident">AppSigner</span><span class="op">&gt;</span> <span class="ident">ProofBuilder</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">AccountId</span>, <span class="ident">Signature</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AppProofSigner</span><span class="op">&lt;</span><span class="ident">AppSigner</span><span class="op">&gt;</span> <span class="kw">where</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">AccountId</span>, <span class="ident">Signature</span>, <span class="ident">AppSigner</span><span class="op">&gt;</span> <span class="ident">ProofBuilder</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">AccountId</span>, <span class="ident">Signature</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">AppProofSigner</span><span class="op">&lt;</span><span class="ident">AppSigner</span><span class="op">&gt;</span>
+<span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Technical</span>,
     <span class="ident">E</span>: <span class="ident">Economical</span>,
     <span class="ident">I</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
-    <span class="ident">AppSigner</span>: <span class="ident">Signer</span><span class="op">&lt;</span><span class="ident">AccountId</span>, <span class="ident">Signature</span><span class="op">&gt;</span>,
+    <span class="ident">AppSigner</span>: <span class="ident">AppCrypto</span><span class="op">&lt;</span><span class="ident">AccountId</span>, <span class="ident">Signature</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">proof_params</span>(
         <span class="ident">technics</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Parameter</span>,
@@ -342,17 +328,13 @@
         <span class="ident">sender</span>: <span class="ident">AccountId</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
         (<span class="ident">technics</span>, <span class="ident">economics</span>)
-            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">AppSigner</span>::<span class="ident">sign</span>(<span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">params</span>))
+            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">AppSigner</span>::<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>, <span class="ident">sender</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;unable to sign using runtime application key&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">proof_report</span>(
-        <span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
-        <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Report</span>, 
-        <span class="ident">sender</span>: <span class="ident">AccountId</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+    <span class="kw">fn</span> <span class="ident">proof_report</span>(<span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Report</span>, <span class="ident">sender</span>: <span class="ident">AccountId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
         (<span class="ident">index</span>, <span class="ident">report</span>)
-            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">AppSigner</span>::<span class="ident">sign</span>(<span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">params</span>))
+            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">AppSigner</span>::<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>, <span class="ident">sender</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;unable to sign using runtime application key&quot;</span>)
     }
 }
@@ -362,31 +344,23 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">Account</span>, <span class="ident">AccountId</span>, <span class="ident">Signature</span>, <span class="ident">TPair</span><span class="op">&gt;</span> <span class="ident">ProofBuilder</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">TPair</span>, <span class="ident">Signature</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="ident">TPair</span><span class="op">&gt;</span> <span class="kw">where</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">Account</span>, <span class="ident">AccountId</span>, <span class="ident">Signature</span>, <span class="ident">TPair</span><span class="op">&gt;</span> <span class="ident">ProofBuilder</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span>, <span class="ident">I</span>, <span class="ident">TPair</span>, <span class="ident">Signature</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="ident">TPair</span><span class="op">&gt;</span>
+<span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Technical</span>,
     <span class="ident">E</span>: <span class="ident">Economical</span>,
     <span class="ident">I</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
-    <span class="ident">TPair</span>: <span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">Public</span><span class="op">=</span><span class="ident">Account</span>, <span class="ident">Signature</span><span class="op">=</span><span class="ident">Signature</span><span class="op">&gt;</span>,
-    <span class="ident">Account</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span><span class="op">=</span><span class="ident">AccountId</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Public</span> <span class="op">+</span> <span class="ident">std</span>::<span class="ident">hash</span>::<span class="ident">Hash</span>,
+    <span class="ident">TPair</span>: <span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">Public</span> <span class="op">=</span> <span class="ident">Account</span>, <span class="ident">Signature</span> <span class="op">=</span> <span class="ident">Signature</span><span class="op">&gt;</span>,
+    <span class="ident">Account</span>: <span class="ident">IdentifyAccount</span><span class="op">&lt;</span><span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">AccountId</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Public</span> <span class="op">+</span> <span class="ident">std</span>::<span class="ident">hash</span>::<span class="ident">Hash</span>,
     <span class="ident">AccountId</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span>,
     <span class="ident">Signature</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">proof_params</span>(
-        <span class="ident">technics</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Parameter</span>,
-        <span class="ident">economics</span>: <span class="kw-2">&amp;</span><span class="ident">E</span>::<span class="ident">Parameter</span>,
-        <span class="ident">sender</span>: <span class="ident">TPair</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
-        (<span class="ident">technics</span>, <span class="ident">economics</span>)
-            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">sender</span>.<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>))
+    <span class="kw">fn</span> <span class="ident">proof_params</span>(<span class="ident">technics</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Parameter</span>, <span class="ident">economics</span>: <span class="kw-2">&amp;</span><span class="ident">E</span>::<span class="ident">Parameter</span>, <span class="ident">sender</span>: <span class="ident">TPair</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+        (<span class="ident">technics</span>, <span class="ident">economics</span>).<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">sender</span>.<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">proof_report</span>(
-        <span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
-        <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Report</span>, 
-        <span class="ident">sender</span>: <span class="ident">TPair</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
-        (<span class="ident">index</span>, <span class="ident">report</span>)
-            .<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">sender</span>.<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>))
+    <span class="kw">fn</span> <span class="ident">proof_report</span>(<span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">Report</span>, <span class="ident">sender</span>: <span class="ident">TPair</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+        (<span class="ident">index</span>, <span class="ident">report</span>).<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">params</span><span class="op">|</span> <span class="ident">sender</span>.<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>))
     }
 }
 </pre></div>

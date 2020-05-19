@@ -360,10 +360,86 @@
 <span id="360">360</span>
 <span id="361">361</span>
 <span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -380,33 +456,68 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Chain specification and utils.</span>
 
-<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>};
-<span class="kw">use</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpecExtension</span>;
-<span class="kw">use</span> <span class="ident">sp_finality_grandpa</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">GrandpaId</span>;
-<span class="kw">use</span> <span class="ident">sp_consensus_babe</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">BabeId</span>;
+<span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>, <span class="ident">Block</span>, <span class="ident">Signature</span>};
 <span class="kw">use</span> <span class="ident">pallet_im_online</span>::<span class="ident">sr25519</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">ImOnlineId</span>;
-<span class="kw">use</span> <span class="ident">sp_authority_discovery</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">AuthorityDiscoveryId</span>;
-<span class="kw">use</span> <span class="ident">sp_runtime</span>::{<span class="ident">Perbill</span>, <span class="ident">traits</span>::{<span class="ident">Verify</span>, <span class="ident">IdentifyAccount</span>}};
-<span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">Pair</span>, <span class="ident">Public</span>, <span class="ident">sr25519</span>};
-<span class="kw">use</span> <span class="ident">sc_service</span>::<span class="ident">ChainType</span>;
 <span class="kw">use</span> <span class="ident">robonomics_runtime</span>::{
-    <span class="ident">GenesisConfig</span>, <span class="ident">SystemConfig</span>, <span class="ident">SessionConfig</span>, <span class="ident">BabeConfig</span>, <span class="ident">StakingConfig</span>,
-    <span class="ident">IndicesConfig</span>, <span class="ident">ImOnlineConfig</span>, <span class="ident">BalancesConfig</span>, <span class="ident">GrandpaConfig</span>, <span class="ident">SudoConfig</span>,
-    <span class="ident">AuthorityDiscoveryConfig</span>, <span class="ident">SessionKeys</span>, <span class="ident">StakerStatus</span>,
+    <span class="ident">AuthorityDiscoveryConfig</span>, <span class="ident">BabeConfig</span>, <span class="ident">BalancesConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">GrandpaConfig</span>,
+    <span class="ident">ImOnlineConfig</span>, <span class="ident">IndicesConfig</span>, <span class="ident">SessionConfig</span>, <span class="ident">SessionKeys</span>, <span class="ident">StakerStatus</span>, <span class="ident">StakingConfig</span>,
+    <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>, <span class="ident">WASM_BINARY</span>,
 };
-<span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>, <span class="ident">Signature</span>, <span class="ident">Block</span>};
+<span class="kw">use</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpecExtension</span>;
+<span class="kw">use</span> <span class="ident">sc_service</span>::<span class="ident">ChainType</span>;
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span class="kw">use</span> <span class="ident">sp_authority_discovery</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">AuthorityDiscoveryId</span>;
+<span class="kw">use</span> <span class="ident">sp_consensus_babe</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">BabeId</span>;
+<span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">sr25519</span>, <span class="ident">Pair</span>, <span class="ident">Public</span>};
+<span class="kw">use</span> <span class="ident">sp_finality_grandpa</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">GrandpaId</span>;
+<span class="kw">use</span> <span class="ident">sp_runtime</span>::{
+    <span class="ident">traits</span>::{<span class="ident">IdentifyAccount</span>, <span class="ident">Verify</span>},
+    <span class="ident">Perbill</span>,
+};
 
-<span class="comment">/*
-const STAGING_TELEMETRY_URL: &amp;str = &quot;wss://telemetry.polkadot.io/submit/&quot;;
+<span class="doccomment">/// Robonomics runtime family chains.</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RobonomicsFamily</span> {
+    <span class="doccomment">/// Unknown chain type.</span>
+    <span class="ident">Unknown</span>,
+    <span class="doccomment">/// DAO IPCI (ipci.io) network (https://telemetry.polkadot.io/#list/DAO%20IPCI).</span>
+    <span class="ident">DaoIpci</span>,
+    <span class="doccomment">/// Robonomics Testnet (https://telemetry.polkadot.io/#list/Robonomics%20Testnet).</span>
+    <span class="ident">Testnet</span>,
+}
 
-const ROBONOMICS_PROTOCOL_ID: &amp;str = &quot;xrt&quot;;
-const ROBONOMICS_PROPERTIES: &amp;str = r#&quot;
+<span class="doccomment">/// Robonomics family chains idetify.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RobonomicsChain</span> {
+    <span class="kw">fn</span> <span class="ident">family</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RobonomicsFamily</span>;
+}
+
+<span class="kw">impl</span> <span class="ident">RobonomicsChain</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpec</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">family</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RobonomicsFamily</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">id</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">DAO_IPCI_ID</span> {
+            <span class="kw">return</span> <span class="ident">RobonomicsFamily</span>::<span class="ident">DaoIpci</span>;
+        }
+
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">id</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ROBONOMICS_TESTNET_ID</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">id</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;dev&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">id</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;local_testnet&quot;</span>
+        {
+            <span class="kw">return</span> <span class="ident">RobonomicsFamily</span>::<span class="ident">Testnet</span>;
+        }
+
+        <span class="ident">RobonomicsFamily</span>::<span class="ident">Unknown</span>
+    }
+}
+
+<span class="kw">const</span> <span class="ident">STAGING_TELEMETRY_URL</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;wss://telemetry.polkadot.io/submit/&quot;</span>;
+
+<span class="kw">const</span> <span class="ident">ROBONOMICS_TESTNET_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;robonomics_testnet&quot;</span>;
+<span class="kw">const</span> <span class="ident">ROBONOMICS_PROTOCOL_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;xrt&quot;</span>;
+<span class="kw">const</span> <span class="ident">ROBONOMICS_PROPERTIES</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">r#&quot;
     {
         &quot;ss58Format&quot;: 32,
         &quot;tokenDecimals&quot;: 9,
         &quot;tokenSymbol&quot;: &quot;XRT&quot;
-    }&quot;#;
+    }&quot;#</span>;
 
+<span class="kw">const</span> <span class="ident">DAO_IPCI_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;ipci&quot;</span>;
+<span class="comment">/*
 const IPCI_PROTOCOL_ID: &amp;str = &quot;mito&quot;;
 const IPCI_PROPERTIES: &amp;str = r#&quot;
     {
@@ -426,41 +537,39 @@ const IPCI_PROPERTIES: &amp;str = r#&quot;
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Extensions</span> {
     <span class="doccomment">/// Block numbers with known hashes.</span>
-    <span class="kw">pub</span> <span class="ident">fork_blocks</span>: <span class="ident">sc_client</span>::<span class="ident">ForkBlocks</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">fork_blocks</span>: <span class="ident">sc_client_api</span>::<span class="ident">ForkBlocks</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Known bad block hashes.</span>
-    <span class="kw">pub</span> <span class="ident">bad_blocks</span>: <span class="ident">sc_client</span>::<span class="ident">BadBlocks</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">bad_blocks</span>: <span class="ident">sc_client_api</span>::<span class="ident">BadBlocks</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Specialized `ChainSpec`.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ChainSpec</span> <span class="op">=</span> <span class="ident">sc_service</span>::<span class="ident">GenericChainSpec</span><span class="op">&lt;</span>
-    <span class="ident">GenesisConfig</span>,
-    <span class="ident">Extensions</span>,
-<span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ChainSpec</span> <span class="op">=</span> <span class="ident">sc_service</span>::<span class="ident">GenericChainSpec</span><span class="op">&lt;</span><span class="ident">GenesisConfig</span>, <span class="ident">Extensions</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Helper function to generate a crypto pair from seed</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_from_seed</span><span class="op">&lt;</span><span class="ident">TPublic</span>: <span class="ident">Public</span><span class="op">&gt;</span>(<span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="op">&lt;</span><span class="ident">TPublic</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span> {
+<span class="kw">fn</span> <span class="ident">get_from_seed</span><span class="op">&lt;</span><span class="ident">TPublic</span>: <span class="ident">Public</span><span class="op">&gt;</span>(<span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="op">&lt;</span><span class="ident">TPublic</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span> {
     <span class="ident">TPublic</span>::<span class="ident">Pair</span>::<span class="ident">from_string</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;//{}&quot;</span>, <span class="ident">seed</span>), <span class="prelude-val">None</span>)
         .<span class="ident">expect</span>(<span class="string">&quot;static values are valid; qed&quot;</span>)
         .<span class="ident">public</span>()
 }
 
 <span class="doccomment">/// Helper function to generate an account ID from seed</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_account_id_from_seed</span><span class="op">&lt;</span><span class="ident">TPublic</span>: <span class="ident">Public</span><span class="op">&gt;</span>(<span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountId</span> <span class="kw">where</span>
-    <span class="ident">AccountPublic</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">TPublic</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">get_account_id_from_seed</span><span class="op">&lt;</span><span class="ident">TPublic</span>: <span class="ident">Public</span><span class="op">&gt;</span>(<span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountId</span>
+<span class="kw">where</span>
+    <span class="ident">AccountPublic</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">TPublic</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span><span class="op">&gt;</span>,
 {
     <span class="ident">AccountPublic</span>::<span class="ident">from</span>(<span class="ident">get_from_seed</span>::<span class="op">&lt;</span><span class="ident">TPublic</span><span class="op">&gt;</span>(<span class="ident">seed</span>)).<span class="ident">into_account</span>()
 }
 
 <span class="doccomment">/// Helper function to generate stash, controller and session key from seed</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_authority_keys_from_seed</span>(
-    <span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>
+<span class="kw">fn</span> <span class="ident">get_authority_keys_from_seed</span>(
+    <span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> (
     <span class="ident">AccountId</span>,
     <span class="ident">AccountId</span>,
     <span class="ident">BabeId</span>,
     <span class="ident">GrandpaId</span>,
     <span class="ident">ImOnlineId</span>,
-    <span class="ident">AuthorityDiscoveryId</span>
+    <span class="ident">AuthorityDiscoveryId</span>,
 ) {
     (
         <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}//stash&quot;</span>, <span class="ident">seed</span>)),
@@ -478,44 +587,68 @@ const IPCI_PROPERTIES: &amp;str = r#&quot;
     <span class="ident">im_online</span>: <span class="ident">ImOnlineId</span>,
     <span class="ident">authority_discovery</span>: <span class="ident">AuthorityDiscoveryId</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SessionKeys</span> {
-    <span class="ident">SessionKeys</span> { <span class="ident">babe</span>, <span class="ident">grandpa</span>, <span class="ident">im_online</span>, <span class="ident">authority_discovery</span>, }
+    <span class="ident">SessionKeys</span> {
+        <span class="ident">babe</span>,
+        <span class="ident">grandpa</span>,
+        <span class="ident">im_online</span>,
+        <span class="ident">authority_discovery</span>,
+    }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">testnet_genesis</span>(
-    <span class="ident">initial_authorities</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">AccountId</span>, <span class="ident">AccountId</span>, <span class="ident">BabeId</span>, <span class="ident">GrandpaId</span>, <span class="ident">ImOnlineId</span>, <span class="ident">AuthorityDiscoveryId</span>)<span class="op">&gt;</span>,
+<span class="kw">fn</span> <span class="ident">testnet_genesis</span>(
+    <span class="ident">initial_authorities</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(
+        <span class="ident">AccountId</span>,
+        <span class="ident">AccountId</span>,
+        <span class="ident">BabeId</span>,
+        <span class="ident">GrandpaId</span>,
+        <span class="ident">ImOnlineId</span>,
+        <span class="ident">AuthorityDiscoveryId</span>,
+    )<span class="op">&gt;</span>,
     <span class="ident">endowed_accounts</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AccountId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">sudo_key</span>: <span class="ident">AccountId</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GenesisConfig</span> {
     <span class="kw">const</span> <span class="ident">ENDOWMENT</span>: <span class="ident">Balance</span> <span class="op">=</span> <span class="number">1_000_000_000_000_000_000</span>;
 
-    <span class="kw">let</span> <span class="ident">endowed_accounts</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">AccountId</span>, <span class="ident">Balance</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">endowed_accounts</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-        <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Alice&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Bob&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Charlie&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Dave&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Eve&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Ferdie&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Alice//stash&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Bob//stash&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Charlie//stash&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Dave//stash&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Eve//stash&quot;</span>),
-            <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Ferdie//stash&quot;</span>),
-        ]
-    }).<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">acc</span><span class="op">|</span> (<span class="ident">acc</span>, <span class="ident">ENDOWMENT</span>)).<span class="ident">collect</span>();
+    <span class="kw">let</span> <span class="ident">endowed_accounts</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">AccountId</span>, <span class="ident">Balance</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">endowed_accounts</span>
+        .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
+            <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Alice&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Bob&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Charlie&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Dave&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Eve&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Ferdie&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Alice//stash&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Bob//stash&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Charlie//stash&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Dave//stash&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Eve//stash&quot;</span>),
+                <span class="ident">get_account_id_from_seed</span>::<span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Public</span><span class="op">&gt;</span>(<span class="string">&quot;Ferdie//stash&quot;</span>),
+            ]
+        })
+        .<span class="ident">iter</span>()
+        .<span class="ident">cloned</span>()
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">acc</span><span class="op">|</span> (<span class="ident">acc</span>, <span class="ident">ENDOWMENT</span>))
+        .<span class="ident">collect</span>();
 
-    <span class="ident">make_genesis</span>(
+    <span class="ident">mk_genesis</span>(
         <span class="ident">initial_authorities</span>,
         <span class="ident">endowed_accounts</span>,
         <span class="ident">sudo_key</span>,
-        <span class="ident">robonomics_runtime</span>::<span class="ident">WASM_BINARY</span>.<span class="ident">to_vec</span>(),
+        <span class="ident">WASM_BINARY</span>.<span class="ident">to_vec</span>(),
     )
 }
 
 <span class="doccomment">/// Helper function to create GenesisConfig</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">make_genesis</span>(
-    <span class="ident">initial_authorities</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">AccountId</span>, <span class="ident">AccountId</span>, <span class="ident">BabeId</span>, <span class="ident">GrandpaId</span>, <span class="ident">ImOnlineId</span>, <span class="ident">AuthorityDiscoveryId</span>)<span class="op">&gt;</span>,
+<span class="kw">fn</span> <span class="ident">mk_genesis</span>(
+    <span class="ident">initial_authorities</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(
+        <span class="ident">AccountId</span>,
+        <span class="ident">AccountId</span>,
+        <span class="ident">BabeId</span>,
+        <span class="ident">GrandpaId</span>,
+        <span class="ident">ImOnlineId</span>,
+        <span class="ident">AuthorityDiscoveryId</span>,
+    )<span class="op">&gt;</span>,
     <span class="ident">endowed_accounts</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">AccountId</span>, <span class="ident">Balance</span>)<span class="op">&gt;</span>,
     <span class="ident">sudo_key</span>: <span class="ident">AccountId</span>,
     <span class="ident">code</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
@@ -526,112 +659,131 @@ const IPCI_PROPERTIES: &amp;str = r#&quot;
             <span class="ident">code</span>,
             <span class="ident">changes_trie_config</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         }),
-        <span class="ident">pallet_indices</span>: <span class="prelude-val">Some</span>(<span class="ident">IndicesConfig</span> {
-            <span class="ident">indices</span>: <span class="macro">vec</span><span class="macro">!</span>[],
-        }),
+        <span class="ident">pallet_indices</span>: <span class="prelude-val">Some</span>(<span class="ident">IndicesConfig</span> { <span class="ident">indices</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
         <span class="ident">pallet_balances</span>: <span class="prelude-val">Some</span>(<span class="ident">BalancesConfig</span> {
-            <span class="ident">balances</span>: <span class="ident">endowed_accounts</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>()
+            <span class="ident">balances</span>: <span class="ident">endowed_accounts</span>
+                .<span class="ident">iter</span>()
+                .<span class="ident">cloned</span>()
                 .<span class="ident">chain</span>(<span class="ident">initial_authorities</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> (<span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">STASH</span>)))
                 .<span class="ident">collect</span>(),
         }),
         <span class="ident">pallet_session</span>: <span class="prelude-val">Some</span>(<span class="ident">SessionConfig</span> {
-            <span class="ident">keys</span>: <span class="ident">initial_authorities</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> {
-                (<span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">session_keys</span>(<span class="ident">x</span>.<span class="number">2</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">3</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">4</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">5</span>.<span class="ident">clone</span>()))
-            }).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>(),
+            <span class="ident">keys</span>: <span class="ident">initial_authorities</span>
+                .<span class="ident">iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> {
+                    (
+                        <span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(),
+                        <span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(),
+                        <span class="ident">session_keys</span>(<span class="ident">x</span>.<span class="number">2</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">3</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">4</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">5</span>.<span class="ident">clone</span>()),
+                    )
+                })
+                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>(),
         }),
         <span class="ident">pallet_staking</span>: <span class="prelude-val">Some</span>(<span class="ident">StakingConfig</span> {
             <span class="ident">validator_count</span>: <span class="number">10</span>,
             <span class="ident">minimum_validator_count</span>: <span class="number">3</span>,
-            <span class="ident">stakers</span>: <span class="ident">initial_authorities</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> {
-                (<span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">1</span>.<span class="ident">clone</span>(), <span class="ident">STASH</span>, <span class="ident">StakerStatus</span>::<span class="ident">Validator</span>)
-            }).<span class="ident">collect</span>(),
+            <span class="ident">stakers</span>: <span class="ident">initial_authorities</span>
+                .<span class="ident">iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> (<span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">x</span>.<span class="number">1</span>.<span class="ident">clone</span>(), <span class="ident">STASH</span>, <span class="ident">StakerStatus</span>::<span class="ident">Validator</span>))
+                .<span class="ident">collect</span>(),
             <span class="ident">invulnerables</span>: <span class="ident">initial_authorities</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span>.<span class="ident">clone</span>()).<span class="ident">collect</span>(),
             <span class="ident">slash_reward_fraction</span>: <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">10</span>),
-            .. <span class="ident">Default</span>::<span class="ident">default</span>()
+            ..<span class="ident">Default</span>::<span class="ident">default</span>()
         }),
         <span class="ident">pallet_babe</span>: <span class="prelude-val">Some</span>(<span class="ident">BabeConfig</span> {
-            <span class="ident">authorities</span>: <span class="macro">vec</span><span class="macro">!</span>[], 
+            <span class="ident">authorities</span>: <span class="macro">vec</span><span class="macro">!</span>[],
         }),
         <span class="ident">pallet_grandpa</span>: <span class="prelude-val">Some</span>(<span class="ident">GrandpaConfig</span> {
-            <span class="ident">authorities</span>: <span class="macro">vec</span><span class="macro">!</span>[], 
+            <span class="ident">authorities</span>: <span class="macro">vec</span><span class="macro">!</span>[],
         }),
-        <span class="ident">pallet_im_online</span>: <span class="prelude-val">Some</span>(<span class="ident">ImOnlineConfig</span> {
-            <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[],
-        }),
-        <span class="ident">pallet_authority_discovery</span>: <span class="prelude-val">Some</span>(<span class="ident">AuthorityDiscoveryConfig</span> {
-            <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[],
-        }),
-        <span class="ident">pallet_sudo</span>: <span class="prelude-val">Some</span>(<span class="ident">SudoConfig</span> {
-            <span class="ident">key</span>: <span class="ident">sudo_key</span>,
-        }),
+        <span class="ident">pallet_im_online</span>: <span class="prelude-val">Some</span>(<span class="ident">ImOnlineConfig</span> { <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
+        <span class="ident">pallet_authority_discovery</span>: <span class="prelude-val">Some</span>(<span class="ident">AuthorityDiscoveryConfig</span> { <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
+        <span class="ident">pallet_sudo</span>: <span class="prelude-val">Some</span>(<span class="ident">SudoConfig</span> { <span class="ident">key</span>: <span class="ident">sudo_key</span> }),
     }
 }
 
-<span class="doccomment">/// Robonomics testnet config. </span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">robonomics_testnet_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
-    <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../res/robonomics_testnet.json&quot;</span>)[..]).<span class="ident">unwrap</span>()
-}
-
 <span class="comment">/*
-/// Robonomics testnet genesis. 
-fn robonomics_testnet_genesis() -&gt; GenesisConfig {
-    use hex_literal::hex;
-    use sp_core::crypto::UncheckedInto;
-
-    let initial_authorities = vec![(
-        // akru
-        hex![&quot;58cdc7ef880c80e8475170f206381d2cb13a87c209452fc6d8a1e14186d61b28&quot;].into(),
-        hex![&quot;58cdc7ef880c80e8475170f206381d2cb13a87c209452fc6d8a1e14186d61b28&quot;].into(),
-        hex![&quot;36cced69f5f1f07856ff0daac944c52e286e10184e52be76ca9377bd0406d90b&quot;].unchecked_into(),
-        hex![&quot;daf0535a46d8187446471bf619ea9104bda443366c526bf6f2cd4e9a1fcf5dd7&quot;].unchecked_into(),
-        hex![&quot;80de51e4432ed5e37b6438f499f3ec017f9577a37e68cb32d6c6a07540c36909&quot;].unchecked_into(),
-        hex![&quot;80de51e4432ed5e37b6438f499f3ec017f9577a37e68cb32d6c6a07540c36909&quot;].unchecked_into(),
-    ), (
-        // pad1a
-        hex![&quot;acfe268b8276a4ed8924aef1441eb05334522f6c6c7487c12d71b0fb2ab28d37&quot;].into(),
-        hex![&quot;0239825db490fce751ee12d6cf67a59e1278f52fd82d5a9033f773924a709348&quot;].into(),
-        hex![&quot;304d073f2c918bff832e6f61949e1b7ac38fb8d57da1157f30d10e1406cc9137&quot;].unchecked_into(),
-        hex![&quot;85ddf5a932937c65694146577b50375668055ff435400310ca5344edf0f50b83&quot;].unchecked_into(),
-        hex![&quot;64063c2394c0a8250e5dc03286ead10e2efcda342467fbcbdf5f03d0e39aae19&quot;].unchecked_into(),
-        hex![&quot;926165922b8174c8446503a9bdc6581f4a658393169ea890c291fa2ad6b0b345&quot;].unchecked_into(),
-    )];
-
-    let sudo_key: AccountId =
-        // pad1a
-        hex![&quot;aa88ea58465ffbcf716c3d57fab7c29b6d7c7243133b024e61556b92512a4765&quot;].into();
-
-    make_genesis(
-        initial_authorities,
-        vec![(sudo_key.clone(), 1 * robonomics_runtime::constants::currency::XRT)],
-        sudo_key,
-        robonomics_runtime::WASM_BINARY.to_vec(),
-    )
-}
-
 /// Robonomics testnet config.
 pub fn robonomics_testnet_config() -&gt; ChainSpec {
-    let boot_nodes = vec![];
-    ChainSpec::from_genesis(
-        &quot;Robonomics&quot;,
-        &quot;robonomics_testnet&quot;,
-        ChainType::Live,
-        robonomics_testnet_genesis,
-        boot_nodes,
-        Some(sc_telemetry::TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)]).unwrap()),
-        Some(ROBONOMICS_PROTOCOL_ID),
-        Some(serde_json::from_str(ROBONOMICS_PROPERTIES).unwrap()),
-        Default::default(),
-    )
+    ChainSpec::from_json_bytes(&amp;include_bytes!(&quot;../res/robonomics_testnet.json&quot;)[..]).unwrap()
 }
 */</span>
 
-<span class="doccomment">/// IPCI blockchain config. </span>
+<span class="doccomment">/// Robonomics testnet genesis.</span>
+<span class="kw">fn</span> <span class="ident">robonomics_testnet_genesis</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GenesisConfig</span> {
+    <span class="kw">use</span> <span class="ident">hex_literal</span>::<span class="ident">hex</span>;
+    <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">crypto</span>::<span class="ident">UncheckedInto</span>;
+
+    <span class="kw">let</span> <span class="ident">initial_authorities</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        (
+            <span class="comment">// akru</span>
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;58cdc7ef880c80e8475170f206381d2cb13a87c209452fc6d8a1e14186d61b28&quot;</span>].<span class="ident">into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;58cdc7ef880c80e8475170f206381d2cb13a87c209452fc6d8a1e14186d61b28&quot;</span>].<span class="ident">into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;36cced69f5f1f07856ff0daac944c52e286e10184e52be76ca9377bd0406d90b&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;daf0535a46d8187446471bf619ea9104bda443366c526bf6f2cd4e9a1fcf5dd7&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;80de51e4432ed5e37b6438f499f3ec017f9577a37e68cb32d6c6a07540c36909&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;80de51e4432ed5e37b6438f499f3ec017f9577a37e68cb32d6c6a07540c36909&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+        ),
+        (
+            <span class="comment">// pad1a</span>
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;acfe268b8276a4ed8924aef1441eb05334522f6c6c7487c12d71b0fb2ab28d37&quot;</span>].<span class="ident">into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;0239825db490fce751ee12d6cf67a59e1278f52fd82d5a9033f773924a709348&quot;</span>].<span class="ident">into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;304d073f2c918bff832e6f61949e1b7ac38fb8d57da1157f30d10e1406cc9137&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;85ddf5a932937c65694146577b50375668055ff435400310ca5344edf0f50b83&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;64063c2394c0a8250e5dc03286ead10e2efcda342467fbcbdf5f03d0e39aae19&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;926165922b8174c8446503a9bdc6581f4a658393169ea890c291fa2ad6b0b345&quot;</span>]
+                .<span class="ident">unchecked_into</span>(),
+        ),
+    ];
+
+    <span class="kw">let</span> <span class="ident">sudo_key</span>: <span class="ident">AccountId</span> <span class="op">=</span>
+        <span class="comment">// pad1a</span>
+        <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;aa88ea58465ffbcf716c3d57fab7c29b6d7c7243133b024e61556b92512a4765&quot;</span>].<span class="ident">into</span>();
+
+    <span class="ident">mk_genesis</span>(
+        <span class="ident">initial_authorities</span>,
+        <span class="macro">vec</span><span class="macro">!</span>[(
+            <span class="ident">sudo_key</span>.<span class="ident">clone</span>(),
+            <span class="number">1</span> <span class="op">*</span> <span class="ident">robonomics_runtime</span>::<span class="ident">constants</span>::<span class="ident">currency</span>::<span class="ident">XRT</span>,
+        )],
+        <span class="ident">sudo_key</span>,
+        <span class="ident">robonomics_runtime</span>::<span class="ident">WASM_BINARY</span>.<span class="ident">to_vec</span>(),
+    )
+}
+
+<span class="doccomment">/// Robonomics testnet config.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">robonomics_testnet_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
+    <span class="kw">let</span> <span class="ident">boot_nodes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+    <span class="ident">ChainSpec</span>::<span class="ident">from_genesis</span>(
+        <span class="string">&quot;Robonomics Testnet&quot;</span>,
+        <span class="ident">ROBONOMICS_TESTNET_ID</span>,
+        <span class="ident">ChainType</span>::<span class="ident">Local</span>,
+        <span class="ident">robonomics_testnet_genesis</span>,
+        <span class="ident">boot_nodes</span>,
+        <span class="prelude-val">Some</span>(
+            <span class="ident">sc_telemetry</span>::<span class="ident">TelemetryEndpoints</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">STAGING_TELEMETRY_URL</span>.<span class="ident">to_string</span>(), <span class="number">0</span>)])
+                .<span class="ident">unwrap</span>(),
+        ),
+        <span class="prelude-val">Some</span>(<span class="ident">ROBONOMICS_PROTOCOL_ID</span>),
+        <span class="prelude-val">Some</span>(<span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="ident">ROBONOMICS_PROPERTIES</span>).<span class="ident">unwrap</span>()),
+        <span class="ident">Default</span>::<span class="ident">default</span>(),
+    )
+}
+
+<span class="doccomment">/// IPCI blockchain config.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ipci_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
     <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../res/ipci.json&quot;</span>)[..]).<span class="ident">unwrap</span>()
 }
 
 <span class="comment">/*
-/// IPCI blockchain genesis. 
+/// IPCI blockchain genesis.
 fn ipci_genesis() -&gt; GenesisConfig {
     use hex_literal::hex;
     use sp_core::crypto::UncheckedInto;
@@ -647,10 +799,10 @@ fn ipci_genesis() -&gt; GenesisConfig {
     )];
 
     let sudo_key: AccountId =
-        // akru 
+        // akru
         hex![&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;].into();
 
-    make_genesis(
+    mk_genesis(
         initial_authorities,
         ipci_runtime::constants::currency::STAKE_HOLDERS.to_vec(),
         sudo_key,
@@ -663,7 +815,7 @@ pub fn ipci_config() -&gt; ChainSpec {
     let boot_nodes = vec![];
     ChainSpec::from_genesis(
         &quot;DAO IPCI&quot;,
-        &quot;dao_ipci&quot;,
+        DAO_IPCI_ID,
         ChainType::Live,
         ipci_genesis,
         boot_nodes,

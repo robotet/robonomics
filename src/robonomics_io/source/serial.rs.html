@@ -51,34 +51,6 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -99,67 +71,39 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Serial port sensors collection.</span>
 
-<span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">Stream</span>, <span class="ident">StreamExt</span>, <span class="ident">channel</span>::<span class="ident">mpsc</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="prelude-ty">Result</span>;
+<span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>;
+<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">channel</span>::<span class="ident">mpsc</span>;
+<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">futures_timer</span>::<span class="ident">Delay</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">pin</span>::<span class="ident">Pin</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>;
+
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="prelude-ty">Result</span>;
 
 <span class="doccomment">/// Nova SDS011 particle sensor.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SDS011</span>(<span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">sds011</span>::<span class="ident">Message</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Arguments</span>
+<span class="doccomment">/// * `port` - Serial port that connected sensor, for example: `/dev/ttyUSB0` or `COM11`</span>
+<span class="doccomment">/// * `period` - Working period in minutes, must be in interval (0..30)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns Nova SDS011 sensor instance.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sds011</span>(<span class="ident">port</span>: <span class="ident">String</span>, <span class="ident">period</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">sds011</span>::<span class="ident">Message</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">device</span> <span class="op">=</span> <span class="ident">sds011</span>::<span class="ident">SDS011</span>::<span class="ident">new</span>(<span class="ident">port</span>.<span class="ident">as_str</span>())<span class="question-mark">?</span>;
+    <span class="ident">device</span>.<span class="ident">set_work_period</span>(<span class="ident">period</span>)<span class="question-mark">?</span>;
+    <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(
+        <span class="ident">target</span>: <span class="string">&quot;robonomics-io&quot;</span>,
+        <span class="string">&quot;SDS011: created for port {} with period {} min&quot;</span>, <span class="ident">port</span>, <span class="ident">period</span>
+    );
 
-<span class="kw">impl</span> <span class="ident">SDS011</span> {
-    <span class="doccomment">/// Returns Nova SDS011 sensor instance.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Arguments</span>
-    <span class="doccomment">/// * `port` - Serial port that connected sensor, for example: `/dev/ttyUSB0` or `COM11`</span>
-    <span class="doccomment">/// * `period` - Working period in minutes, must be in interval (0..30)</span>
-    <span class="doccomment">///</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">port</span>: <span class="ident">String</span>,
-        <span class="ident">period</span>: <span class="ident">u8</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">device</span> <span class="op">=</span> <span class="ident">sds011</span>::<span class="ident">SDS011</span>::<span class="ident">new</span>(<span class="ident">port</span>.<span class="ident">as_str</span>())<span class="question-mark">?</span>;
-        <span class="ident">device</span>.<span class="ident">set_work_period</span>(<span class="ident">period</span>)<span class="question-mark">?</span>;
-        <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(
-            <span class="ident">target</span>: <span class="string">&quot;robonomics-io&quot;</span>,
-            <span class="string">&quot;SDS011: created for port {} with period {} min&quot;</span>, <span class="ident">port</span>, <span class="ident">period</span>
-        );
-        <span class="kw">let</span> <span class="ident">work_period_secs</span> <span class="op">=</span> <span class="ident">period</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">*</span> <span class="number">60</span>;
-        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">unbounded</span>();
-        <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sds011_worker</span>(<span class="ident">device</span>, <span class="ident">work_period_secs</span>, <span class="ident">sender</span>));
-
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(<span class="ident">receiver</span>.<span class="ident">boxed</span>()))
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Stream</span> <span class="kw">for</span> <span class="ident">SDS011</span> {
-    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">sds011</span>::<span class="ident">Message</span>;
-
-    <span class="kw">fn</span> <span class="ident">poll_next</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">poll_next_unpin</span>(<span class="ident">cx</span>)
-    }
-}
-
-<span class="kw">fn</span> <span class="ident">sds011_worker</span>(
-    <span class="kw-2">mut</span> <span class="ident">device</span>: <span class="ident">sds011</span>::<span class="ident">SDS011</span>,
-    <span class="ident">work_period_secs</span>: <span class="ident">u64</span>,
-    <span class="ident">result</span>: <span class="ident">mpsc</span>::<span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">sds011</span>::<span class="ident">Message</span><span class="op">&gt;</span>,
-) {
-    <span class="kw">let</span> <span class="ident">delay</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">work_period_secs</span>);
-    <span class="kw">loop</span> {
-        <span class="kw">match</span> <span class="ident">device</span>.<span class="ident">query</span>() {
-            <span class="prelude-val">Ok</span>(<span class="ident">message</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="ident">target</span>: <span class="string">&quot;robonomics-io&quot;</span>, <span class="string">&quot;SDS011 read data: {:?}&quot;</span>, <span class="ident">message</span>);
-                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">unbounded_send</span>(<span class="ident">message</span>);
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="ident">target</span>: <span class="string">&quot;robonomics-io&quot;</span>, <span class="string">&quot;SDS011 read error: {}&quot;</span>, <span class="ident">e</span>);
-            }
+    <span class="kw">let</span> <span class="ident">delay</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">period</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">*</span> <span class="number">60</span>);
+    <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">unbounded</span>();
+    <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
+        <span class="kw">loop</span> {
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">sender</span>.<span class="ident">unbounded_send</span>(<span class="ident">device</span>.<span class="ident">query</span>().<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>));
+            <span class="ident">Delay</span>::<span class="ident">new</span>(<span class="ident">delay</span>).<span class="kw">await</span>;
         }
-        <span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">delay</span>);
-    }
+    });
+
+    <span class="prelude-val">Ok</span>(<span class="ident">receiver</span>)
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "robonomics_io";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

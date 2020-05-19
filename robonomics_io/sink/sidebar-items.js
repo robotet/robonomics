@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["virt","Collection of virtual devices (like stdout)."]]});
+initSidebarItems({"mod":[["virt","Virtual sinkable devices."]]});

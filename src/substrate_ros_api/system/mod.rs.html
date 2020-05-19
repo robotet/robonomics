@@ -83,11 +83,10 @@
 <span id="83">83</span>
 <span id="84">84</span>
 <span id="85">85</span>
-<span id="86">86</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -103,18 +102,16 @@
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
-<span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>;
+<span class="kw">use</span> <span class="ident">sc_network</span>::{<span class="ident">ExHashT</span>, <span class="ident">NetworkService</span>};
 <span class="kw">use</span> <span class="ident">sc_rpc</span>::<span class="ident">system</span>::<span class="ident">helpers</span>::<span class="ident">Health</span>;
 <span class="kw">use</span> <span class="ident">sp_chain_spec</span>::<span class="ident">Properties</span>;
-<span class="kw">use</span> <span class="ident">sc_network</span>::{
-    <span class="ident">NetworkService</span>, <span class="ident">ExHashT</span>,
-};
+<span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sc_rpc</span>::<span class="ident">system</span>::<span class="ident">helpers</span>::<span class="ident">SystemInfo</span>;
 
 <span class="kw">mod</span> <span class="ident">ros_api</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ros_api</span>::{<span class="ident">start_services</span>, <span class="ident">start_publishers</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ros_api</span>::{<span class="ident">start_publishers</span>, <span class="ident">start_services</span>};
 
 <span class="doccomment">/// Substrate system API.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>, <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> {
@@ -123,29 +120,30 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>, <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span>
+<span class="kw">where</span>
+    <span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>,
+    <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span>,
 {
     <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span> {
-        <span class="ident">System</span> { 
+        <span class="ident">System</span> {
             <span class="ident">info</span>: <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">clone</span>(),
             <span class="ident">network</span>: <span class="self">self</span>.<span class="ident">network</span>.<span class="ident">clone</span>(),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span>,
 {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">info</span>: <span class="ident">SystemInfo</span>,
-        <span class="ident">network</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">NetworkService</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">info</span>: <span class="ident">SystemInfo</span>, <span class="ident">network</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">NetworkService</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">System</span> { <span class="ident">info</span>, <span class="ident">network</span> }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="ident">ros_api</span>::<span class="ident">SystemApi</span> <span class="kw">for</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">traits</span>::<span class="ident">Block</span>, <span class="ident">H</span><span class="op">&gt;</span> <span class="ident">ros_api</span>::<span class="ident">SystemApi</span> <span class="kw">for</span> <span class="ident">System</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">H</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">H</span>: <span class="ident">ExHashT</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Sync</span>,
 {
     <span class="kw">fn</span> <span class="ident">system_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">impl_name</span>.<span class="ident">clone</span>()

@@ -36,7 +36,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -53,15 +53,15 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Set of approaches to handle technical aspects of agreement.</span>
 
-<span class="kw">use</span> <span class="ident">sp_std</span>::<span class="ident">prelude</span>::<span class="ident">Vec</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">traits</span>::{<span class="ident">Technical</span>, <span class="ident">RealWorldOracle</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">traits</span>::{<span class="ident">RealWorldOracle</span>, <span class="ident">Technical</span>};
+<span class="kw">use</span> <span class="ident">sp_std</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Using IPFS to handle technical aspects of agreement without confirmation.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PureIPFS</span>;
 <span class="kw">impl</span> <span class="ident">Technical</span> <span class="kw">for</span> <span class="ident">PureIPFS</span> {
     <span class="comment">// IPFS hash of objective as parameter for liability.</span>
     <span class="kw">type</span> <span class="ident">Parameter</span> <span class="op">=</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>;
-    <span class="comment">// IPFS hash of work results as report for liability. </span>
+    <span class="comment">// IPFS hash of work results as report for liability.</span>
     <span class="kw">type</span> <span class="ident">Report</span> <span class="op">=</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>;
     <span class="comment">// No confirmation from real world (unsafe, be careful).</span>
     <span class="kw">type</span> <span class="ident">Oracle</span> <span class="op">=</span> ();

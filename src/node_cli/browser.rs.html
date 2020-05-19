@@ -59,10 +59,11 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
+<span id="62">62</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -78,14 +79,13 @@
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">IsIpci</span>, <span class="ident">chain_spec</span>::<span class="ident">ChainSpec</span>};
-<span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">substrate_browser_utils</span>::{
-    <span class="ident">Client</span>,
-    <span class="ident">browser_configuration</span>, <span class="ident">set_console_error_panic_hook</span>, <span class="ident">init_console_log</span>,
-};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">chain_spec</span>::<span class="ident">ChainSpec</span>, <span class="ident">IsIpci</span>};
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">info</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+<span class="kw">use</span> <span class="ident">substrate_browser_utils</span>::{
+    <span class="ident">browser_configuration</span>, <span class="ident">init_console_log</span>, <span class="ident">set_console_error_panic_hook</span>, <span class="ident">Client</span>,
+};
+<span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Starts the client.</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
@@ -95,7 +95,10 @@
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">JsValue</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">err</span>.<span class="ident">to_string</span>()))
 }
 
-<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start_inner</span>(<span class="ident">chain_spec</span>: <span class="ident">String</span>, <span class="ident">log_level</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Client</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start_inner</span>(
+    <span class="ident">chain_spec</span>: <span class="ident">String</span>,
+    <span class="ident">log_level</span>: <span class="ident">String</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Client</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="ident">set_console_error_panic_hook</span>();
     <span class="ident">init_console_log</span>(<span class="ident">log</span>::<span class="ident">Level</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">log_level</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">chain_spec</span> <span class="op">=</span> <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="ident">chain_spec</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>())
@@ -112,12 +115,11 @@
 
     <span class="comment">// Create the service. This is the most heavy initialization step.</span>
     <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">chain_spec</span>.<span class="ident">is_ipci</span>() {
-        <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">service</span>::<span class="ident">new_ipci_light</span>(<span class="ident">config</span>)
-            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>))<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">service</span>::<span class="ident">ipci</span>::<span class="ident">new_light</span>(<span class="ident">config</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">substrate_browser_utils</span>::<span class="ident">start_client</span>(<span class="ident">service</span>))
     } <span class="kw">else</span> {
-        <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">service</span>::<span class="ident">new_robonomics_light</span>(<span class="ident">config</span>)
-            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>))<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span>
+            <span class="kw">crate</span>::<span class="ident">service</span>::<span class="ident">robonomics</span>::<span class="ident">new_light</span>(<span class="ident">config</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">substrate_browser_utils</span>::<span class="ident">start_client</span>(<span class="ident">service</span>))
     }
 }

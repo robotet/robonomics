@@ -150,24 +150,10 @@
 <span id="150">150</span>
 <span id="151">151</span>
 <span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
-<span id="156">156</span>
-<span id="157">157</span>
-<span id="158">158</span>
-<span id="159">159</span>
-<span id="160">160</span>
-<span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
-<span id="166">166</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -183,16 +169,10 @@
 <span class="comment">//</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 
+<span class="kw">use</span> <span class="ident">msgs</span>::<span class="ident">std_srvs</span>::{<span class="ident">Trigger</span>, <span class="ident">TriggerRes</span>};
 <span class="kw">use</span> <span class="ident">msgs</span>::<span class="ident">substrate_ros_msgs</span>::{
-    <span class="ident">StorageKey</span>,
-    <span class="ident">StateCall</span>, <span class="ident">StateCallRes</span>,
-    <span class="ident">StorageHash</span>, <span class="ident">StorageHashRes</span>,
-    <span class="ident">StorageKeys</span>, <span class="ident">StorageKeysRes</span>,
-    <span class="ident">StorageQuery</span>, <span class="ident">StorageQueryRes</span>,
-    <span class="ident">StorageSize</span>, <span class="ident">StorageSizeRes</span>,
-};
-<span class="kw">use</span> <span class="ident">msgs</span>::<span class="ident">std_srvs</span>::{
-    <span class="ident">Trigger</span>, <span class="ident">TriggerRes</span>,
+    <span class="ident">StateCall</span>, <span class="ident">StateCallRes</span>, <span class="ident">StorageHash</span>, <span class="ident">StorageHashRes</span>, <span class="ident">StorageKey</span>, <span class="ident">StorageKeys</span>, <span class="ident">StorageKeysRes</span>,
+    <span class="ident">StorageQuery</span>, <span class="ident">StorageQueryRes</span>, <span class="ident">StorageSize</span>, <span class="ident">StorageSizeRes</span>,
 };
 <span class="kw">use</span> <span class="ident">rosrust</span>::<span class="ident">api</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
 
@@ -234,25 +214,23 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="ident">rosrust</span>::<span class="ident">service</span>::<span class="op">&lt;</span><span class="ident">StateCall</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">CALL_SRV_NAME</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StateCallRes</span>::<span class="ident">default</span>(); 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StateCallRes</span>::<span class="ident">default</span>();
         <span class="ident">res</span>.<span class="ident">data</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">call</span>(<span class="ident">req</span>.<span class="ident">method</span>, <span class="ident">req</span>.<span class="ident">data</span>, <span class="ident">zero_guard</span>(<span class="ident">req</span>.<span class="ident">block</span>.<span class="ident">data</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">res</span>)
     })
 }
 
-<span class="kw">fn</span> <span class="ident">storage_keys</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">fn</span> <span class="ident">storage_keys</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="ident">rosrust</span>::<span class="ident">service</span>::<span class="op">&lt;</span><span class="ident">StorageKeys</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">KEYS_SRV_NAME</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageKeysRes</span>::<span class="ident">default</span>(); 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageKeysRes</span>::<span class="ident">default</span>();
         <span class="kw">for</span> <span class="ident">key</span> <span class="kw">in</span> <span class="ident">api</span>.<span class="ident">storage_keys</span>(<span class="ident">req</span>.<span class="ident">prefix</span>.<span class="ident">data</span>, <span class="ident">zero_guard</span>(<span class="ident">req</span>.<span class="ident">block</span>.<span class="ident">data</span>))<span class="question-mark">?</span> {
             <span class="ident">res</span>.<span class="ident">keys</span>.<span class="ident">push</span>(<span class="ident">StorageKey</span> { <span class="ident">data</span>: <span class="ident">key</span> });
         }
@@ -260,14 +238,12 @@
     })
 }
 
-
-<span class="kw">fn</span> <span class="ident">storage</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">fn</span> <span class="ident">storage</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="ident">rosrust</span>::<span class="ident">service</span>::<span class="op">&lt;</span><span class="ident">StorageQuery</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">QUERY_SRV_NAME</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageQueryRes</span>::<span class="ident">default</span>(); 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageQueryRes</span>::<span class="ident">default</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">data</span>) <span class="op">=</span> <span class="ident">api</span>.<span class="ident">storage</span>(<span class="ident">req</span>.<span class="ident">key</span>.<span class="ident">data</span>, <span class="ident">zero_guard</span>(<span class="ident">req</span>.<span class="ident">block</span>.<span class="ident">data</span>))<span class="question-mark">?</span> {
             <span class="ident">res</span>.<span class="ident">data</span> <span class="op">=</span> <span class="ident">data</span>;
         }
@@ -275,13 +251,12 @@
     })
 }
 
-<span class="kw">fn</span> <span class="ident">storage_hash</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">fn</span> <span class="ident">storage_hash</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="ident">rosrust</span>::<span class="ident">service</span>::<span class="op">&lt;</span><span class="ident">StorageHash</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">HASH_SRV_NAME</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageHashRes</span>::<span class="ident">default</span>(); 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageHashRes</span>::<span class="ident">default</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">hash</span>) <span class="op">=</span> <span class="ident">api</span>.<span class="ident">storage_hash</span>(<span class="ident">req</span>.<span class="ident">key</span>.<span class="ident">data</span>, <span class="ident">zero_guard</span>(<span class="ident">req</span>.<span class="ident">block</span>.<span class="ident">data</span>))<span class="question-mark">?</span> {
             <span class="ident">res</span>.<span class="ident">hash</span>.<span class="ident">data</span> <span class="op">=</span> <span class="ident">hash</span>;
         }
@@ -289,13 +264,12 @@
     })
 }
 
-<span class="kw">fn</span> <span class="ident">storage_size</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">fn</span> <span class="ident">storage_size</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="ident">rosrust</span>::<span class="ident">service</span>::<span class="op">&lt;</span><span class="ident">StorageSize</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">SIZE_SRV_NAME</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageSizeRes</span>::<span class="ident">default</span>(); 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">StorageSizeRes</span>::<span class="ident">default</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">size</span>) <span class="op">=</span> <span class="ident">api</span>.<span class="ident">storage_size</span>(<span class="ident">req</span>.<span class="ident">key</span>.<span class="ident">data</span>, <span class="ident">zero_guard</span>(<span class="ident">req</span>.<span class="ident">block</span>.<span class="ident">data</span>))<span class="question-mark">?</span> {
             <span class="ident">res</span>.<span class="ident">size</span> <span class="op">=</span> <span class="ident">size</span>;
         }
@@ -303,23 +277,21 @@
     })
 }
 
-<span class="kw">fn</span> <span class="ident">runtime_version</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">fn</span> <span class="ident">runtime_version</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="ident">rosrust</span>::<span class="ident">service</span>::<span class="op">&lt;</span><span class="ident">Trigger</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">VERSION_SRV_NAME</span>, <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">TriggerRes</span>::<span class="ident">default</span>(); 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">TriggerRes</span>::<span class="ident">default</span>();
         <span class="ident">res</span>.<span class="ident">success</span> <span class="op">=</span> <span class="bool-val">true</span>;
         <span class="ident">res</span>.<span class="ident">message</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">runtime_version</span>(<span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">res</span>)
     })
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_services</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">api</span>: <span class="ident">T</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_services</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">api</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">rosrust</span>::<span class="ident">Service</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">StateApi</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="kw">let</span> <span class="ident">services</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
         <span class="ident">call</span>(<span class="ident">api</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>,

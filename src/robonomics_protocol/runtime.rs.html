@@ -52,10 +52,11 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
+<span id="55">55</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt; </span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -73,10 +74,11 @@
 <span class="doccomment">//! SubXt compatible Robonomics Network runtime abstration.</span>
 
 <span class="kw">use</span> <span class="ident">sp_runtime</span>::{
-    <span class="ident">traits</span>::{<span class="ident">BlakeTwo256</span>, <span class="ident">Verify</span>, <span class="ident">IdentifyAccount</span>}, <span class="ident">generic</span>::<span class="ident">Header</span>,
-    <span class="ident">OpaqueExtrinsic</span>, <span class="ident">MultiSignature</span>,
+    <span class="ident">generic</span>::<span class="ident">Header</span>,
+    <span class="ident">traits</span>::{<span class="ident">BlakeTwo256</span>, <span class="ident">IdentifyAccount</span>, <span class="ident">Verify</span>},
+    <span class="ident">MultiSignature</span>, <span class="ident">OpaqueExtrinsic</span>,
 };
-<span class="kw">use</span> <span class="ident">substrate_subxt</span>::{<span class="ident">system</span>, <span class="ident">balances</span>};
+<span class="kw">use</span> <span class="ident">substrate_subxt</span>::{<span class="ident">balances</span>, <span class="ident">system</span>};
 
 <span class="doccomment">/// Robonomics Datalog pallet.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pallet_datalog</span>;
