@@ -436,6 +436,9 @@
 <span id="436">436</span>
 <span id="437">437</span>
 <span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -459,9 +462,9 @@
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>, <span class="ident">Block</span>, <span class="ident">Signature</span>};
 <span class="kw">use</span> <span class="ident">pallet_im_online</span>::<span class="ident">sr25519</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">ImOnlineId</span>;
 <span class="kw">use</span> <span class="ident">robonomics_runtime</span>::{
-    <span class="ident">AuthorityDiscoveryConfig</span>, <span class="ident">BabeConfig</span>, <span class="ident">BalancesConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">GrandpaConfig</span>,
-    <span class="ident">ImOnlineConfig</span>, <span class="ident">IndicesConfig</span>, <span class="ident">SessionConfig</span>, <span class="ident">SessionKeys</span>, <span class="ident">StakerStatus</span>, <span class="ident">StakingConfig</span>,
-    <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>, <span class="ident">WASM_BINARY</span>,
+    <span class="ident">AuthorityDiscoveryConfig</span>, <span class="ident">BabeConfig</span>, <span class="ident">BalancesConfig</span>, <span class="ident">CouncilConfig</span>, <span class="ident">ElectionsConfig</span>,
+    <span class="ident">GenesisConfig</span>, <span class="ident">GrandpaConfig</span>, <span class="ident">ImOnlineConfig</span>, <span class="ident">IndicesConfig</span>, <span class="ident">SessionConfig</span>, <span class="ident">SessionKeys</span>,
+    <span class="ident">StakerStatus</span>, <span class="ident">StakingConfig</span>, <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>, <span class="ident">WASM_BINARY</span>,
 };
 <span class="kw">use</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpecExtension</span>;
 <span class="kw">use</span> <span class="ident">sc_service</span>::<span class="ident">ChainType</span>;
@@ -698,6 +701,9 @@ const IPCI_PROPERTIES: &amp;str = r#&quot;
         }),
         <span class="ident">pallet_im_online</span>: <span class="prelude-val">Some</span>(<span class="ident">ImOnlineConfig</span> { <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
         <span class="ident">pallet_authority_discovery</span>: <span class="prelude-val">Some</span>(<span class="ident">AuthorityDiscoveryConfig</span> { <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
+        <span class="ident">pallet_elections_phragmen</span>: <span class="prelude-val">Some</span>(<span class="ident">ElectionsConfig</span> { <span class="ident">members</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
+        <span class="ident">pallet_collective_Instance1</span>: <span class="prelude-val">Some</span>(<span class="ident">CouncilConfig</span>::<span class="ident">default</span>()),
+        <span class="ident">pallet_treasury</span>: <span class="prelude-val">Some</span>(<span class="ident">Default</span>::<span class="ident">default</span>()),
         <span class="ident">pallet_sudo</span>: <span class="prelude-val">Some</span>(<span class="ident">SudoConfig</span> { <span class="ident">key</span>: <span class="ident">sudo_key</span> }),
     }
 }

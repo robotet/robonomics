@@ -291,18 +291,6 @@
 <span id="291">291</span>
 <span id="292">292</span>
 <span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -539,18 +527,6 @@
 
 <span class="kw">impl</span> <span class="ident">PubSub</span> {
     <span class="doccomment">/// Create Gossipsub based PubSub service and worker.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Usage:</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///     let (pubsub, worker) = PubSub:new()?;</span>
-    <span class="doccomment">///     task::spawn(worker);</span>
-    <span class="doccomment">///     ...</span>
-    <span class="doccomment">///     task::block_on(pubsub.subscribe(&quot;test-topic&quot;).map(|msg|</span>
-    <span class="doccomment">///         println!(&quot;{}&quot;, msg.data)</span>
-    <span class="doccomment">///     )</span>
-    <span class="doccomment">///     ... in different thread</span>
-    <span class="doccomment">///     pubsub.publish(&quot;test-topic&quot;, &quot;hello world!&quot;.as_bytes())</span>
-    <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">heartbeat_interval</span>: <span class="ident">Duration</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {

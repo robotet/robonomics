@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["robonomics_runtime"] = [{"text":"impl Trait for <a class=\"struct\" href=\"robonomics_runtime/struct.Runtime.html\" title=\"struct robonomics_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["robonomics_runtime::Runtime"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
