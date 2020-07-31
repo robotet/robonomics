@@ -62,9 +62,9 @@
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="doccomment">//! Some configurable implementations as associated type for the substrate runtime.</span>
 
-<span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>::<span class="ident">Convert</span>;
-<span class="kw">use</span> <span class="ident">node_primitives</span>::<span class="ident">Balance</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Balances</span>;
+<span class="kw">use</span> <span class="ident">node_primitives</span>::<span class="ident">Balance</span>;
+<span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>::<span class="ident">Convert</span>;
 
 <span class="doccomment">/// Struct that handles the conversion of Balance -&gt; `u64`. This is used for staking&#39;s election</span>
 <span class="doccomment">/// calculation.</span>
