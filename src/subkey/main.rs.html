@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `bin/subkey/src/main.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../subkey/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `bin/subkey/src/main.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../subkey/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -903,6 +903,22 @@
 <span id="903">903</span>
 <span id="904">904</span>
 <span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This file is part of Substrate.</span>
 
@@ -933,7 +949,8 @@
 <span class="kw">use</span> <span class="ident">itertools</span>::<span class="ident">Itertools</span>;
 <span class="kw">use</span> <span class="ident">libp2p</span>::<span class="ident">identity</span>::{<span class="ident">ed25519</span> <span class="kw">as</span> <span class="ident">libp2p_ed25519</span>, <span class="ident">PublicKey</span>};
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>, <span class="ident">Hash</span>, <span class="ident">Index</span>, <span class="ident">Signature</span>};
-<span class="kw">use</span> <span class="ident">node_runtime</span>::{<span class="ident">BalancesCall</span>, <span class="ident">Call</span>, <span class="ident">Runtime</span>, <span class="ident">SignedPayload</span>, <span class="ident">UncheckedExtrinsic</span>, <span class="ident">VERSION</span>};
+<span class="kw">use</span> <span class="ident">node_runtime</span>::{<span class="ident">Call</span>, <span class="ident">Runtime</span>, <span class="ident">SignedPayload</span>, <span class="ident">UncheckedExtrinsic</span>, <span class="ident">VERSION</span>};
+<span class="kw">use</span> <span class="ident">pallet_balances</span>::<span class="ident">Call</span> <span class="kw">as</span> <span class="ident">BalancesCall</span>;
 <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">json</span>;
 <span class="kw">use</span> <span class="ident">sp_core</span>::{
     <span class="ident">crypto</span>::{<span class="ident">set_default_ss58_version</span>, <span class="ident">Ss58AddressFormat</span>, <span class="ident">Ss58Codec</span>},
@@ -965,11 +982,11 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">OutputType</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> ();
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OutputType</span>, ()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OutputType</span>, ()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">s</span> {
-            <span class="string">&quot;json&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">OutputType</span>::<span class="ident">Json</span>),
-            <span class="string">&quot;text&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">OutputType</span>::<span class="ident">Text</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(()),
+            <span class="string">&quot;json&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">OutputType</span>::<span class="ident">Json</span>),
+            <span class="string">&quot;text&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">OutputType</span>::<span class="ident">Text</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(()),
         }
     }
 }
@@ -977,16 +994,16 @@
 <span class="kw">trait</span> <span class="ident">Crypto</span>: <span class="ident">Sized</span> {
     <span class="kw">type</span> <span class="ident">Pair</span>: <span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">Public</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">Public</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">Public</span>: <span class="ident">Public</span> <span class="op">+</span> <span class="ident">Ss58Codec</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">std</span>::<span class="ident">hash</span>::<span class="ident">Hash</span>;
-    <span class="kw">fn</span> <span class="ident">pair_from_suri</span>(<span class="ident">suri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">password</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Pair</span> {
+    <span class="kw">fn</span> <span class="ident">pair_from_suri</span>(<span class="ident">suri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">password</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Pair</span> {
         <span class="self">Self</span>::<span class="ident">Pair</span>::<span class="ident">from_string</span>(<span class="ident">suri</span>, <span class="ident">password</span>).<span class="ident">expect</span>(<span class="string">&quot;Invalid phrase&quot;</span>)
     }
-    <span class="kw">fn</span> <span class="ident">ss58_from_pair</span>(<span class="ident">pair</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Pair</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>
+    <span class="kw">fn</span> <span class="ident">ss58_from_pair</span>(<span class="ident">pair</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Pair</span>) <span class="op">-&gt;</span> <span class="ident">String</span>
     <span class="kw">where</span>
         <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span>: <span class="ident">PublicT</span>,
     {
         <span class="ident">pair</span>.<span class="ident">public</span>().<span class="ident">into_runtime</span>().<span class="ident">into_account</span>().<span class="ident">to_ss58check</span>()
     }
-    <span class="kw">fn</span> <span class="ident">public_from_pair</span>(<span class="ident">pair</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Pair</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Public</span> {
+    <span class="kw">fn</span> <span class="ident">public_from_pair</span>(<span class="ident">pair</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Pair</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Public</span> {
         <span class="ident">pair</span>.<span class="ident">public</span>()
     }
     <span class="kw">fn</span> <span class="ident">print_from_uri</span>(
@@ -1002,7 +1019,7 @@
             <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">public_from_pair</span>(<span class="kw-2">&amp;</span><span class="ident">pair</span>);
 
             <span class="kw">match</span> <span class="ident">output</span> {
-                <span class="ident">OutputType</span>::<span class="ident">Json</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">OutputType</span>::<span class="ident">Json</span> <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({
                         <span class="string">&quot;secretPhrase&quot;</span>: <span class="ident">uri</span>,
                         <span class="string">&quot;networkId&quot;</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">v</span>),
@@ -1016,7 +1033,7 @@
                         <span class="ident">serde_json</span>::<span class="ident">to_string_pretty</span>(<span class="kw-2">&amp;</span><span class="ident">json</span>).<span class="ident">expect</span>(<span class="string">&quot;Json pretty print failed&quot;</span>)
                     );
                 }
-                <span class="ident">OutputType</span>::<span class="ident">Text</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">OutputType</span>::<span class="ident">Text</span> <span class="op">=&gt;</span> {
                     <span class="macro">println</span><span class="macro">!</span>(
                         <span class="string">&quot;Secret phrase `{}` is account:\n  \
 						Network ID/version: {}\n  \
@@ -1037,7 +1054,7 @@
             <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">public_from_pair</span>(<span class="kw-2">&amp;</span><span class="ident">pair</span>);
 
             <span class="kw">match</span> <span class="ident">output</span> {
-                <span class="ident">OutputType</span>::<span class="ident">Json</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">OutputType</span>::<span class="ident">Json</span> <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({
                         <span class="string">&quot;secretKeyUri&quot;</span>: <span class="ident">uri</span>,
                         <span class="string">&quot;networkId&quot;</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">v</span>),
@@ -1051,7 +1068,7 @@
                         <span class="ident">serde_json</span>::<span class="ident">to_string_pretty</span>(<span class="kw-2">&amp;</span><span class="ident">json</span>).<span class="ident">expect</span>(<span class="string">&quot;Json pretty print failed&quot;</span>)
                     );
                 }
-                <span class="ident">OutputType</span>::<span class="ident">Text</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">OutputType</span>::<span class="ident">Text</span> <span class="op">=&gt;</span> {
                     <span class="macro">println</span><span class="macro">!</span>(
                         <span class="string">&quot;Secret Key URI `{}` is account:\n  \
 						Network ID/version: {}\n  \
@@ -1078,7 +1095,7 @@
             <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">network_override</span>.<span class="ident">unwrap_or</span>(<span class="ident">v</span>);
 
             <span class="kw">match</span> <span class="ident">output</span> {
-                <span class="ident">OutputType</span>::<span class="ident">Json</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">OutputType</span>::<span class="ident">Json</span> <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({
                         <span class="string">&quot;publicKeyUri&quot;</span>: <span class="ident">uri</span>,
                         <span class="string">&quot;networkId&quot;</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">v</span>),
@@ -1091,7 +1108,7 @@
                         <span class="ident">serde_json</span>::<span class="ident">to_string_pretty</span>(<span class="kw-2">&amp;</span><span class="ident">json</span>).<span class="ident">expect</span>(<span class="string">&quot;Json pretty print failed&quot;</span>)
                     );
                 }
-                <span class="ident">OutputType</span>::<span class="ident">Text</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">OutputType</span>::<span class="ident">Text</span> <span class="op">=&gt;</span> {
                     <span class="macro">println</span><span class="macro">!</span>(
                         <span class="string">&quot;Public Key URI `{}` is account:\n  \
 						Network ID/version: {}\n  \
@@ -1118,7 +1135,7 @@
     <span class="kw">type</span> <span class="ident">Pair</span> <span class="op">=</span> <span class="ident">ed25519</span>::<span class="ident">Pair</span>;
     <span class="kw">type</span> <span class="ident">Public</span> <span class="op">=</span> <span class="ident">ed25519</span>::<span class="ident">Public</span>;
 
-    <span class="kw">fn</span> <span class="ident">pair_from_suri</span>(<span class="ident">suri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">password_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Pair</span> {
+    <span class="kw">fn</span> <span class="ident">pair_from_suri</span>(<span class="ident">suri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">password_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Pair</span> {
         <span class="ident">ed25519</span>::<span class="ident">Pair</span>::<span class="ident">from_legacy_string</span>(<span class="ident">suri</span>, <span class="ident">password_override</span>)
     }
 }
@@ -1137,56 +1154,56 @@
     <span class="kw">type</span> <span class="ident">Public</span> <span class="op">=</span> <span class="ident">ecdsa</span>::<span class="ident">Public</span>;
 }
 
-<span class="kw">type</span> <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span>;
-<span class="kw">type</span> <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span>;
-<span class="kw">type</span> <span class="ident">SeedOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Seed</span>;
+<span class="kw">type</span> <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span>;
+<span class="kw">type</span> <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Public</span>;
+<span class="kw">type</span> <span class="ident">SeedOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Seed</span>;
 <span class="kw">type</span> <span class="ident">AccountPublic</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Signature</span> <span class="kw">as</span> <span class="ident">Verify</span><span class="op">&gt;</span>::<span class="ident">Signer</span>;
 
 <span class="kw">trait</span> <span class="ident">SignatureT</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Default</span> {
     <span class="doccomment">/// Converts the signature into a runtime account signature, if possible. If not possible, bombs out.</span>
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
         <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;This cryptography isn&#39;t supported for this runtime.&quot;</span>)
     }
 }
 <span class="kw">trait</span> <span class="ident">PublicT</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Ss58Codec</span> {
     <span class="doccomment">/// Converts the public key into a runtime account public key, if possible. If not possible, bombs out.</span>
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountPublic</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">AccountPublic</span> {
         <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;This cryptography isn&#39;t supported for this runtime.&quot;</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">SignatureT</span> <span class="kw">for</span> <span class="ident">sr25519</span>::<span class="ident">Signature</span> {
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
         <span class="self">self</span>.<span class="ident">into</span>()
     }
 }
 <span class="kw">impl</span> <span class="ident">SignatureT</span> <span class="kw">for</span> <span class="ident">ed25519</span>::<span class="ident">Signature</span> {
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
         <span class="self">self</span>.<span class="ident">into</span>()
     }
 }
 <span class="kw">impl</span> <span class="ident">SignatureT</span> <span class="kw">for</span> <span class="ident">ecdsa</span>::<span class="ident">Signature</span> {
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Signature</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
         <span class="self">self</span>.<span class="ident">into</span>()
     }
 }
 <span class="kw">impl</span> <span class="ident">PublicT</span> <span class="kw">for</span> <span class="ident">sr25519</span>::<span class="ident">Public</span> {
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountPublic</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">AccountPublic</span> {
         <span class="self">self</span>.<span class="ident">into</span>()
     }
 }
 <span class="kw">impl</span> <span class="ident">PublicT</span> <span class="kw">for</span> <span class="ident">ed25519</span>::<span class="ident">Public</span> {
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountPublic</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">AccountPublic</span> {
         <span class="self">self</span>.<span class="ident">into</span>()
     }
 }
 <span class="kw">impl</span> <span class="ident">PublicT</span> <span class="kw">for</span> <span class="ident">ecdsa</span>::<span class="ident">Public</span> {
-    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountPublic</span> {
+    <span class="kw">fn</span> <span class="ident">into_runtime</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">AccountPublic</span> {
         <span class="self">self</span>.<span class="ident">into</span>()
     }
 }
 
-<span class="kw">fn</span> <span class="ident">get_usage</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">fn</span> <span class="ident">get_usage</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="kw">let</span> <span class="ident">networks</span> <span class="op">=</span> <span class="ident">Ss58AddressFormat</span>::<span class="ident">all</span>()
         .<span class="ident">iter</span>()
         .<span class="ident">cloned</span>()
@@ -1207,7 +1224,7 @@
     )
 }
 
-<span class="kw">fn</span> <span class="ident">get_app</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="ident">usage</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">get_app</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="ident">usage</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
     <span class="ident">App</span>::<span class="ident">new</span>(<span class="string">&quot;subkey&quot;</span>)
         .<span class="ident">author</span>(<span class="string">&quot;Parity Team &lt;admin@parity.io&gt;&quot;</span>)
         .<span class="ident">about</span>(<span class="string">&quot;Utility for generating and restoring with Substrate keys&quot;</span>)
@@ -1230,6 +1247,9 @@
 						If the value is a file, the file content is used as URI. \
 						If not given, you will be prompted for the URI.&#39;
 				&quot;</span>),
+			<span class="ident">SubCommand</span>::<span class="ident">with_name</span>(<span class="string">&quot;inspect-node-key&quot;</span>)
+				.<span class="ident">about</span>(<span class="string">&quot;Print the peer ID corresponding to the node key in the given file&quot;</span>)
+				.<span class="ident">args_from_usage</span>(<span class="string">&quot;[file] &#39;Name of file to read the secret key from&#39;&quot;</span>),
 			<span class="ident">SubCommand</span>::<span class="ident">with_name</span>(<span class="string">&quot;sign&quot;</span>)
 				.<span class="ident">about</span>(<span class="string">&quot;Sign a message, provided on STDIN, with a given (secret) key&quot;</span>)
 				.<span class="ident">args_from_usage</span>(<span class="string">&quot;
@@ -1251,8 +1271,8 @@
 			<span class="ident">SubCommand</span>::<span class="ident">with_name</span>(<span class="string">&quot;transfer&quot;</span>)
 				.<span class="ident">about</span>(<span class="string">&quot;Author and sign a Node pallet_balances::Transfer transaction with a given (secret) key&quot;</span>)
 				.<span class="ident">args_from_usage</span>(<span class="string">&quot;
-                    [genesis] -g, --genesis &lt;genesis&gt; &#39;The genesis hash or a recognized \
-											chain identifier (dev, elm, alex, ipci).&#39;
+                    [genesis] -g, --genesis [genesis] &#39;The genesis hash or a recognized \
+											chain identifier (ipci, robonomics).&#39;
 					&lt;from&gt; &#39;The signing secret key URI.&#39;
 					&lt;to&gt; &#39;The destination account public key URI.&#39;
 					&lt;amount&gt; &#39;The number of units to transfer.&#39;
@@ -1291,7 +1311,7 @@
 		])
 }
 
-<span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">usage</span> <span class="op">=</span> <span class="ident">get_usage</span>();
     <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span> <span class="ident">get_app</span>(<span class="kw-2">&amp;</span><span class="ident">usage</span>).<span class="ident">get_matches</span>();
 
@@ -1310,7 +1330,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// If the `URI` given as CLI argument is a file, the file content is taken as `URI`.</span>
 <span class="doccomment">/// If no `URI` is given to the CLI, the user is prompted for it.</span>
-<span class="kw">fn</span> <span class="ident">get_uri</span>(<span class="ident">match_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">get_uri</span>(<span class="ident">match_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">uri</span>) <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="ident">match_name</span>) {
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">uri</span>);
         <span class="kw">if</span> <span class="ident">file</span>.<span class="ident">is_file</span>() {
@@ -1333,16 +1353,16 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">fmt</span>::<span class="ident">Display</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
     }
 }
 
-<span class="kw">fn</span> <span class="ident">static_err</span>(<span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">static_err</span>(<span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Static</span>(<span class="ident">msg</span>))
 }
 
-<span class="kw">fn</span> <span class="ident">execute</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="ident">ArgMatches</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">execute</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="ident">ArgMatches</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SignatureT</span>,
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
@@ -1350,7 +1370,7 @@
     <span class="kw">let</span> <span class="ident">password_interactive</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;password-interactive&quot;</span>);
     <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;password&quot;</span>);
 
-    <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">password</span>.<span class="ident">is_some</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">password_interactive</span> {
+    <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">password</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="ident">password_interactive</span> {
         <span class="kw">return</span> <span class="ident">static_err</span>(<span class="string">&quot;`--password` given and `--password-interactive` selected!&quot;</span>);
     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">password_interactive</span> {
         <span class="prelude-val">Some</span>(<span class="ident">rpassword</span>::<span class="ident">read_password_from_tty</span>(<span class="prelude-val">Some</span>(<span class="string">&quot;Key password: &quot;</span>))<span class="question-mark">?</span>)
@@ -1365,9 +1385,9 @@
                 <span class="ident">Error</span>::<span class="ident">Static</span>(<span class="string">&quot;Invalid network name. See --help for available networks.&quot;</span>)
             })
         }) {
-            <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">v</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">v</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         };
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">network</span>) <span class="op">=</span> <span class="ident">maybe_network</span> {
@@ -1375,21 +1395,21 @@
     }
 
     <span class="kw">let</span> <span class="ident">output</span>: <span class="ident">OutputType</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;output&quot;</span>).<span class="ident">map</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>) {
-        <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Static</span>(
                 <span class="string">&quot;Invalid output name. See --help for available outputs.&quot;</span>,
             ))
         }
-        <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">v</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>,
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OutputType</span>::<span class="ident">Text</span>,
+        <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">v</span>)) <span class="op">=&gt;</span> <span class="ident">v</span>,
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">OutputType</span>::<span class="ident">Text</span>,
     };
 
     <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">subcommand</span>() {
-        (<span class="string">&quot;generate&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;generate&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">mnemonic</span> <span class="op">=</span> <span class="ident">generate_mnemonic</span>(<span class="ident">matches</span>)<span class="question-mark">?</span>;
             <span class="ident">C</span>::<span class="ident">print_from_uri</span>(<span class="ident">mnemonic</span>.<span class="ident">phrase</span>(), <span class="ident">password</span>, <span class="ident">maybe_network</span>, <span class="ident">output</span>);
         }
-        (<span class="string">&quot;generate-node-key&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;generate-node-key&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">matches</span>
                 .<span class="ident">value_of</span>(<span class="string">&quot;file&quot;</span>)
                 .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">Static</span>(<span class="string">&quot;Output file name is required&quot;</span>))<span class="question-mark">?</span>;
@@ -1402,10 +1422,23 @@
 
             <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">peer_id</span>);
         }
-        (<span class="string">&quot;inspect&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;inspect&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="ident">C</span>::<span class="ident">print_from_uri</span>(<span class="kw-2">&amp;</span><span class="ident">get_uri</span>(<span class="string">&quot;uri&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">matches</span>)<span class="question-mark">?</span>, <span class="ident">password</span>, <span class="ident">maybe_network</span>, <span class="ident">output</span>);
         }
-        (<span class="string">&quot;sign&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;inspect-node-key&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">matches</span>
+                .<span class="ident">value_of</span>(<span class="string">&quot;file&quot;</span>)
+                .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">Static</span>(<span class="string">&quot;Input file name is required&quot;</span>))<span class="question-mark">?</span>;
+
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file_content</span> <span class="op">=</span> <span class="ident">fs</span>::<span class="ident">read</span>(<span class="ident">file</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">secret</span> <span class="op">=</span> <span class="ident">libp2p_ed25519</span>::<span class="ident">SecretKey</span>::<span class="ident">from_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">file_content</span>)
+                .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Static</span>(<span class="string">&quot;Bad node key file&quot;</span>))<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">keypair</span> <span class="op">=</span> <span class="ident">libp2p_ed25519</span>::<span class="ident">Keypair</span>::<span class="ident">from</span>(<span class="ident">secret</span>);
+            <span class="kw">let</span> <span class="ident">peer_id</span> <span class="op">=</span> <span class="ident">PublicKey</span>::<span class="ident">Ed25519</span>(<span class="ident">keypair</span>.<span class="ident">public</span>()).<span class="ident">into_peer_id</span>();
+
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">peer_id</span>);
+        }
+        (<span class="string">&quot;sign&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">suri</span> <span class="op">=</span> <span class="ident">get_uri</span>(<span class="string">&quot;suri&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">matches</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">should_decode</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;hex&quot;</span>);
 
@@ -1413,7 +1446,7 @@
             <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">do_sign</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">suri</span>, <span class="ident">message</span>, <span class="ident">password</span>)<span class="question-mark">?</span>;
             <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">signature</span>);
         }
-        (<span class="string">&quot;verify&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;verify&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">get_uri</span>(<span class="string">&quot;uri&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">matches</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">should_decode</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;hex&quot;</span>);
 
@@ -1425,7 +1458,7 @@
                 <span class="kw">return</span> <span class="ident">static_err</span>(<span class="string">&quot;Signature invalid.&quot;</span>);
             }
         }
-        (<span class="string">&quot;vanity&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;vanity&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">desired</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">matches</span>
                 .<span class="ident">value_of</span>(<span class="string">&quot;pattern&quot;</span>)
                 .<span class="ident">map</span>(<span class="ident">str</span>::<span class="ident">to_string</span>)
@@ -1434,7 +1467,7 @@
             <span class="kw">let</span> <span class="ident">formated_seed</span> <span class="op">=</span> <span class="ident">format_seed</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">result</span>.<span class="ident">seed</span>);
             <span class="ident">C</span>::<span class="ident">print_from_uri</span>(<span class="kw-2">&amp;</span><span class="ident">formated_seed</span>, <span class="prelude-val">None</span>, <span class="ident">maybe_network</span>, <span class="ident">output</span>);
         }
-        (<span class="string">&quot;transfer&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;transfer&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">signer</span> <span class="op">=</span> <span class="ident">read_pair</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;from&quot;</span>), <span class="ident">password</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">read_required_parameter</span>::<span class="op">&lt;</span><span class="ident">Index</span><span class="op">&gt;</span>(<span class="ident">matches</span>, <span class="string">&quot;index&quot;</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">genesis_hash</span> <span class="op">=</span> <span class="ident">read_genesis_hash</span>(<span class="ident">matches</span>)<span class="question-mark">?</span>;
@@ -1447,7 +1480,7 @@
 
             <span class="ident">print_extrinsic</span>(<span class="ident">extrinsic</span>);
         }
-        (<span class="string">&quot;sign-transaction&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;sign-transaction&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">signer</span> <span class="op">=</span> <span class="ident">read_pair</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;suri&quot;</span>), <span class="ident">password</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">read_required_parameter</span>::<span class="op">&lt;</span><span class="ident">Index</span><span class="op">&gt;</span>(<span class="ident">matches</span>, <span class="string">&quot;nonce&quot;</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">genesis_hash</span> <span class="op">=</span> <span class="ident">read_genesis_hash</span>(<span class="ident">matches</span>)<span class="question-mark">?</span>;
@@ -1462,7 +1495,7 @@
 
             <span class="ident">print_extrinsic</span>(<span class="ident">extrinsic</span>);
         }
-        (<span class="string">&quot;insert&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;insert&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">suri</span> <span class="op">=</span> <span class="ident">get_uri</span>(<span class="string">&quot;suri&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">matches</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">pair</span> <span class="op">=</span> <span class="ident">read_pair</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">suri</span>), <span class="ident">password</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">node_url</span> <span class="op">=</span> <span class="ident">matches</span>
@@ -1487,9 +1520,9 @@
                 <span class="ident">sp_core</span>::<span class="ident">Bytes</span>(<span class="ident">pair</span>.<span class="ident">public</span>().<span class="ident">as_ref</span>().<span class="ident">to_vec</span>()),
             );
         }
-        (<span class="string">&quot;moduleid&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="string">&quot;moduleid&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">matches</span>)) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">get_uri</span>(<span class="string">&quot;id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">matches</span>)<span class="question-mark">?</span>;
-            <span class="kw">if</span> <span class="ident">id</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="number">8</span> {
+            <span class="kw">if</span> <span class="ident">id</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="number">8</span> {
                 <span class="prelude-val">Err</span>(<span class="string">&quot;a module id must be a string of 8 characters&quot;</span>)<span class="question-mark">?</span>
             }
 
@@ -1509,28 +1542,28 @@
                 <span class="ident">output</span>,
             );
         }
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">print_usage</span>(<span class="kw-2">&amp;</span><span class="ident">matches</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">print_usage</span>(<span class="kw-2">&amp;</span><span class="ident">matches</span>),
     }
 
     <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Creates a new randomly generated mnemonic phrase.</span>
-<span class="kw">fn</span> <span class="ident">generate_mnemonic</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Mnemonic</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">generate_mnemonic</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Mnemonic</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">words</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;words&quot;</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">words</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">words</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">num</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">from_str</span>(<span class="ident">words</span>)
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Static</span>(<span class="string">&quot;Invalid number given for --words&quot;</span>))<span class="question-mark">?</span>;
             <span class="ident">MnemonicType</span>::<span class="ident">for_word_count</span>(<span class="ident">num</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
                 <span class="ident">Error</span>::<span class="ident">Static</span>(<span class="string">&quot;Invalid number of words given for phrase: must be 12/15/18/21/24&quot;</span>)
             })<span class="question-mark">?</span>
         }
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MnemonicType</span>::<span class="ident">Words12</span>,
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">MnemonicType</span>::<span class="ident">Words12</span>,
     };
     <span class="prelude-val">Ok</span>(<span class="ident">Mnemonic</span>::<span class="ident">new</span>(<span class="ident">words</span>, <span class="ident">Language</span>::<span class="ident">English</span>))
 }
 
-<span class="kw">fn</span> <span class="ident">do_sign</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">suri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">message</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">password</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">do_sign</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">suri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">message</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">password</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SignatureT</span>,
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
@@ -1540,23 +1573,23 @@
     <span class="prelude-val">Ok</span>(<span class="ident">format_signature</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">signature</span>))
 }
 
-<span class="kw">fn</span> <span class="ident">do_verify</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">message</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">do_verify</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">message</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SignatureT</span>,
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
 {
     <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">read_signature</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">matches</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">pubkey</span> <span class="op">=</span> <span class="ident">read_public_key</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="prelude-val">Some</span>(<span class="ident">uri</span>));
-    <span class="prelude-val">Ok</span>(<span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">verify</span>(
+    <span class="prelude-val">Ok</span>(<span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">verify</span>(
         <span class="kw-2">&amp;</span><span class="ident">signature</span>, <span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="ident">pubkey</span>,
     ))
 }
 
-<span class="kw">fn</span> <span class="ident">decode_hex</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">message</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">decode_hex</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;&gt;</span>(<span class="ident">message</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="ident">hex</span>::<span class="ident">decode</span>(<span class="ident">message</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Formatted</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Invalid hex ({})&quot;</span>, <span class="ident">e</span>)))
 }
 
-<span class="kw">fn</span> <span class="ident">read_message_from_stdin</span>(<span class="ident">should_decode</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">read_message_from_stdin</span>(<span class="ident">should_decode</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
     <span class="ident">stdin</span>().<span class="ident">lock</span>().<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>)<span class="question-mark">?</span>;
     <span class="kw">if</span> <span class="ident">should_decode</span> {
@@ -1565,7 +1598,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">message</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">read_required_parameter</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">FromStr</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">read_required_parameter</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">FromStr</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">FromStr</span><span class="op">&gt;</span>::<span class="prelude-val">Err</span>: <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>,
 {
@@ -1580,12 +1613,13 @@
     })
 }
 
-<span class="kw">fn</span> <span class="ident">read_genesis_hash</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">H256</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">read_genesis_hash</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">H256</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">genesis_hash</span>: <span class="ident">Hash</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;genesis&quot;</span>).<span class="ident">unwrap_or</span>(<span class="string">&quot;ipci&quot;</span>) {
-        <span class="string">&quot;elm&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;10c08714a10c7da78f40a60f6f732cf0dba97acfb5e2035445b032386157d5c3&quot;</span>].<span class="ident">into</span>(),
-        <span class="string">&quot;alex&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;dcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b&quot;</span>].<span class="ident">into</span>(),
-        <span class="string">&quot;ipci&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;7372b32137952f3047d30bfe1ffd240bc5e70f7a61d9a0cbf16e910dbb673f84&quot;</span>].<span class="ident">into</span>(),
-        <span class="ident">h</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Decode</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">&amp;</span><span class="ident">decode_hex</span>(<span class="ident">h</span>)<span class="question-mark">?</span>[..])
+        <span class="string">&quot;ipci&quot;</span> <span class="op">=&gt;</span> <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;7372b32137952f3047d30bfe1ffd240bc5e70f7a61d9a0cbf16e910dbb673f84&quot;</span>].<span class="ident">into</span>(),
+        <span class="string">&quot;robonomics&quot;</span> <span class="op">=&gt;</span> {
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;08bdf8ef637918cff376cd19af3db38004d24ad1c191c15ce7735ae960c3c5d5&quot;</span>].<span class="ident">into</span>()
+        }
+        <span class="ident">h</span> <span class="op">=&gt;</span> <span class="ident">Decode</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">&amp;</span><span class="ident">decode_hex</span>(<span class="ident">h</span>)<span class="question-mark">?</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;Invalid genesis hash or unrecognized chain identifier&quot;</span>),
     };
     <span class="macro">println</span><span class="macro">!</span>(
@@ -1595,7 +1629,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">genesis_hash</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">read_signature</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">read_signature</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matches</span>: <span class="kw-2">&amp;</span><span class="ident">ArgMatches</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SignatureT</span>,
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
@@ -1603,9 +1637,9 @@
     <span class="kw">let</span> <span class="ident">sig_data</span> <span class="op">=</span> <span class="ident">matches</span>
         .<span class="ident">value_of</span>(<span class="string">&quot;sig&quot;</span>)
         .<span class="ident">expect</span>(<span class="string">&quot;signature parameter is required; thus it can&#39;t be None; qed&quot;</span>);
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span>::<span class="ident">default</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> <span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">Signature</span>::<span class="ident">default</span>();
     <span class="kw">let</span> <span class="ident">sig_data</span> <span class="op">=</span> <span class="ident">decode_hex</span>(<span class="ident">sig_data</span>)<span class="question-mark">?</span>;
-    <span class="kw">if</span> <span class="ident">sig_data</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">signature</span>.<span class="ident">as_ref</span>().<span class="ident">len</span>() {
+    <span class="kw">if</span> <span class="ident">sig_data</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">signature</span>.<span class="ident">as_ref</span>().<span class="ident">len</span>() {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Formatted</span>(<span class="macro">format</span><span class="macro">!</span>(
             <span class="string">&quot;signature has an invalid length. read {} bytes, expected {} bytes&quot;</span>,
             <span class="ident">sig_data</span>.<span class="ident">len</span>(),
@@ -1616,7 +1650,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">signature</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">read_public_key</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matched_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">read_public_key</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">matched_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
 {
@@ -1635,7 +1669,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">read_account_id</span>(<span class="ident">matched_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AccountId</span> {
+<span class="kw">fn</span> <span class="ident">read_account_id</span>(<span class="ident">matched_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">AccountId</span> {
     <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">matched_uri</span>.<span class="ident">expect</span>(<span class="string">&quot;parameter is required; thus it can&#39;t be None; qed&quot;</span>);
     <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">uri</span>.<span class="ident">starts_with</span>(<span class="string">&quot;0x&quot;</span>) {
         <span class="kw-2">&amp;</span><span class="ident">uri</span>[<span class="number">2</span>..]
@@ -1655,7 +1689,7 @@
 <span class="kw">fn</span> <span class="ident">read_pair</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(
     <span class="ident">matched_suri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
     <span class="ident">password</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span>, <span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SignatureT</span>,
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
@@ -1666,19 +1700,19 @@
     <span class="prelude-val">Ok</span>(<span class="ident">C</span>::<span class="ident">pair_from_suri</span>(<span class="ident">suri</span>, <span class="ident">password</span>))
 }
 
-<span class="kw">fn</span> <span class="ident">format_signature</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">fn</span> <span class="ident">format_signature</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">HexDisplay</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">signature</span>.<span class="ident">as_ref</span>()))
 }
 
-<span class="kw">fn</span> <span class="ident">format_seed</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">seed</span>: <span class="ident">SeedOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">fn</span> <span class="ident">format_seed</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">seed</span>: <span class="ident">SeedOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;0x{}&quot;</span>, <span class="ident">HexDisplay</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">seed</span>.<span class="ident">as_ref</span>()))
 }
 
-<span class="kw">fn</span> <span class="ident">format_public_key</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">public_key</span>: <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">fn</span> <span class="ident">format_public_key</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">public_key</span>: <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;0x{}&quot;</span>, <span class="ident">HexDisplay</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">public_key</span>.<span class="ident">as_ref</span>()))
 }
 
-<span class="kw">fn</span> <span class="ident">format_account_id</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">public_key</span>: <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>
+<span class="kw">fn</span> <span class="ident">format_account_id</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Crypto</span><span class="op">&gt;</span>(<span class="ident">public_key</span>: <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">String</span>
 <span class="kw">where</span>
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
 {
@@ -1693,7 +1727,7 @@
     <span class="ident">index</span>: <span class="ident">Index</span>,
     <span class="ident">signer</span>: <span class="ident">C</span>::<span class="ident">Pair</span>,
     <span class="ident">genesis_hash</span>: <span class="ident">H256</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UncheckedExtrinsic</span>
+) <span class="op">-&gt;</span> <span class="ident">UncheckedExtrinsic</span>
 <span class="kw">where</span>
     <span class="ident">PublicOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">PublicT</span>,
     <span class="ident">SignatureOf</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SignatureT</span>,
@@ -1707,7 +1741,6 @@
             <span class="ident">frame_system</span>::<span class="ident">CheckNonce</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">from</span>(<span class="ident">i</span>),
             <span class="ident">frame_system</span>::<span class="ident">CheckWeight</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">new</span>(),
             <span class="ident">pallet_transaction_payment</span>::<span class="ident">ChargeTransactionPayment</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">from</span>(<span class="ident">f</span>),
-            <span class="ident">pallet_grandpa</span>::<span class="ident">ValidateEquivocationReport</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">new</span>(),
         )
     };
     <span class="kw">let</span> <span class="ident">raw_payload</span> <span class="op">=</span> <span class="ident">SignedPayload</span>::<span class="ident">from_raw</span>(
@@ -1718,7 +1751,6 @@
             <span class="ident">VERSION</span>.<span class="ident">transaction_version</span>,
             <span class="ident">genesis_hash</span>,
             <span class="ident">genesis_hash</span>,
-            (),
             (),
             (),
             (),
@@ -1762,7 +1794,7 @@
         <span class="kw">let</span> <span class="ident">mnemonic</span> <span class="op">=</span> <span class="ident">generate_mnemonic</span>(<span class="ident">matches</span>).<span class="ident">expect</span>(<span class="string">&quot;generate failed&quot;</span>);
 
         <span class="kw">let</span> (<span class="ident">pair</span>, <span class="ident">seed</span>) <span class="op">=</span>
-            <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">CryptoType</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">from_phrase</span>(<span class="ident">mnemonic</span>.<span class="ident">phrase</span>(), <span class="ident">password</span>)
+            <span class="op">&lt;&lt;</span><span class="ident">CryptoType</span> <span class="kw">as</span> <span class="ident">Crypto</span><span class="op">&gt;</span>::<span class="ident">Pair</span> <span class="kw">as</span> <span class="ident">Pair</span><span class="op">&gt;</span>::<span class="ident">from_phrase</span>(<span class="ident">mnemonic</span>.<span class="ident">phrase</span>(), <span class="ident">password</span>)
                 .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="ident">CryptoType</span>::<span class="ident">public_from_pair</span>(<span class="kw-2">&amp;</span><span class="ident">pair</span>);
         <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="ident">format_public_key</span>::<span class="op">&lt;</span><span class="ident">CryptoType</span><span class="op">&gt;</span>(<span class="ident">public_key</span>);
@@ -1810,4 +1842,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "subkey";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "subkey";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
