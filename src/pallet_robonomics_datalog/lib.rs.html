@@ -223,6 +223,8 @@
 <span id="223">223</span>
 <span id="224">224</span>
 <span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -318,7 +320,6 @@
     <span class="kw">use</span> <span class="ident">frame_support</span>::{
         <span class="ident">assert_err</span>, <span class="ident">assert_ok</span>, <span class="ident">impl_outer_origin</span>, <span class="ident">parameter_types</span>, <span class="ident">weights</span>::<span class="ident">Weight</span>,
     };
-    <span class="kw">use</span> <span class="ident">frame_system</span>::{<span class="self">self</span> <span class="kw">as</span> <span class="ident">system</span>};
     <span class="kw">use</span> <span class="ident">node_primitives</span>::<span class="ident">Moment</span>;
     <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">H256</span>;
     <span class="kw">use</span> <span class="ident">sp_runtime</span>::{<span class="ident">testing</span>::<span class="ident">Header</span>, <span class="ident">traits</span>::<span class="ident">IdentityLookup</span>, <span class="ident">DispatchError</span>, <span class="ident">Perbill</span>};
@@ -361,6 +362,8 @@
         <span class="kw">type</span> <span class="ident">BlockExecutionWeight</span> <span class="op">=</span> ();
         <span class="kw">type</span> <span class="ident">ExtrinsicBaseWeight</span> <span class="op">=</span> ();
         <span class="kw">type</span> <span class="ident">MaximumExtrinsicWeight</span> <span class="op">=</span> ();
+        <span class="kw">type</span> <span class="ident">BaseCallFilter</span> <span class="op">=</span> ();
+        <span class="kw">type</span> <span class="ident">SystemWeightInfo</span> <span class="op">=</span> ();
     }
 
     <span class="macro">parameter_types</span><span class="macro">!</span> {
@@ -371,6 +374,7 @@
         <span class="kw">type</span> <span class="ident">Moment</span> <span class="op">=</span> <span class="ident">Moment</span>;
         <span class="kw">type</span> <span class="ident">OnTimestampSet</span> <span class="op">=</span> ();
         <span class="kw">type</span> <span class="ident">MinimumPeriod</span> <span class="op">=</span> ();
+        <span class="kw">type</span> <span class="ident">WeightInfo</span> <span class="op">=</span> ();
     }
 
     <span class="kw">impl</span> <span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
@@ -415,7 +419,7 @@
     <span class="kw">fn</span> <span class="ident">test_bad_origin</span>() {
         <span class="ident">new_test_ext</span>().<span class="ident">execute_with</span>(<span class="op">||</span> {
             <span class="macro">assert_err</span><span class="macro">!</span>(
-                <span class="ident">Datalog</span>::<span class="ident">record</span>(<span class="ident">Origin</span>::<span class="ident">NONE</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
+                <span class="ident">Datalog</span>::<span class="ident">record</span>(<span class="ident">Origin</span>::<span class="ident">none</span>(), <span class="macro">vec</span><span class="macro">!</span>[]),
                 <span class="ident">DispatchError</span>::<span class="ident">BadOrigin</span>
             );
         })
