@@ -115,6 +115,28 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -140,7 +162,7 @@
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">ipfs_api</span>::{<span class="ident">IpfsClient</span>, <span class="ident">TryFromUri</span>};
 <span class="kw">use</span> <span class="ident">robonomics_protocol</span>::{
-    <span class="ident">datalog</span>,
+    <span class="ident">datalog</span>, <span class="ident">launch</span>,
     <span class="ident">pubsub</span>::{<span class="self">self</span>, <span class="ident">Multiaddr</span>, <span class="ident">PubSub</span> <span class="kw">as</span> <span class="kw">_</span>},
 };
 <span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">crypto</span>::<span class="ident">Pair</span>, <span class="ident">sr25519</span>};
@@ -204,7 +226,8 @@
 
     <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">unbounded</span>();
     <span class="kw">let</span> <span class="ident">hashes</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">msg</span>: <span class="ident">T</span><span class="op">|</span> {
-        <span class="ident">datalog</span>::<span class="ident">submit</span>(<span class="ident">pair</span>.<span class="ident">clone</span>(), <span class="ident">remote</span>.<span class="ident">clone</span>(), <span class="ident">msg</span>.<span class="ident">into</span>()).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>))
+        <span class="ident">datalog</span>::<span class="ident">submit</span>(<span class="ident">pair</span>.<span class="ident">clone</span>(), <span class="ident">remote</span>.<span class="ident">clone</span>(), <span class="ident">msg</span>.<span class="ident">into</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>))
     });
     <span class="prelude-val">Ok</span>((<span class="ident">sender</span>.<span class="ident">sink_err_into</span>(), <span class="ident">hashes</span>))
 }
@@ -230,6 +253,27 @@
             .<span class="ident">block_on</span>(<span class="ident">client</span>.<span class="ident">add</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">msg</span>)))
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="ident">value</span>.<span class="ident">hash</span>)
             .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+    });
+    <span class="prelude-val">Ok</span>((<span class="ident">sender</span>.<span class="ident">sink_err_into</span>(), <span class="ident">hashes</span>))
+}
+
+<span class="doccomment">/// Submit signed launch request into blockchain.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns hash of sended launch extrinsic.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">launch</span>(
+    <span class="ident">remote</span>: <span class="ident">String</span>,
+    <span class="ident">suri</span>: <span class="ident">String</span>,
+    <span class="ident">robot</span>: <span class="ident">String</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(
+    <span class="kw">impl</span> <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span><span class="op">&gt;</span>,
+    <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">32</span>]<span class="op">&gt;&gt;</span>,
+)<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">pair</span> <span class="op">=</span> <span class="ident">sr25519</span>::<span class="ident">Pair</span>::<span class="ident">from_string</span>(<span class="ident">suri</span>.<span class="ident">as_str</span>(), <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+
+    <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">unbounded</span>();
+    <span class="kw">let</span> <span class="ident">hashes</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">signal</span>: <span class="ident">bool</span><span class="op">|</span> {
+        <span class="ident">launch</span>::<span class="ident">submit</span>(<span class="ident">pair</span>.<span class="ident">clone</span>(), <span class="ident">remote</span>.<span class="ident">clone</span>(), <span class="ident">robot</span>.<span class="ident">clone</span>(), <span class="ident">signal</span>)
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>))
     });
     <span class="prelude-val">Ok</span>((<span class="ident">sender</span>.<span class="ident">sink_err_into</span>(), <span class="ident">hashes</span>))
 }

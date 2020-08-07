@@ -1617,7 +1617,7 @@
     <span class="kw">let</span> <span class="ident">genesis_hash</span>: <span class="ident">Hash</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;genesis&quot;</span>).<span class="ident">unwrap_or</span>(<span class="string">&quot;ipci&quot;</span>) {
         <span class="string">&quot;ipci&quot;</span> <span class="op">=&gt;</span> <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;7372b32137952f3047d30bfe1ffd240bc5e70f7a61d9a0cbf16e910dbb673f84&quot;</span>].<span class="ident">into</span>(),
         <span class="string">&quot;robonomics&quot;</span> <span class="op">=&gt;</span> {
-            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;08bdf8ef637918cff376cd19af3db38004d24ad1c191c15ce7735ae960c3c5d5&quot;</span>].<span class="ident">into</span>()
+            <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;b99ede2fab3253703766b96bc240d21ab3e764d6a3a3d353c09a6ac5d9d93eeb&quot;</span>].<span class="ident">into</span>()
         }
         <span class="ident">h</span> <span class="op">=&gt;</span> <span class="ident">Decode</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">&amp;</span><span class="ident">decode_hex</span>(<span class="ident">h</span>)<span class="question-mark">?</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;Invalid genesis hash or unrecognized chain identifier&quot;</span>),

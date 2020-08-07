@@ -943,7 +943,6 @@
 <span id="943">943</span>
 <span id="944">944</span>
 <span id="945">945</span>
-<span id="946">946</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -1807,9 +1806,8 @@
     <span class="kw">impl</span> <span class="ident">pallet_transaction_payment_rpc_runtime_api</span>::<span class="ident">TransactionPaymentApi</span><span class="op">&lt;</span>
         <span class="ident">Block</span>,
         <span class="ident">Balance</span>,
-        <span class="ident">UncheckedExtrinsic</span>,
     <span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
-        <span class="kw">fn</span> <span class="ident">query_info</span>(<span class="ident">uxt</span>: <span class="ident">UncheckedExtrinsic</span>, <span class="ident">len</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">RuntimeDispatchInfo</span><span class="op">&lt;</span><span class="ident">Balance</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">query_info</span>(<span class="ident">uxt</span>: <span class="op">&lt;</span><span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span><span class="op">&gt;</span>::<span class="ident">Extrinsic</span>, <span class="ident">len</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">RuntimeDispatchInfo</span><span class="op">&lt;</span><span class="ident">Balance</span><span class="op">&gt;</span> {
             <span class="ident">TransactionPayment</span>::<span class="ident">query_info</span>(<span class="ident">uxt</span>, <span class="ident">len</span>)
         }
     }

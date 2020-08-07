@@ -155,7 +155,6 @@
 <span id="155">155</span>
 <span id="156">156</span>
 <span id="157">157</span>
-<span id="158">158</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -203,13 +202,12 @@
           <span class="ident">Parameter</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Trait</span><span class="op">&gt;</span>::<span class="ident">Parameter</span>,
     {
         <span class="doccomment">/// Launch a robot with given parameter: sender, robot, parameter.</span>
-        <span class="ident">Launch</span>(<span class="ident">AccountId</span>, <span class="ident">AccountId</span>, <span class="ident">Parameter</span>),
+        <span class="ident">NewLaunch</span>(<span class="ident">AccountId</span>, <span class="ident">AccountId</span>, <span class="ident">Parameter</span>),
     }
 }
 
 <span class="macro">decl_storage</span><span class="macro">!</span> {
-    <span class="kw">trait</span> <span class="ident">Store</span> <span class="kw">for</span> <span class="ident">Module</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Trait</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">Launch</span> {
-    }
+    <span class="kw">trait</span> <span class="ident">Store</span> <span class="kw">for</span> <span class="ident">Module</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Trait</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">Launch</span> {}
 }
 
 <span class="macro">decl_module</span><span class="macro">!</span> {
@@ -220,7 +218,7 @@
         <span class="attribute">#[<span class="ident">weight</span> <span class="op">=</span> <span class="number">5_000_000</span>]</span>
         <span class="kw">fn</span> <span class="ident">launch</span>(<span class="ident">origin</span>, <span class="ident">robot</span>: <span class="ident">T</span>::<span class="ident">AccountId</span>, <span class="ident">param</span>: <span class="ident">T</span>::<span class="ident">Parameter</span>) {
             <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="ident">ensure_signed</span>(<span class="ident">origin</span>)<span class="question-mark">?</span>;
-            <span class="self">Self</span>::<span class="ident">deposit_event</span>(<span class="ident">RawEvent</span>::<span class="ident">Launch</span>(<span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>));
+            <span class="self">Self</span>::<span class="ident">deposit_event</span>(<span class="ident">RawEvent</span>::<span class="ident">NewLaunch</span>(<span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>));
         }
     }
 }
