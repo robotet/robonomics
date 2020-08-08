@@ -600,6 +600,24 @@
 <span id="600">600</span>
 <span id="601">601</span>
 <span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -680,10 +698,6 @@
     <span class="ident">spec_name</span>: <span class="macro">create_runtime_str</span><span class="macro">!</span>(<span class="string">&quot;robonomics&quot;</span>),
     <span class="ident">impl_name</span>: <span class="macro">create_runtime_str</span><span class="macro">!</span>(<span class="string">&quot;robonomics-airalab&quot;</span>),
     <span class="ident">authoring_version</span>: <span class="number">1</span>,
-    <span class="comment">// Per convention: if the runtime behavior changes, increment spec_version</span>
-    <span class="comment">// and set impl_version to equal spec_version. If only runtime</span>
-    <span class="comment">// implementation changes and behavior does not, then leave spec_version as</span>
-    <span class="comment">// is and increment impl_version.</span>
     <span class="ident">spec_version</span>: <span class="number">1</span>,
     <span class="ident">impl_version</span>: <span class="number">1</span>,
     <span class="ident">apis</span>: <span class="ident">RUNTIME_API_VERSIONS</span>,
@@ -949,6 +963,25 @@
     <span class="kw">type</span> <span class="ident">WeightInfo</span> <span class="op">=</span> ();
 }
 
+<span class="kw">impl</span> <span class="ident">cumulus_message_broker</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
+    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+    <span class="kw">type</span> <span class="ident">DownwardMessageHandlers</span> <span class="op">=</span> <span class="ident">TokenDealer</span>;
+    <span class="kw">type</span> <span class="ident">UpwardMessage</span> <span class="op">=</span> <span class="ident">cumulus_upward_message</span>::<span class="ident">RococoUpwardMessage</span>;
+    <span class="kw">type</span> <span class="ident">ParachainId</span> <span class="op">=</span> <span class="ident">ParachainInfo</span>;
+    <span class="kw">type</span> <span class="ident">XCMPMessage</span> <span class="op">=</span> <span class="ident">cumulus_token_dealer</span>::<span class="ident">XCMPMessage</span><span class="op">&lt;</span><span class="ident">AccountId</span>, <span class="ident">Balance</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">XCMPMessageHandlers</span> <span class="op">=</span> <span class="ident">TokenDealer</span>;
+}
+
+<span class="kw">impl</span> <span class="ident">cumulus_token_dealer</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
+    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+    <span class="kw">type</span> <span class="ident">UpwardMessageSender</span> <span class="op">=</span> <span class="ident">MessageBroker</span>;
+    <span class="kw">type</span> <span class="ident">UpwardMessage</span> <span class="op">=</span> <span class="ident">cumulus_upward_message</span>::<span class="ident">RococoUpwardMessage</span>;
+    <span class="kw">type</span> <span class="ident">Currency</span> <span class="op">=</span> <span class="ident">Balances</span>;
+    <span class="kw">type</span> <span class="ident">XCMPMessageSender</span> <span class="op">=</span> <span class="ident">MessageBroker</span>;
+}
+
+<span class="kw">impl</span> <span class="ident">parachain_info</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {}
+
 <span class="kw">impl</span> <span class="ident">pallet_robonomics_liability</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
     <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
     <span class="kw">type</span> <span class="ident">Technics</span> <span class="op">=</span> <span class="ident">pallet_robonomics_liability</span>::<span class="ident">technics</span>::<span class="ident">PureIPFS</span>;
@@ -1065,6 +1098,9 @@
 
         <span class="comment">// Parachain modules.</span>
         <span class="ident">ParachainUpgrade</span>: <span class="ident">cumulus_parachain_upgrade</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Inherent</span>, <span class="ident">Event</span>},
+        <span class="ident">ParachainInfo</span>: <span class="ident">parachain_info</span>::{<span class="ident">Module</span>, <span class="ident">Storage</span>, <span class="ident">Config</span>},
+        <span class="ident">MessageBroker</span>: <span class="ident">cumulus_message_broker</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Inherent</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
+        <span class="ident">TokenDealer</span>: <span class="ident">cumulus_token_dealer</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
 
         <span class="comment">// DAO modules</span>
         <span class="ident">Treasury</span>: <span class="ident">pallet_treasury</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Config</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},

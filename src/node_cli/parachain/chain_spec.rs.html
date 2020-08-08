@@ -115,6 +115,15 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -137,8 +146,8 @@
 
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>, <span class="ident">Block</span>};
 <span class="kw">use</span> <span class="ident">robonomics_parachain_runtime</span>::{
-    <span class="ident">wasm_binary_unwrap</span>, <span class="ident">BalancesConfig</span>, <span class="ident">ElectionsConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">IndicesConfig</span>, <span class="ident">SudoConfig</span>,
-    <span class="ident">SystemConfig</span>,
+    <span class="ident">wasm_binary_unwrap</span>, <span class="ident">BalancesConfig</span>, <span class="ident">ElectionsConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">IndicesConfig</span>,
+    <span class="ident">ParachainInfoConfig</span>, <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>,
 };
 <span class="kw">use</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpecExtension</span>;
 <span class="kw">use</span> <span class="ident">sc_service</span>::<span class="ident">ChainType</span>;
@@ -177,35 +186,36 @@
 }
 
 <span class="comment">/*
+/// Robonomics Parachain ID
+const PARACHAIN_ID: u32 = 100;
+
 /// Helper function to create GenesisConfig for parachain
 fn mk_genesis(
     balances: Vec&lt;(AccountId, Balance)&gt;,
     sudo_key: AccountId,
     code: Vec&lt;u8&gt;,
+    parachain_id: cumulus_primitives::ParaId,
 ) -&gt; GenesisConfig {
     GenesisConfig {
         frame_system: Some(SystemConfig {
             code,
             changes_trie_config: Default::default(),
         }),
-        pallet_indices: Some(IndicesConfig {
-            indices: vec![],
-        }),
-        pallet_balances: Some(BalancesConfig {
-            balances,
-        }),
+        pallet_indices: Some(IndicesConfig { indices: vec![] }),
+        pallet_balances: Some(BalancesConfig { balances }),
         pallet_generic_asset: Some(Default::default()),
         pallet_elections_phragmen: Some(ElectionsConfig { members: vec![] }),
         pallet_collective_Instance1: Some(Default::default()),
         pallet_treasury: Some(Default::default()),
         pallet_sudo: Some(SudoConfig { key: sudo_key }),
+        parachain_info: Some(ParachainInfoConfig { parachain_id }),
     }
 }
 
 /// Robonomics parachain genesis.
 fn robonomics_parachain_genesis() -&gt; GenesisConfig {
-    use robonomics_parachain_runtime::constants::currency;
     use hex_literal::hex;
+    use robonomics_parachain_runtime::constants::currency;
 
     // akru
     let sudo_key: AccountId =
@@ -214,7 +224,12 @@ fn robonomics_parachain_genesis() -&gt; GenesisConfig {
     let mut balances = currency::STAKE_HOLDERS.clone();
     balances.extend(vec![(sudo_key.clone(), 50_000 * currency::XRT)]);
 
-    mk_genesis(balances.to_vec(), sudo_key, wasm_binary_unwrap().to_vec())
+    mk_genesis(
+        balances.to_vec(),
+        sudo_key,
+        wasm_binary_unwrap().to_vec(),
+        PARACHAIN_ID.into(),
+    )
 }
 
 /// Robonomics parachain config.
@@ -226,7 +241,10 @@ pub fn robonomics_parachain_config() -&gt; ChainSpec {
         ChainType::Live,
         robonomics_parachain_genesis,
         boot_nodes,
-        Some(sc_telemetry::TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)]).unwrap()),
+        Some(
+            sc_telemetry::TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)])
+                .unwrap(),
+        ),
         Some(ROBONOMICS_PROTOCOL_ID),
         Some(serde_json::from_str(ROBONOMICS_PROPERTIES).unwrap()),
         Default::default(),
