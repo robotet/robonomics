@@ -236,7 +236,7 @@
         <span class="doccomment">/// Robonomics node API endpoint.</span>
         <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;ws://127.0.0.1:9944&quot;</span>)]</span>
         <span class="ident">remote</span>: <span class="ident">String</span>,
-    }
+    },
 }
 
 <span class="macro">arg_enum</span><span class="macro">!</span> {
@@ -311,9 +311,9 @@
             <span class="ident">SourceCmd</span>::<span class="ident">Launch</span> { <span class="ident">remote</span> } <span class="op">=&gt;</span> {
                 <span class="ident">task</span>::<span class="ident">block_on</span>(
                     <span class="ident">virt</span>::<span class="ident">launch</span>(<span class="ident">remote</span>)
-                        .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>)<span class="op">|</span>
-                             <span class="prelude-val">Ok</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{} &gt;&gt; {} : {}&quot;</span>, <span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>))
-                        )
+                        .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>)<span class="op">|</span> {
+                            <span class="prelude-val">Ok</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{} &gt;&gt; {} : {}&quot;</span>, <span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>))
+                        })
                         .<span class="ident">forward</span>(<span class="ident">stdout</span>()),
                 )<span class="question-mark">?</span>;
             }

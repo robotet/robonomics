@@ -65,9 +65,6 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -93,10 +90,7 @@
     <span class="ident">traits</span>::{<span class="ident">BlakeTwo256</span>, <span class="ident">IdentifyAccount</span>, <span class="ident">Verify</span>},
     <span class="ident">MultiSignature</span>, <span class="ident">OpaqueExtrinsic</span>,
 };
-<span class="kw">use</span> <span class="ident">substrate_subxt</span>::{
-    <span class="ident">balances</span>, <span class="ident">system</span>,
-    <span class="ident">extrinsic</span>::<span class="ident">DefaultExtra</span>, <span class="ident">Runtime</span>,
-};
+<span class="kw">use</span> <span class="ident">substrate_subxt</span>::{<span class="ident">balances</span>, <span class="ident">extrinsic</span>::<span class="ident">DefaultExtra</span>, <span class="ident">system</span>, <span class="ident">Runtime</span>};
 
 <span class="doccomment">/// Robonomics Datalog pallet.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pallet_datalog</span>;

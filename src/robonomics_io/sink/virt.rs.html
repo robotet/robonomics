@@ -136,7 +136,6 @@
 <span id="136">136</span>
 <span id="137">137</span>
 <span id="138">138</span>
-<span id="139">139</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -226,8 +225,7 @@
 
     <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">unbounded</span>();
     <span class="kw">let</span> <span class="ident">hashes</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">msg</span>: <span class="ident">T</span><span class="op">|</span> {
-        <span class="ident">datalog</span>::<span class="ident">submit</span>(<span class="ident">pair</span>.<span class="ident">clone</span>(), <span class="ident">remote</span>.<span class="ident">clone</span>(), <span class="ident">msg</span>.<span class="ident">into</span>())
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>))
+        <span class="ident">datalog</span>::<span class="ident">submit</span>(<span class="ident">pair</span>.<span class="ident">clone</span>(), <span class="ident">remote</span>.<span class="ident">clone</span>(), <span class="ident">msg</span>.<span class="ident">into</span>()).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>))
     });
     <span class="prelude-val">Ok</span>((<span class="ident">sender</span>.<span class="ident">sink_err_into</span>(), <span class="ident">hashes</span>))
 }
