@@ -67,6 +67,9 @@
 <span id="67">67</span>
 <span id="68">68</span>
 <span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -93,7 +96,9 @@
 
 <span class="kw">use</span> <span class="ident">pallet_launch</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">crypto</span>::{<span class="ident">Pair</span>, <span class="ident">Ss58Codec</span>};
-<span class="kw">use</span> <span class="ident">substrate_subxt</span>::{<span class="ident">EventSubscription</span>, <span class="ident">EventsDecoder</span>, <span class="ident">PairSigner</span>};
+<span class="kw">use</span> <span class="ident">substrate_subxt</span>::{
+    <span class="ident">balances</span>::<span class="ident">BalancesEventsDecoder</span>, <span class="ident">EventSubscription</span>, <span class="ident">EventsDecoder</span>, <span class="ident">PairSigner</span>,
+};
 
 <span class="doccomment">/// Send launch request using remote Robonomics node.</span>
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">submit</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pair</span><span class="op">&gt;</span>(
@@ -131,6 +136,7 @@
 
     <span class="kw">let</span> <span class="ident">sub</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">subscribe_events</span>().<span class="kw">await</span><span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">EventsDecoder</span>::<span class="op">&lt;</span><span class="ident">Robonomics</span><span class="op">&gt;</span>::<span class="ident">new</span>(<span class="ident">client</span>.<span class="ident">metadata</span>().<span class="ident">clone</span>());
+    <span class="ident">decoder</span>.<span class="ident">with_balances</span>();
     <span class="ident">decoder</span>.<span class="ident">with_launch</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sub</span> <span class="op">=</span> <span class="ident">EventSubscription</span>::<span class="op">&lt;</span><span class="ident">Robonomics</span><span class="op">&gt;</span>::<span class="ident">new</span>(<span class="ident">sub</span>, <span class="ident">decoder</span>);
     <span class="ident">sub</span>.<span class="ident">filter_event</span>::<span class="op">&lt;</span><span class="ident">NewLaunchEvent</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
