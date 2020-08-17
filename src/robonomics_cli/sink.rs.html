@@ -113,6 +113,24 @@
 <span id="113">113</span>
 <span id="114">114</span>
 <span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -164,30 +182,40 @@
     <span class="doccomment">/// Data blockchainization subsystem command.</span>
     <span class="ident">Datalog</span> {
         <span class="doccomment">/// Substrate node WebSocket endpoint.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;ws://localhost:9944&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;REMOTE_URI&quot;</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;ws://localhost:9944&quot;</span>)]</span>
         <span class="ident">remote</span>: <span class="ident">String</span>,
         <span class="doccomment">/// Sender account seed URI.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;SECRET_URI&quot;</span>)]</span>
         <span class="ident">suri</span>: <span class="ident">String</span>,
     },
     <span class="doccomment">/// Upload data into IPFS storage.</span>
     <span class="ident">Ipfs</span> {
         <span class="doccomment">/// IPFS node API endpoint.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;http://127.0.0.1:5001&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;REMOTE_URI&quot;</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;http://127.0.0.1:5001&quot;</span>)]</span>
         <span class="ident">remote</span>: <span class="ident">String</span>,
     },
     <span class="doccomment">/// CPS launch subsystem command.</span>
     <span class="ident">Launch</span> {
         <span class="doccomment">/// Substrate node WebSocket endpoint.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;ws://localhost:9944&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;REMOTE_URI&quot;</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;ws://localhost:9944&quot;</span>)]</span>
         <span class="ident">remote</span>: <span class="ident">String</span>,
         <span class="doccomment">/// Sender account seed URI.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;SECRET_URI&quot;</span>)]</span>
         <span class="ident">suri</span>: <span class="ident">String</span>,
         <span class="doccomment">/// Target CPS address.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;ROBOT_ADDRESS&quot;</span>)]</span>
         <span class="ident">robot</span>: <span class="ident">String</span>,
     },
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ros&quot;</span>)]</span>
+    <span class="doccomment">/// Publish data into ROS topic.</span>
+    <span class="ident">Ros</span> {
+        <span class="doccomment">/// Topic name.</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;TOPIC_NAME&quot;</span>)]</span>
+        <span class="ident">topic_name</span>: <span class="ident">String</span>,
+        <span class="doccomment">/// Queue size.</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="ident">queue_size</span>: <span class="ident">usize</span>,
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">SinkCmd</span> {
@@ -224,6 +252,14 @@
                 <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">stdin</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span> <span class="op">==</span> <span class="string">&quot;ON&quot;</span>)).<span class="ident">forward</span>(<span class="ident">submit</span>));
                 <span class="kw">let</span> <span class="ident">hex_encoded</span> <span class="op">=</span> <span class="ident">hashes</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">h</span>)));
                 <span class="ident">task</span>::<span class="ident">block_on</span>(<span class="ident">hex_encoded</span>.<span class="ident">forward</span>(<span class="ident">virt</span>::<span class="ident">stdout</span>()))<span class="question-mark">?</span>;
+            }
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ros&quot;</span>)]</span>
+            <span class="ident">SinkCmd</span>::<span class="ident">Ros</span> {
+                <span class="ident">topic_name</span>,
+                <span class="ident">queue_size</span>,
+            } <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">topic</span> <span class="op">=</span> <span class="ident">virt</span>::<span class="ident">ros</span>(<span class="ident">topic_name</span>.<span class="ident">as_str</span>(), <span class="ident">queue_size</span>)<span class="question-mark">?</span>;
+                <span class="ident">task</span>::<span class="ident">block_on</span>(<span class="ident">stdin</span>().<span class="ident">forward</span>(<span class="ident">topic</span>))<span class="question-mark">?</span>;
             }
         }
         <span class="prelude-val">Ok</span>(())

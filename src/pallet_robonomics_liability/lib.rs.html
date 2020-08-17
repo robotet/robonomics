@@ -492,7 +492,6 @@
 <span id="492">492</span>
 <span id="493">493</span>
 <span id="494">494</span>
-<span id="495">495</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -779,7 +778,6 @@
         <span class="ident">assert_err</span>, <span class="ident">assert_ok</span>, <span class="ident">impl_outer_event</span>, <span class="ident">impl_outer_origin</span>, <span class="ident">parameter_types</span>,
         <span class="ident">weights</span>::<span class="ident">Weight</span>,
     };
-    <span class="kw">use</span> <span class="ident">frame_system</span>::{<span class="self">self</span> <span class="kw">as</span> <span class="ident">system</span>};
     <span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Signature</span>};
     <span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">crypto</span>::<span class="ident">Pair</span>, <span class="ident">sr25519</span>, <span class="ident">H256</span>};
     <span class="kw">use</span> <span class="ident">sp_runtime</span>::{
@@ -790,7 +788,7 @@
 
     <span class="macro">impl_outer_event</span><span class="macro">!</span> {
         <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MetaEvent</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
-            <span class="ident">system</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">liability</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">frame_system</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">liability</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
         }
     }
 

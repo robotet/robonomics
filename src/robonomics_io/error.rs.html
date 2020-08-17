@@ -56,6 +56,9 @@
 <span id="56">56</span>
 <span id="57">57</span>
 <span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -98,6 +101,9 @@
     <span class="ident">Ipfs</span>(<span class="ident">IpfsError</span>),
     <span class="doccomment">/// Standard I/O error.</span>
     <span class="ident">Io</span>(<span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Error</span>),
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ros&quot;</span>)]</span>
+    <span class="doccomment">/// ROS communication error.</span>
+    <span class="ident">Ros</span>(<span class="ident">rosrust</span>::<span class="ident">error</span>::<span class="ident">Error</span>),
     <span class="doccomment">/// Other error.</span>
     <span class="ident">Other</span>(<span class="ident">String</span>),
 }
