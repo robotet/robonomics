@@ -131,6 +131,10 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -191,7 +195,11 @@
     <span class="doccomment">/// Upload data into IPFS storage.</span>
     <span class="ident">Ipfs</span> {
         <span class="doccomment">/// IPFS node API endpoint.</span>
-        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;REMOTE_URI&quot;</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;http://127.0.0.1:5001&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">structopt</span>(
+            <span class="ident">long</span>,
+            <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;REMOTE_URI&quot;</span>,
+            <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;http://127.0.0.1:5001&quot;</span>
+        )]</span>
         <span class="ident">remote</span>: <span class="ident">String</span>,
     },
     <span class="doccomment">/// CPS launch subsystem command.</span>
@@ -215,7 +223,7 @@
         <span class="doccomment">/// Queue size.</span>
         <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
         <span class="ident">queue_size</span>: <span class="ident">usize</span>,
-    }
+    },
 }
 
 <span class="kw">impl</span> <span class="ident">SinkCmd</span> {
