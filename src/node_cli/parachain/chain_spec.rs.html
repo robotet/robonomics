@@ -133,9 +133,6 @@
 <span id="133">133</span>
 <span id="134">134</span>
 <span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
-<span id="138">138</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -159,7 +156,7 @@
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>};
 <span class="kw">use</span> <span class="ident">robonomics_parachain_runtime</span>::{
     <span class="ident">wasm_binary_unwrap</span>, <span class="ident">BalancesConfig</span>, <span class="ident">ElectionsConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">IndicesConfig</span>,
-    <span class="ident">ParachainInfoConfig</span>, <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>, <span class="ident">SessionConfig</span>, <span class="ident">ImOnlineConfig</span>,
+    <span class="ident">ParachainInfoConfig</span>, <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>,
 };
 <span class="kw">use</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpecExtension</span>;
 <span class="kw">use</span> <span class="ident">sc_service</span>::<span class="ident">ChainType</span>;
@@ -175,6 +172,8 @@
         &quot;tokenDecimals&quot;: 9,
         &quot;tokenSymbol&quot;: &quot;XRT&quot;
     }&quot;#</span>;
+<span class="doccomment">/// Robonomics Parachain ID</span>
+<span class="kw">const</span> <span class="ident">PARACHAIN_ID</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">3000</span>;
 
 <span class="doccomment">/// Node `ChainSpec` extensions.</span>
 <span class="doccomment">///</span>
@@ -199,81 +198,76 @@
 <span class="doccomment">/// Specialized `ChainSpec`.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ChainSpec</span> <span class="op">=</span> <span class="ident">sc_service</span>::<span class="ident">GenericChainSpec</span><span class="op">&lt;</span><span class="ident">GenesisConfig</span>, <span class="ident">Extensions</span><span class="op">&gt;</span>;
 
-<span class="comment">/*
-/// Robonomics testnet config.
-pub fn robonomics_parachain_config() -&gt; ChainSpec {
-    ChainSpec::from_json_bytes(&amp;include_bytes!(&quot;../../res/robonomics_parachain.json&quot;)[..]).unwrap()
+<span class="doccomment">/// Robonomics testnet config.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">robonomics_parachain_config</span>() <span class="op">-&gt;</span> <span class="ident">ChainSpec</span> {
+    <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../../res/robonomics_parachain.json&quot;</span>)[..]).<span class="ident">unwrap</span>()
 }
-*/</span>
 
-<span class="doccomment">/// Robonomics Parachain ID</span>
-<span class="kw">const</span> <span class="ident">PARACHAIN_ID</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">200</span>;
-
-<span class="doccomment">/// Helper function to create GenesisConfig for parachain</span>
-<span class="kw">fn</span> <span class="ident">mk_genesis</span>(
-    <span class="ident">balances</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">AccountId</span>, <span class="ident">Balance</span>)<span class="op">&gt;</span>,
-    <span class="ident">sudo_key</span>: <span class="ident">AccountId</span>,
-    <span class="ident">code</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    <span class="ident">parachain_id</span>: <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>,
-) <span class="op">-&gt;</span> <span class="ident">GenesisConfig</span> {
-    <span class="ident">GenesisConfig</span> {
-        <span class="ident">frame_system</span>: <span class="prelude-val">Some</span>(<span class="ident">SystemConfig</span> {
-            <span class="ident">code</span>,
-            <span class="ident">changes_trie_config</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
+<span class="comment">/*
+/// Helper function to create GenesisConfig for parachain
+fn mk_genesis(
+    balances: Vec&lt;(AccountId, Balance)&gt;,
+    sudo_key: AccountId,
+    code: Vec&lt;u8&gt;,
+    parachain_id: cumulus_primitives::ParaId,
+) -&gt; GenesisConfig {
+    GenesisConfig {
+        frame_system: Some(SystemConfig {
+            code,
+            changes_trie_config: Default::default(),
         }),
-        <span class="ident">pallet_indices</span>: <span class="prelude-val">Some</span>(<span class="ident">IndicesConfig</span> { <span class="ident">indices</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
-        <span class="ident">pallet_balances</span>: <span class="prelude-val">Some</span>(<span class="ident">BalancesConfig</span> { <span class="ident">balances</span> }),
-        <span class="ident">pallet_generic_asset</span>: <span class="prelude-val">Some</span>(<span class="ident">Default</span>::<span class="ident">default</span>()),
-        <span class="ident">pallet_elections_phragmen</span>: <span class="prelude-val">Some</span>(<span class="ident">ElectionsConfig</span> { <span class="ident">members</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
-        <span class="ident">pallet_collective_Instance1</span>: <span class="prelude-val">Some</span>(<span class="ident">Default</span>::<span class="ident">default</span>()),
-        <span class="ident">pallet_treasury</span>: <span class="prelude-val">Some</span>(<span class="ident">Default</span>::<span class="ident">default</span>()),
-        <span class="ident">pallet_sudo</span>: <span class="prelude-val">Some</span>(<span class="ident">SudoConfig</span> { <span class="ident">key</span>: <span class="ident">sudo_key</span> }),
-        <span class="ident">pallet_session</span>: <span class="prelude-val">Some</span>(<span class="ident">SessionConfig</span> { <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
-        <span class="ident">pallet_im_online</span>: <span class="prelude-val">Some</span>(<span class="ident">ImOnlineConfig</span> { <span class="ident">keys</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
-        <span class="ident">parachain_info</span>: <span class="prelude-val">Some</span>(<span class="ident">ParachainInfoConfig</span> { <span class="ident">parachain_id</span> }),
+        pallet_indices: Some(IndicesConfig { indices: vec![] }),
+        pallet_balances: Some(BalancesConfig { balances }),
+        pallet_generic_asset: Some(Default::default()),
+        pallet_elections_phragmen: Some(ElectionsConfig { members: vec![] }),
+        pallet_collective_Instance1: Some(Default::default()),
+        pallet_treasury: Some(Default::default()),
+        pallet_sudo: Some(SudoConfig { key: sudo_key }),
+        parachain_info: Some(ParachainInfoConfig { parachain_id }),
     }
 }
 
-<span class="doccomment">/// Robonomics parachain genesis.</span>
-<span class="kw">fn</span> <span class="ident">robonomics_parachain_genesis</span>() <span class="op">-&gt;</span> <span class="ident">GenesisConfig</span> {
-    <span class="kw">use</span> <span class="ident">hex_literal</span>::<span class="ident">hex</span>;
-    <span class="kw">use</span> <span class="ident">robonomics_parachain_runtime</span>::<span class="ident">constants</span>::<span class="ident">currency</span>;
+/// Robonomics parachain genesis.
+fn robonomics_parachain_genesis() -&gt; GenesisConfig {
+    use hex_literal::hex;
+    use robonomics_parachain_runtime::constants::currency;
 
-    <span class="comment">// akru</span>
-    <span class="kw">let</span> <span class="ident">sudo_key</span>: <span class="ident">AccountId</span> <span class="op">=</span>
-        <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;</span>].<span class="ident">into</span>();
+    // akru
+    let sudo_key: AccountId =
+        hex![&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;].into();
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">balances</span> <span class="op">=</span> <span class="ident">currency</span>::<span class="ident">STAKE_HOLDERS</span>.<span class="ident">clone</span>();
-    <span class="ident">balances</span>.<span class="ident">extend</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">sudo_key</span>.<span class="ident">clone</span>(), <span class="number">50_000</span> <span class="op">*</span> <span class="ident">currency</span>::<span class="ident">XRT</span>)]);
+    let mut balances = currency::STAKE_HOLDERS.clone();
+    balances.extend(vec![(sudo_key.clone(), 50_000 * currency::XRT)]);
 
-    <span class="ident">mk_genesis</span>(
-        <span class="ident">balances</span>.<span class="ident">to_vec</span>(),
-        <span class="ident">sudo_key</span>,
-        <span class="ident">wasm_binary_unwrap</span>().<span class="ident">to_vec</span>(),
-        <span class="ident">PARACHAIN_ID</span>.<span class="ident">into</span>(),
+    mk_genesis(
+        balances.to_vec(),
+        sudo_key,
+        wasm_binary_unwrap().to_vec(),
+        PARACHAIN_ID.into(),
     )
 }
 
-<span class="doccomment">/// Robonomics parachain config.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">robonomics_parachain_config</span>() <span class="op">-&gt;</span> <span class="ident">ChainSpec</span> {
-    <span class="kw">let</span> <span class="ident">boot_nodes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
-    <span class="ident">ChainSpec</span>::<span class="ident">from_genesis</span>(
-        <span class="string">&quot;Robonomics&quot;</span>,
-        <span class="ident">ROBONOMICS_PARACHAIN_ID</span>,
-        <span class="ident">ChainType</span>::<span class="ident">Live</span>,
-        <span class="ident">robonomics_parachain_genesis</span>,
-        <span class="ident">boot_nodes</span>,
-        <span class="prelude-val">Some</span>(
-            <span class="ident">sc_telemetry</span>::<span class="ident">TelemetryEndpoints</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">STAGING_TELEMETRY_URL</span>.<span class="ident">to_string</span>(), <span class="number">0</span>)])
-                .<span class="ident">unwrap</span>(),
+/// Robonomics parachain config.
+pub fn robonomics_parachain_config() -&gt; ChainSpec {
+    let boot_nodes = vec![];
+    ChainSpec::from_genesis(
+        &quot;Robonomics&quot;,
+        ROBONOMICS_PARACHAIN_ID,
+        ChainType::Live,
+        robonomics_parachain_genesis,
+        boot_nodes,
+        Some(
+            sc_telemetry::TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)])
+                .unwrap(),
         ),
-        <span class="prelude-val">Some</span>(<span class="ident">ROBONOMICS_PROTOCOL_ID</span>),
-        <span class="prelude-val">Some</span>(<span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="ident">ROBONOMICS_PROPERTIES</span>).<span class="ident">unwrap</span>()),
-        <span class="ident">Extensions</span> {
-            <span class="ident">relay_chain</span>: <span class="string">&quot;rococo_local_testnet&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">para_id</span>: <span class="ident">PARACHAIN_ID</span>.<span class="ident">into</span>(),
+        Some(ROBONOMICS_PROTOCOL_ID),
+        Some(serde_json::from_str(ROBONOMICS_PROPERTIES).unwrap()),
+        Extensions {
+            relay_chain: &quot;rococo&quot;.into(),
+            para_id: PARACHAIN_ID.into(),
         },
     )
 }
+*/</span>
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "node_cli";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

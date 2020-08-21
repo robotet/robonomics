@@ -620,56 +620,6 @@
 <span id="620">620</span>
 <span id="621">621</span>
 <span id="622">622</span>
-<span id="623">623</span>
-<span id="624">624</span>
-<span id="625">625</span>
-<span id="626">626</span>
-<span id="627">627</span>
-<span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
-<span id="656">656</span>
-<span id="657">657</span>
-<span id="658">658</span>
-<span id="659">659</span>
-<span id="660">660</span>
-<span id="661">661</span>
-<span id="662">662</span>
-<span id="663">663</span>
-<span id="664">664</span>
-<span id="665">665</span>
-<span id="666">666</span>
-<span id="667">667</span>
-<span id="668">668</span>
-<span id="669">669</span>
-<span id="670">670</span>
-<span id="671">671</span>
-<span id="672">672</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -709,7 +659,6 @@
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">constants</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">impls</span>;
-<span class="kw">mod</span> <span class="ident">validators</span>;
 
 <span class="kw">use</span> <span class="ident">codec</span>::<span class="ident">Encode</span>;
 <span class="kw">use</span> <span class="ident">frame_support</span>::{
@@ -723,8 +672,6 @@
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{
     <span class="ident">AccountId</span>, <span class="ident">AccountIndex</span>, <span class="ident">Balance</span>, <span class="ident">BlockNumber</span>, <span class="ident">Hash</span>, <span class="ident">Index</span>, <span class="ident">Moment</span>, <span class="ident">Signature</span>,
 };
-<span class="kw">use</span> <span class="ident">pallet_im_online</span>::<span class="ident">sr25519</span>::<span class="ident">AuthorityId</span> <span class="kw">as</span> <span class="ident">ImOnlineId</span>;
-<span class="kw">use</span> <span class="ident">pallet_session</span>::<span class="ident">historical</span> <span class="kw">as</span> <span class="ident">pallet_session_historical</span>;
 <span class="kw">use</span> <span class="ident">pallet_transaction_payment</span>::{<span class="ident">Multiplier</span>, <span class="ident">TargetedFeeAdjustment</span>};
 <span class="kw">use</span> <span class="ident">pallet_transaction_payment_rpc_runtime_api</span>::<span class="ident">RuntimeDispatchInfo</span>;
 <span class="kw">use</span> <span class="ident">sp_api</span>::<span class="ident">impl_runtime_apis</span>;
@@ -737,9 +684,9 @@
     <span class="ident">create_runtime_str</span>, <span class="ident">generic</span>, <span class="ident">impl_opaque_keys</span>,
     <span class="ident">traits</span>::{
         <span class="self">self</span>, <span class="ident">BlakeTwo256</span>, <span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span>, <span class="ident">SaturatedConversion</span>, <span class="ident">Saturating</span>,
-        <span class="ident">StaticLookup</span>, <span class="ident">Verify</span>, <span class="ident">ConvertInto</span>,
+        <span class="ident">StaticLookup</span>, <span class="ident">Verify</span>,
     },
-    <span class="ident">transaction_validity</span>::{<span class="ident">TransactionPriority</span>, <span class="ident">TransactionSource</span>, <span class="ident">TransactionValidity</span>},
+    <span class="ident">transaction_validity</span>::{<span class="ident">TransactionSource</span>, <span class="ident">TransactionValidity</span>},
     <span class="ident">FixedPointNumber</span>, <span class="ident">ModuleId</span>, <span class="ident">Perbill</span>, <span class="ident">Percent</span>, <span class="ident">Permill</span>, <span class="ident">Perquintill</span>,
 };
 <span class="kw">use</span> <span class="ident">sp_std</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
@@ -771,7 +718,6 @@
 
 <span class="macro">impl_opaque_keys</span><span class="macro">!</span> {
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SessionKeys</span> {
-        <span class="kw">pub</span> <span class="ident">im_online</span>: <span class="ident">ImOnline</span>,
     }
 }
 
@@ -815,44 +761,6 @@
     <span class="kw">type</span> <span class="ident">OnNewAccount</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">OnKilledAccount</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">SystemWeightInfo</span> <span class="op">=</span> ();
-}
-
-<span class="macro">parameter_types</span><span class="macro">!</span> {
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DisabledValidatorsThreshold</span>: <span class="ident">Perbill</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">17</span>);
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">Period</span>: <span class="ident">BlockNumber</span> <span class="op">=</span> <span class="number">10</span> <span class="op">*</span> <span class="ident">MINUTES</span>;
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">Offset</span>: <span class="ident">BlockNumber</span> <span class="op">=</span> <span class="number">10</span> <span class="op">*</span> <span class="ident">MINUTES</span>;
-}
-
-<span class="kw">impl</span> <span class="ident">pallet_session</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
-    <span class="kw">type</span> <span class="ident">SessionManager</span> <span class="op">=</span> <span class="ident">validators</span>::<span class="ident">SessionManager</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">SessionHandler</span> <span class="op">=</span> (<span class="ident">ImOnline</span>, );
-    <span class="kw">type</span> <span class="ident">ShouldEndSession</span> <span class="op">=</span> <span class="ident">pallet_session</span>::<span class="ident">PeriodicSessions</span><span class="op">&lt;</span><span class="ident">Period</span>, <span class="ident">Offset</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
-    <span class="kw">type</span> <span class="ident">Keys</span> <span class="op">=</span> <span class="ident">SessionKeys</span>;
-    <span class="kw">type</span> <span class="ident">ValidatorId</span> <span class="op">=</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">frame_system</span>::<span class="ident">Trait</span><span class="op">&gt;</span>::<span class="ident">AccountId</span>;
-    <span class="kw">type</span> <span class="ident">ValidatorIdOf</span> <span class="op">=</span> <span class="ident">ConvertInto</span>;
-    <span class="kw">type</span> <span class="ident">DisabledValidatorsThreshold</span> <span class="op">=</span> <span class="ident">DisabledValidatorsThreshold</span>;
-    <span class="kw">type</span> <span class="ident">NextSessionRotation</span> <span class="op">=</span> <span class="ident">pallet_session</span>::<span class="ident">PeriodicSessions</span><span class="op">&lt;</span><span class="ident">Period</span>, <span class="ident">Offset</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">WeightInfo</span> <span class="op">=</span> ();
-}
-
-<span class="kw">impl</span> <span class="ident">pallet_session</span>::<span class="ident">historical</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
-    <span class="kw">type</span> <span class="ident">FullIdentification</span> <span class="op">=</span> <span class="ident">AccountId</span>;
-    <span class="kw">type</span> <span class="ident">FullIdentificationOf</span> <span class="op">=</span> <span class="ident">ConvertInto</span>;
-}
-
-<span class="macro">parameter_types</span><span class="macro">!</span> {
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SessionDuration</span>: <span class="ident">BlockNumber</span> <span class="op">=</span> <span class="number">100</span>;
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ImOnlineUnsignedPriority</span>: <span class="ident">TransactionPriority</span> <span class="op">=</span> <span class="ident">TransactionPriority</span>::<span class="ident">max_value</span>();
-}
-
-<span class="kw">impl</span> <span class="ident">pallet_im_online</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
-    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
-    <span class="kw">type</span> <span class="ident">AuthorityId</span> <span class="op">=</span> <span class="ident">ImOnlineId</span>;
-    <span class="kw">type</span> <span class="ident">ReportUnresponsiveness</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">SessionDuration</span> <span class="op">=</span> <span class="ident">SessionDuration</span>;
-    <span class="kw">type</span> <span class="ident">UnsignedPriority</span> <span class="op">=</span> <span class="ident">ImOnlineUnsignedPriority</span>;
-    <span class="kw">type</span> <span class="ident">WeightInfo</span> <span class="op">=</span> ();
 }
 
 <span class="macro">parameter_types</span><span class="macro">!</span> {
@@ -1102,10 +1010,6 @@
     <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
 }
 
-<span class="kw">impl</span> <span class="ident">validators</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
-    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
-}
-
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="ident">frame_system</span>::<span class="ident">offchain</span>::<span class="ident">CreateSignedTransaction</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Runtime</span>
 <span class="kw">where</span>
     <span class="ident">Call</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span>,
@@ -1180,10 +1084,6 @@
         <span class="ident">Utility</span>: <span class="ident">pallet_utility</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span>},
         <span class="ident">Timestamp</span>: <span class="ident">pallet_timestamp</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Inherent</span>},
         <span class="ident">Identity</span>: <span class="ident">pallet_identity</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
-        <span class="ident">Session</span>: <span class="ident">pallet_session</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span>, <span class="ident">Config</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
-        <span class="ident">Historical</span>: <span class="ident">pallet_session_historical</span>::{<span class="ident">Module</span>},
-        <span class="ident">ImOnline</span>: <span class="ident">pallet_im_online</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">ValidateUnsigned</span>, <span class="ident">Config</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
-        <span class="ident">Validators</span>: <span class="ident">validators</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
 
         <span class="comment">// Native currency and accounts.</span>
         <span class="ident">Indices</span>: <span class="ident">pallet_indices</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Config</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
