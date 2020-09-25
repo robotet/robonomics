@@ -286,8 +286,6 @@
 <span id="286">286</span>
 <span id="287">287</span>
 <span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -336,7 +334,6 @@
     <span class="doccomment">/// DAO IPCI (ipci.io) chain (https://telemetry.polkadot.io/#list/DAO%20IPCI).</span>
     <span class="ident">DaoIpci</span>,
     <span class="doccomment">/// Robonomics Network parachain (https://telemetry.polkadot.io/#list/Robonomics).</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
     <span class="ident">Parachain</span>,
 }
 
@@ -351,7 +348,6 @@
             <span class="kw">return</span> <span class="ident">RobonomicsFamily</span>::<span class="ident">DaoIpci</span>;
         }
 
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">id</span>() <span class="op">==</span> <span class="kw">crate</span>::<span class="ident">parachain</span>::<span class="ident">chain_spec</span>::<span class="ident">ROBONOMICS_PARACHAIN_ID</span> {
             <span class="kw">return</span> <span class="ident">RobonomicsFamily</span>::<span class="ident">Parachain</span>;
         }

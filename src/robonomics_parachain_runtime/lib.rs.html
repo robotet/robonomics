@@ -626,27 +626,6 @@
 <span id="626">626</span>
 <span id="627">627</span>
 <span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -998,46 +977,9 @@
     <span class="kw">type</span> <span class="ident">DownwardMessageHandlers</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">UpwardMessage</span> <span class="op">=</span> <span class="ident">cumulus_upward_message</span>::<span class="ident">RococoUpwardMessage</span>;
     <span class="kw">type</span> <span class="ident">ParachainId</span> <span class="op">=</span> <span class="ident">ParachainInfo</span>;
-    <span class="kw">type</span> <span class="ident">XCMPMessage</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">XCMPMessageHandlers</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">XCMPMessage</span> <span class="op">=</span> <span class="ident">pallet_robonomics_launch</span>::<span class="ident">XCMPMessage</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">AccountId</span>, <span class="ident">bool</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">XCMPMessageHandlers</span> <span class="op">=</span> <span class="ident">Launch</span>;
 }
-
-<span class="comment">/*
-parameter_types! {
-    pub const RelayChainCurrencyId: CurrencyId = CurrencyId::DOT;
-}
-
-pub struct RelayToNative;
-impl Convert&lt;RelayChainBalance, Balance&gt; for RelayToNative {
-    fn convert(val: u128) -&gt; Balance {
-        // native is 9
-        // relay is 12
-        val / 1_000
-    }
-}
-
-pub struct NativeToRelay;
-impl Convert&lt;Balance, RelayChainBalance&gt; for NativeToRelay {
-    fn convert(val: u128) -&gt; Balance {
-        // native is 9
-        // relay is 12
-        val * 1_000
-    }
-}
-
-impl pallet_xtokens::Trait for Runtime {
-    type Event = Event;
-    type Balance = Balance;
-    type CurrencyId = CurrencyId;
-    type Currency = Currencies;
-    type XCMPMessageSender = MessageBroker;
-    type RelayChainCurrencyId = RelayChainCurrencyId;
-    type UpwardMessageSender = MessageBroker;
-    type FromRelayChainBalance = RelayToNative;
-    type ToRelayChainBalance = NativeToRelay;
-    type UpwardMessage = cumulus_upward_message::RococoUpwardMessage;
-}
-*/</span>
 
 <span class="kw">impl</span> <span class="ident">parachain_info</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {}
 
@@ -1061,8 +1003,23 @@ impl pallet_xtokens::Trait for Runtime {
 }
 
 <span class="kw">impl</span> <span class="ident">pallet_robonomics_launch</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
+    <span class="kw">type</span> <span class="ident">XCMPMessageSender</span> <span class="op">=</span> <span class="ident">MessageBroker</span>;
     <span class="kw">type</span> <span class="ident">Parameter</span> <span class="op">=</span> <span class="ident">bool</span>;
     <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+}
+
+<span class="macro">parameter_types</span><span class="macro">!</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TotalBandwidth</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">100</span>; <span class="comment">// 100 TPS allocated for RWS transactions</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">WeightLimit</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="number">1_000_000_000_000_000</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PointsLimit</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">10_000_000_000</span>; <span class="comment">// equal to 10 TPS</span>
+}
+
+<span class="kw">impl</span> <span class="ident">pallet_robonomics_rws</span>::<span class="ident">Trait</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
+    <span class="kw">type</span> <span class="ident">TotalBandwidth</span> <span class="op">=</span> <span class="ident">TotalBandwidth</span>;
+    <span class="kw">type</span> <span class="ident">WeightLimit</span> <span class="op">=</span> <span class="ident">WeightLimit</span>;
+    <span class="kw">type</span> <span class="ident">PointsLimit</span> <span class="op">=</span> <span class="ident">PointsLimit</span>;
+    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+    <span class="kw">type</span> <span class="ident">Call</span> <span class="op">=</span> <span class="ident">Call</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="ident">frame_system</span>::<span class="ident">offchain</span>::<span class="ident">CreateSignedTransaction</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Runtime</span>
@@ -1154,6 +1111,7 @@ impl pallet_xtokens::Trait for Runtime {
         <span class="ident">Liability</span>: <span class="ident">pallet_robonomics_liability</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">ValidateUnsigned</span>},
         <span class="ident">Datalog</span>: <span class="ident">pallet_robonomics_datalog</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
         <span class="ident">Launch</span>: <span class="ident">pallet_robonomics_launch</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
+        <span class="ident">RWS</span>: <span class="ident">pallet_robonomics_rws</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
 
         <span class="comment">// Parachain modules.</span>
         <span class="ident">ParachainUpgrade</span>: <span class="ident">cumulus_parachain_upgrade</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Inherent</span>, <span class="ident">Event</span>},
