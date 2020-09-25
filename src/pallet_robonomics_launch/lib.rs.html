@@ -155,6 +155,20 @@
 <span id="155">155</span>
 <span id="156">156</span>
 <span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -186,15 +200,20 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Trait</span>: <span class="ident">frame_system</span>::<span class="ident">Trait</span> {
     <span class="doccomment">/// Robot launch parameter data type.</span>
     <span class="kw">type</span> <span class="ident">Parameter</span>: <span class="ident">Codec</span> <span class="op">+</span> <span class="ident">EncodeLike</span> <span class="op">+</span> <span class="ident">Member</span>;
+    <span class="comment">// This module can send XCMP messages.</span>
+    <span class="comment">//type XCMPMessageSender: XCMPMessageSender&lt;XCMPMessage&lt;Self::AccountId, Self::Balance&gt;&gt;;</span>
     <span class="doccomment">/// The overarching event type.</span>
     <span class="kw">type</span> <span class="ident">Event</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">frame_system</span>::<span class="ident">Trait</span><span class="op">&gt;</span>::<span class="ident">Event</span><span class="op">&gt;</span>;
 }
 
-<span class="doccomment">/// Robot launch XCMP message trait.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">LaunchMessage</span><span class="op">&lt;</span><span class="ident">AccountId</span>, <span class="ident">Parameter</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
-    <span class="doccomment">/// Launch robot with given launch parameter.</span>
-    <span class="kw">fn</span> <span class="ident">launch</span>(<span class="ident">from</span>: <span class="ident">AccountId</span>, <span class="ident">to</span>: <span class="ident">AccountId</span>, <span class="ident">param</span>: <span class="ident">Parameter</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+<span class="comment">/*
+/// Robot launch XCMP message trait.
+#[derive(Encode, Decode)]
+pub enum XCMPMessage&lt;AccountId, Parameter&gt; {
+    /// Launch robot with given launch parameter.
+    fn LaunchRobot(from: AccountId, to: AccountId, param: Parameter),
 }
+*/</span>
 
 <span class="macro">decl_event</span><span class="macro">!</span> {
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
@@ -222,6 +241,15 @@
         }
     }
 }
+
+<span class="comment">/*
+impl&lt;T: Trait&gt; XCMPMessageHandler&lt;XCMPMessage&lt;T::AccountId, T::Balance&gt;&gt; for Module&lt;T&gt; {
+    fn handle_xcmp_message(src: ParaId, msg: &amp;XCMPMessage&lt;T::AccountId, T::Balance&gt;) {
+        match msg {
+        }
+    }
+}
+*/</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
