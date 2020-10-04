@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["pallet_robonomics_rws"] = [{"text":"impl&lt;T:&nbsp;Trait, __GeneratedInstance:&nbsp;__GeneratedInstantiable&gt; BuildModuleGenesisStorage&lt;T, __GeneratedInstance&gt; for GenesisConfig&lt;T&gt;","synthetic":false,"types":[]}];
+implementors["pallet_robonomics_rws"] = [{"text":"impl&lt;T:&nbsp;<a class=\"trait\" href=\"pallet_robonomics_rws/trait.Trait.html\" title=\"trait pallet_robonomics_rws::Trait\">Trait</a>, __GeneratedInstance:&nbsp;__GeneratedInstantiable&gt; BuildModuleGenesisStorage&lt;T, __GeneratedInstance&gt; for <a class=\"struct\" href=\"pallet_robonomics_rws/struct.GenesisConfig.html\" title=\"struct pallet_robonomics_rws::GenesisConfig\">GenesisConfig</a>&lt;T&gt;","synthetic":false,"types":["pallet_robonomics_rws::GenesisConfig"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
