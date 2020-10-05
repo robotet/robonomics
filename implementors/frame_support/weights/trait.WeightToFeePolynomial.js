@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["ipci_runtime"] = [{"text":"impl WeightToFeePolynomial for <a class=\"struct\" href=\"ipci_runtime/struct.WeightToFee.html\" title=\"struct ipci_runtime::WeightToFee\">WeightToFee</a>","synthetic":false,"types":["ipci_runtime::WeightToFee"]}];
+implementors["ipci_runtime"] = [{"text":"impl WeightToFeePolynomial for WeightToFee","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
