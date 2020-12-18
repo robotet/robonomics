@@ -194,6 +194,9 @@
 <span id="193">193</span>
 <span id="194">194</span>
 <span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -215,7 +218,6 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">chain_spec</span>::<span class="kw-2">*</span>,
-    <span class="ident">parachain</span>,
     <span class="ident">service</span>::{<span class="ident">ipci</span>, <span class="ident">robonomics</span>},
     <span class="ident">Cli</span>, <span class="ident">Subcommand</span>,
 };
@@ -225,6 +227,9 @@
 <span class="kw">use</span> <span class="ident">sp_api</span>::<span class="ident">BlockT</span>;
 <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">hexdisplay</span>::<span class="ident">HexDisplay</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">parachain</span>;
 
 <span class="kw">impl</span> <span class="ident">SubstrateCli</span> <span class="kw">for</span> <span class="ident">Cli</span> {
     <span class="kw">fn</span> <span class="ident">impl_name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
@@ -259,7 +264,10 @@
         <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">id</span> {
             <span class="string">&quot;dev&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">development_config</span>()),
             <span class="string">&quot;ipci&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">ipci_config</span>()),
-            <span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">parachain</span>::<span class="ident">load_spec</span>(<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">run</span>.<span class="ident">parachain_id</span>.<span class="ident">unwrap_or</span>(<span class="number">3000</span>).<span class="ident">into</span>())<span class="question-mark">?</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
+            <span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">parachain</span>::<span class="ident">load_spec</span>(<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">run</span>.<span class="ident">parachain_id</span>.<span class="ident">unwrap_or</span>(<span class="number">1000</span>).<span class="ident">into</span>())<span class="question-mark">?</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>))]</span>
+            <span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Unknown spec&quot;</span>),
         })
     }
 
@@ -267,8 +275,8 @@
         <span class="kw">match</span> <span class="ident">chain_spec</span>.<span class="ident">family</span>() {
             <span class="ident">RobonomicsFamily</span>::<span class="ident">DaoIpci</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">ipci_runtime</span>::<span class="ident">VERSION</span>,
             <span class="ident">RobonomicsFamily</span>::<span class="ident">Development</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">robonomics_runtime</span>::<span class="ident">VERSION</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
             <span class="ident">RobonomicsFamily</span>::<span class="ident">Parachain</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">robonomics_parachain_runtime</span>::<span class="ident">VERSION</span>,
-            <span class="ident">RobonomicsFamily</span>::<span class="ident">Unknown</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unknown runtime&quot;</span>),
         }
     }
 }
@@ -283,18 +291,19 @@
             <span class="kw">match</span> <span class="ident">runner</span>.<span class="ident">config</span>().<span class="ident">chain_spec</span>.<span class="ident">family</span>() {
                 <span class="ident">RobonomicsFamily</span>::<span class="ident">DaoIpci</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">runner</span>.<span class="ident">run_node_until_exit</span>(<span class="op">|</span><span class="ident">config</span><span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
                     <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">role</span> {
-                        <span class="ident">Role</span>::<span class="ident">Light</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipci</span>::<span class="ident">new_light</span>(<span class="ident">config</span>),
+                        <span class="ident">Role</span>::<span class="ident">Light</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipci</span>::<span class="ident">new_light</span>(<span class="ident">config</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="number">0</span>),
                         <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipci</span>::<span class="ident">new_full</span>(<span class="ident">config</span>),
                     }
                 }),
 
                 <span class="ident">RobonomicsFamily</span>::<span class="ident">Development</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">runner</span>.<span class="ident">run_node_until_exit</span>(<span class="op">|</span><span class="ident">config</span><span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
                     <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">role</span> {
-                        <span class="ident">Role</span>::<span class="ident">Light</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">robonomics</span>::<span class="ident">new_light</span>(<span class="ident">config</span>),
+                        <span class="ident">Role</span>::<span class="ident">Light</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">robonomics</span>::<span class="ident">new_light</span>(<span class="ident">config</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="number">0</span>),
                         <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">robonomics</span>::<span class="ident">new_full</span>(<span class="ident">config</span>),
                     }
                 }),
 
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
                 <span class="ident">RobonomicsFamily</span>::<span class="ident">Parachain</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">runner</span>.<span class="ident">run_node_until_exit</span>(<span class="op">|</span><span class="ident">config</span><span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
                     <span class="kw">if</span> <span class="macro">matches</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">role</span>, <span class="ident">Role</span>::<span class="ident">Light</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Light client not supporter!&quot;</span>.<span class="ident">into</span>());
@@ -308,11 +317,6 @@
                     )
                     .<span class="ident">await</span>
                 }),
-
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;unsupported chain spec: {}&quot;</span>,
-                    <span class="ident">runner</span>.<span class="ident">config</span>().<span class="ident">chain_spec</span>.<span class="ident">id</span>()
-                ))<span class="question-mark">?</span>,
             }
         }
         <span class="prelude-val">Some</span>(<span class="ident">Subcommand</span>::<span class="ident">Key</span>(<span class="ident">cmd</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cmd</span>.<span class="ident">run</span>(),
@@ -345,8 +349,9 @@
                 })
             }
         }
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
         <span class="prelude-val">Some</span>(<span class="ident">Subcommand</span>::<span class="ident">ExportGenesisState</span>(<span class="ident">params</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="ident">sc_cli</span>::<span class="ident">init_logger</span>(<span class="string">&quot;&quot;</span>, <span class="ident">sc_tracing</span>::<span class="ident">TracingReceiver</span>::<span class="ident">Log</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="ident">sc_cli</span>::<span class="ident">init_logger</span>(<span class="string">&quot;&quot;</span>, <span class="ident">sc_tracing</span>::<span class="ident">TracingReceiver</span>::<span class="ident">Log</span>, <span class="prelude-val">None</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="ident">block</span>: <span class="ident">node_primitives</span>::<span class="ident">Block</span> <span class="op">=</span> <span class="ident">generate_genesis_block</span>(<span class="kw-2">&amp;</span><span class="ident">parachain</span>::<span class="ident">load_spec</span>(
                 <span class="kw-2">&amp;</span><span class="ident">params</span>.<span class="ident">chain</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_default</span>(),
@@ -367,8 +372,9 @@
 
             <span class="prelude-val">Ok</span>(())
         }
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
         <span class="prelude-val">Some</span>(<span class="ident">Subcommand</span>::<span class="ident">ExportGenesisWasm</span>(<span class="ident">params</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="ident">sc_cli</span>::<span class="ident">init_logger</span>(<span class="string">&quot;&quot;</span>, <span class="ident">sc_tracing</span>::<span class="ident">TracingReceiver</span>::<span class="ident">Log</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="ident">sc_cli</span>::<span class="ident">init_logger</span>(<span class="string">&quot;&quot;</span>, <span class="ident">sc_tracing</span>::<span class="ident">TracingReceiver</span>::<span class="ident">Log</span>, <span class="prelude-val">None</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="ident">raw_wasm_blob</span> <span class="op">=</span> <span class="ident">parachain</span>::<span class="ident">extract_genesis_wasm</span>(
                 <span class="kw-2">&amp;</span><span class="ident">cli</span>.<span class="ident">load_spec</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>.<span class="ident">chain</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_default</span>())<span class="question-mark">?</span>,

@@ -264,6 +264,18 @@
 <span id="263">263</span>
 <span id="264">264</span>
 <span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -325,10 +337,13 @@
     <span class="kw">let</span> <span class="ident">parachain_account</span> <span class="op">=</span>
         <span class="ident">AccountIdConversion</span>::<span class="op">&lt;</span><span class="ident">polkadot_primitives</span>::<span class="ident">v0</span>::<span class="ident">AccountId</span><span class="op">&gt;</span>::<span class="ident">into_account</span>(<span class="kw-2">&amp;</span><span class="ident">parachain_id</span>);
 
-    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[Para] ID: {}&quot;</span>, <span class="ident">parachain_id</span>);
-    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[Para] Account: {}&quot;</span>, <span class="ident">parachain_account</span>);
-    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[Para] Genesis State: {}&quot;</span>, <span class="ident">genesis_state</span>);
-    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;Is collating: {}&quot;</span>, <span class="kw">if</span> <span class="ident">validator</span> { <span class="string">&quot;yes&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;no&quot;</span> });
+    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[Parachain] ID: {}&quot;</span>, <span class="ident">parachain_id</span>);
+    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[Parachain] Account: {}&quot;</span>, <span class="ident">parachain_account</span>);
+    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[Parachain] Genesis State: {}&quot;</span>, <span class="ident">genesis_state</span>);
+    <span class="macro">info</span><span class="macro">!</span>(
+        <span class="string">&quot;[Parachain] Is collating: {}&quot;</span>,
+        <span class="kw">if</span> <span class="ident">validator</span> { <span class="string">&quot;yes&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;no&quot;</span> }
+    );
 
     <span class="kw">let</span> <span class="ident">task_executor</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">task_executor</span>.<span class="ident">clone</span>();
     <span class="kw">let</span> <span class="ident">polkadot_config</span> <span class="op">=</span>
@@ -401,8 +416,17 @@
     }
 
     <span class="kw">fn</span> <span class="ident">load_spec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">sc_service</span>::<span class="ident">ChainSpec</span><span class="op">&gt;</span>, <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">polkadot_cli</span>::<span class="ident">Cli</span>::<span class="ident">from_iter</span>([<span class="ident">RelayChainCli</span>::<span class="ident">executable_name</span>().<span class="ident">to_string</span>()].<span class="ident">iter</span>())
-            .<span class="ident">load_spec</span>(<span class="ident">id</span>)
+        <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;rococo_local_testnet&quot;</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(
+                <span class="ident">polkadot_service</span>::<span class="ident">RococoChainSpec</span>::<span class="ident">from_json_bytes</span>(
+                    <span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../../res/rococo_local_testnet.json&quot;</span>)[..],
+                )
+                .<span class="ident">unwrap</span>(),
+            ))
+        } <span class="kw">else</span> {
+            <span class="ident">polkadot_cli</span>::<span class="ident">Cli</span>::<span class="ident">from_iter</span>([<span class="ident">RelayChainCli</span>::<span class="ident">executable_name</span>().<span class="ident">to_string</span>()].<span class="ident">iter</span>())
+                .<span class="ident">load_spec</span>(<span class="ident">id</span>)
+        }
     }
 
     <span class="kw">fn</span> <span class="ident">native_runtime_version</span>(<span class="ident">chain_spec</span>: <span class="kw-2">&amp;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">ChainSpec</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">RuntimeVersion</span> {

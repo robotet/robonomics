@@ -797,6 +797,25 @@
 <span id="796">796</span>
 <span id="797">797</span>
 <span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -835,9 +854,11 @@
     <span class="ident">traits</span>::{<span class="ident">KeyOwnerProofSystem</span>, <span class="ident">Randomness</span>, <span class="ident">U128CurrencyToVote</span>},
     <span class="ident">weights</span>::{
         <span class="ident">constants</span>::{<span class="ident">BlockExecutionWeight</span>, <span class="ident">ExtrinsicBaseWeight</span>, <span class="ident">RocksDbWeight</span>, <span class="ident">WEIGHT_PER_SECOND</span>},
-        <span class="ident">Weight</span>, <span class="ident">WeightToFeeCoefficient</span>, <span class="ident">WeightToFeeCoefficients</span>, <span class="ident">WeightToFeePolynomial</span>,
+        <span class="ident">DispatchClass</span>, <span class="ident">Weight</span>, <span class="ident">WeightToFeeCoefficient</span>, <span class="ident">WeightToFeeCoefficients</span>,
+        <span class="ident">WeightToFeePolynomial</span>,
     },
 };
+<span class="kw">use</span> <span class="ident">frame_system</span>::<span class="ident">limits</span>::{<span class="ident">BlockLength</span>, <span class="ident">BlockWeights</span>};
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{
     <span class="ident">AccountId</span>, <span class="ident">AccountIndex</span>, <span class="ident">Balance</span>, <span class="ident">BlockNumber</span>, <span class="ident">Hash</span>, <span class="ident">Index</span>, <span class="ident">Moment</span>, <span class="ident">Signature</span>,
 };
@@ -854,8 +875,7 @@
 <span class="kw">use</span> <span class="ident">sp_inherents</span>::{<span class="ident">CheckInherentsResult</span>, <span class="ident">InherentData</span>};
 <span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">curve</span>::<span class="ident">PiecewiseLinear</span>;
 <span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>::{
-    <span class="self">self</span>, <span class="ident">BlakeTwo256</span>, <span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span>, <span class="ident">NumberFor</span>, <span class="ident">OpaqueKeys</span>, <span class="ident">SaturatedConversion</span>, <span class="ident">Saturating</span>,
-    <span class="ident">StaticLookup</span>,
+    <span class="self">self</span>, <span class="ident">BlakeTwo256</span>, <span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span>, <span class="ident">NumberFor</span>, <span class="ident">OpaqueKeys</span>, <span class="ident">SaturatedConversion</span>, <span class="ident">StaticLookup</span>,
 };
 <span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">transaction_validity</span>::{
     <span class="ident">TransactionPriority</span>, <span class="ident">TransactionSource</span>, <span class="ident">TransactionValidity</span>,
@@ -880,8 +900,8 @@
     <span class="comment">// and set impl_version to equal spec_version. If only runtime</span>
     <span class="comment">// implementation changes and behavior does not, then leave spec_version as</span>
     <span class="comment">// is and increment impl_version.</span>
-    <span class="ident">spec_version</span>: <span class="number">15</span>,
-    <span class="ident">impl_version</span>: <span class="number">15</span>,
+    <span class="ident">spec_version</span>: <span class="number">17</span>,
+    <span class="ident">impl_version</span>: <span class="number">17</span>,
     <span class="ident">apis</span>: <span class="ident">RUNTIME_API_VERSIONS</span>,
     <span class="ident">transaction_version</span>: <span class="number">2</span>,
 };
@@ -895,23 +915,45 @@
     }
 }
 
-<span class="kw">const</span> <span class="ident">AVERAGE_ON_INITIALIZE_WEIGHT</span>: <span class="ident">Perbill</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">10</span>);
+<span class="doccomment">/// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.</span>
+<span class="doccomment">/// This is used to limit the maximal weight of a single extrinsic.</span>
+<span class="kw">const</span> <span class="ident">AVERAGE_ON_INITIALIZE_RATIO</span>: <span class="ident">Perbill</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">10</span>);
+<span class="doccomment">/// We allow `Normal` extrinsics to fill up the block up to 75%, the rest can be used</span>
+<span class="doccomment">/// by  Operational  extrinsics.</span>
+<span class="kw">const</span> <span class="ident">NORMAL_DISPATCH_RATIO</span>: <span class="ident">Perbill</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">75</span>);
+<span class="doccomment">/// We allow for 2 seconds of compute with a 6 second average block time.</span>
+<span class="kw">const</span> <span class="ident">MAXIMUM_BLOCK_WEIGHT</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="number">2</span> <span class="op">*</span> <span class="ident">WEIGHT_PER_SECOND</span>;
+
 <span class="macro">parameter_types</span><span class="macro">!</span> {
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BlockHashCount</span>: <span class="ident">BlockNumber</span> <span class="op">=</span> <span class="number">2400</span>;
-    <span class="doccomment">/// We allow for 2 seconds of compute with a 6 second average block time.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MaximumBlockWeight</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="number">2</span> <span class="op">*</span> <span class="ident">WEIGHT_PER_SECOND</span>;
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">AvailableBlockRatio</span>: <span class="ident">Perbill</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">75</span>);
-    <span class="doccomment">/// Assume 10% of weight for average on_initialize calls</span>
-    <span class="kw">pub</span> <span class="ident">MaximumExtrinsicWeight</span>: <span class="ident">Weight</span> <span class="op">=</span>
-        <span class="ident">AvailableBlockRatio</span>::<span class="ident">get</span>().<span class="ident">saturating_sub</span>(<span class="ident">AVERAGE_ON_INITIALIZE_WEIGHT</span>)
-        <span class="op">*</span> <span class="ident">MaximumBlockWeight</span>::<span class="ident">get</span>();
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MaximumBlockLength</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">5</span> <span class="op">*</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BlockHashCount</span>: <span class="ident">BlockNumber</span> <span class="op">=</span> <span class="number">250</span>;
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">Version</span>: <span class="ident">RuntimeVersion</span> <span class="op">=</span> <span class="ident">VERSION</span>;
+    <span class="kw">pub</span> <span class="ident">RuntimeBlockLength</span>: <span class="ident">BlockLength</span> <span class="op">=</span>
+        <span class="ident">BlockLength</span>::<span class="ident">max_with_normal_ratio</span>(<span class="number">5</span> <span class="op">*</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span>, <span class="ident">NORMAL_DISPATCH_RATIO</span>);
+    <span class="kw">pub</span> <span class="ident">RuntimeBlockWeights</span>: <span class="ident">BlockWeights</span> <span class="op">=</span> <span class="ident">BlockWeights</span>::<span class="ident">builder</span>()
+        .<span class="ident">base_block</span>(<span class="ident">BlockExecutionWeight</span>::<span class="ident">get</span>())
+        .<span class="ident">for_class</span>(<span class="ident">DispatchClass</span>::<span class="ident">all</span>(), <span class="op">|</span><span class="ident">weights</span><span class="op">|</span> {
+            <span class="ident">weights</span>.<span class="ident">base_extrinsic</span> <span class="op">=</span> <span class="ident">ExtrinsicBaseWeight</span>::<span class="ident">get</span>();
+        })
+        .<span class="ident">for_class</span>(<span class="ident">DispatchClass</span>::<span class="ident">Normal</span>, <span class="op">|</span><span class="ident">weights</span><span class="op">|</span> {
+            <span class="ident">weights</span>.<span class="ident">max_total</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">NORMAL_DISPATCH_RATIO</span> <span class="op">*</span> <span class="ident">MAXIMUM_BLOCK_WEIGHT</span>);
+        })
+        .<span class="ident">for_class</span>(<span class="ident">DispatchClass</span>::<span class="ident">Operational</span>, <span class="op">|</span><span class="ident">weights</span><span class="op">|</span> {
+            <span class="ident">weights</span>.<span class="ident">max_total</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">MAXIMUM_BLOCK_WEIGHT</span>);
+            <span class="comment">// Operational transactions have some extra reserved space, so that they</span>
+            <span class="comment">// are included even if block reached `MAXIMUM_BLOCK_WEIGHT`.</span>
+            <span class="ident">weights</span>.<span class="ident">reserved</span> <span class="op">=</span> <span class="prelude-val">Some</span>(
+                <span class="ident">MAXIMUM_BLOCK_WEIGHT</span> <span class="op">-</span> <span class="ident">NORMAL_DISPATCH_RATIO</span> <span class="op">*</span> <span class="ident">MAXIMUM_BLOCK_WEIGHT</span>
+            );
+        })
+        .<span class="ident">avg_block_initialization</span>(<span class="ident">AVERAGE_ON_INITIALIZE_RATIO</span>)
+        .<span class="ident">build_or_panic</span>();
 }
 
 <span class="kw">impl</span> <span class="ident">frame_system</span>::<span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
     <span class="kw">type</span> <span class="ident">Call</span> <span class="op">=</span> <span class="ident">Call</span>;
     <span class="kw">type</span> <span class="ident">BaseCallFilter</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">BlockWeights</span> <span class="op">=</span> <span class="ident">RuntimeBlockWeights</span>;
+    <span class="kw">type</span> <span class="ident">BlockLength</span> <span class="op">=</span> <span class="ident">RuntimeBlockLength</span>;
     <span class="kw">type</span> <span class="ident">Version</span> <span class="op">=</span> <span class="ident">Version</span>;
     <span class="kw">type</span> <span class="ident">AccountId</span> <span class="op">=</span> <span class="ident">AccountId</span>;
     <span class="kw">type</span> <span class="ident">Lookup</span> <span class="op">=</span> <span class="ident">Indices</span>;
@@ -923,13 +965,7 @@
     <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
     <span class="kw">type</span> <span class="ident">Origin</span> <span class="op">=</span> <span class="ident">Origin</span>;
     <span class="kw">type</span> <span class="ident">DbWeight</span> <span class="op">=</span> <span class="ident">RocksDbWeight</span>;
-    <span class="kw">type</span> <span class="ident">BlockExecutionWeight</span> <span class="op">=</span> <span class="ident">BlockExecutionWeight</span>;
-    <span class="kw">type</span> <span class="ident">ExtrinsicBaseWeight</span> <span class="op">=</span> <span class="ident">ExtrinsicBaseWeight</span>;
     <span class="kw">type</span> <span class="ident">BlockHashCount</span> <span class="op">=</span> <span class="ident">BlockHashCount</span>;
-    <span class="kw">type</span> <span class="ident">MaximumExtrinsicWeight</span> <span class="op">=</span> <span class="ident">MaximumExtrinsicWeight</span>;
-    <span class="kw">type</span> <span class="ident">MaximumBlockWeight</span> <span class="op">=</span> <span class="ident">MaximumBlockWeight</span>;
-    <span class="kw">type</span> <span class="ident">MaximumBlockLength</span> <span class="op">=</span> <span class="ident">MaximumBlockLength</span>;
-    <span class="kw">type</span> <span class="ident">AvailableBlockRatio</span> <span class="op">=</span> <span class="ident">AvailableBlockRatio</span>;
     <span class="kw">type</span> <span class="ident">PalletInfo</span> <span class="op">=</span> <span class="ident">PalletInfo</span>;
     <span class="kw">type</span> <span class="ident">AccountData</span> <span class="op">=</span> <span class="ident">pallet_balances</span>::<span class="ident">AccountData</span><span class="op">&lt;</span><span class="ident">Balance</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">OnNewAccount</span> <span class="op">=</span> ();
@@ -1115,9 +1151,10 @@
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MaxIterations</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">5</span>;
     <span class="comment">// 0.05%. The higher the value, the more strict solution acceptance becomes.</span>
     <span class="kw">pub</span> <span class="ident">MinSolutionScoreBump</span>: <span class="ident">Perbill</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_rational_approximation</span>(<span class="number">5u32</span>, <span class="number">10_000</span>);
-    <span class="kw">pub</span> <span class="ident">OffchainSolutionWeightLimit</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="ident">MaximumExtrinsicWeight</span>::<span class="ident">get</span>()
-        .<span class="ident">saturating_sub</span>(<span class="ident">BlockExecutionWeight</span>::<span class="ident">get</span>())
-        .<span class="ident">saturating_sub</span>(<span class="ident">ExtrinsicBaseWeight</span>::<span class="ident">get</span>());
+    <span class="kw">pub</span> <span class="ident">OffchainSolutionWeightLimit</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="ident">RuntimeBlockWeights</span>::<span class="ident">get</span>()
+        .<span class="ident">get</span>(<span class="ident">DispatchClass</span>::<span class="ident">Normal</span>)
+        .<span class="ident">max_extrinsic</span>.<span class="ident">expect</span>(<span class="string">&quot;Normal extrinsics have a weight limit configured; qed&quot;</span>)
+        .<span class="ident">saturating_sub</span>(<span class="ident">BlockExecutionWeight</span>::<span class="ident">get</span>());
 }
 
 <span class="kw">impl</span> <span class="ident">pallet_staking</span>::<span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
@@ -1213,7 +1250,8 @@
 }
 
 <span class="macro">parameter_types</span><span class="macro">!</span> {
-    <span class="kw">pub</span> <span class="ident">OffencesWeightSoftLimit</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">60</span>) <span class="op">*</span> <span class="ident">MaximumBlockWeight</span>::<span class="ident">get</span>();
+    <span class="kw">pub</span> <span class="ident">OffencesWeightSoftLimit</span>: <span class="ident">Weight</span> <span class="op">=</span> <span class="ident">Perbill</span>::<span class="ident">from_percent</span>(<span class="number">60</span>) <span class="op">*</span>
+        <span class="ident">RuntimeBlockWeights</span>::<span class="ident">get</span>().<span class="ident">max_block</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">pallet_offences</span>::<span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
