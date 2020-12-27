@@ -57,8 +57,6 @@
 <span id="56">56</span>
 <span id="57">57</span>
 <span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -81,7 +79,7 @@
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 
 <span class="kw">use</span> <span class="ident">codec</span>::{<span class="ident">Codec</span>, <span class="ident">EncodeLike</span>};
-<span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">decl_event</span>, <span class="ident">decl_module</span>, <span class="ident">decl_storage</span>};
+<span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">decl_event</span>, <span class="ident">decl_module</span>};
 <span class="kw">use</span> <span class="ident">frame_system</span>::<span class="ident">ensure_signed</span>;
 <span class="kw">use</span> <span class="ident">sp_runtime</span>::<span class="ident">traits</span>::<span class="ident">Member</span>;
 <span class="kw">use</span> <span class="ident">sp_std</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
@@ -101,11 +99,9 @@
     {
         <span class="doccomment">/// Launch a robot with given parameter: sender, robot, parameter.</span>
         <span class="ident">NewLaunch</span>(<span class="ident">AccountId</span>, <span class="ident">AccountId</span>, <span class="ident">Parameter</span>),
+        <span class="doccomment">/// Launch message sent to different location.</span>
+        <span class="ident">LaunchSent</span>(<span class="ident">AccountId</span>),
     }
-}
-
-<span class="macro">decl_storage</span><span class="macro">!</span> {
-    <span class="kw">trait</span> <span class="ident">Store</span> <span class="kw">for</span> <span class="ident">Module</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">Launch</span> {}
 }
 
 <span class="macro">decl_module</span><span class="macro">!</span> {
@@ -113,7 +109,7 @@
         <span class="kw">fn</span> <span class="ident">deposit_event</span>() <span class="op">=</span> <span class="ident">default</span>;
 
         <span class="doccomment">/// Launch a robot with given parameter.</span>
-        <span class="attribute">#[<span class="ident">weight</span> <span class="op">=</span> <span class="number">1_000_000</span>]</span>
+        <span class="attribute">#[<span class="ident">weight</span> <span class="op">=</span> <span class="number">500_000</span>]</span>
         <span class="kw">fn</span> <span class="ident">launch</span>(<span class="ident">origin</span>, <span class="ident">robot</span>: <span class="ident">T</span>::<span class="ident">AccountId</span>, <span class="ident">param</span>: <span class="ident">T</span>::<span class="ident">Parameter</span>) {
             <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="ident">ensure_signed</span>(<span class="ident">origin</span>)<span class="question-mark">?</span>;
             <span class="self">Self</span>::<span class="ident">deposit_event</span>(<span class="ident">RawEvent</span>::<span class="ident">NewLaunch</span>(<span class="ident">sender</span>, <span class="ident">robot</span>, <span class="ident">param</span>));
