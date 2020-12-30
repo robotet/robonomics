@@ -616,6 +616,28 @@
 <span id="615">615</span>
 <span id="616">616</span>
 <span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -690,6 +712,7 @@
 <span class="kw">use</span> <span class="ident">sp_version</span>::<span class="ident">RuntimeVersion</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">constants</span>::{<span class="ident">currency</span>::<span class="kw-2">*</span>, <span class="ident">time</span>::<span class="kw-2">*</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">pallet_evercity</span>;
 
 <span class="doccomment">/// This runtime version.</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VERSION</span>: <span class="ident">RuntimeVersion</span> <span class="op">=</span> <span class="ident">RuntimeVersion</span> {
@@ -909,6 +932,26 @@
     <span class="kw">type</span> <span class="ident">Call</span> <span class="op">=</span> <span class="ident">Call</span>;
 }
 
+<span class="kw">const</span> <span class="ident">DEFAULT_DAY_DURATION</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">60</span>; <span class="comment">// 86400; seconds in 1 DAY</span>
+
+<span class="macro">parameter_types</span><span class="macro">!</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BurnRequestTtl</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">DEFAULT_DAY_DURATION</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">7</span> <span class="op">*</span> <span class="number">1000</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MintRequestTtl</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">DEFAULT_DAY_DURATION</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">7</span> <span class="op">*</span> <span class="number">1000</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MaxMintAmount</span>: <span class="ident">pallet_evercity</span>::<span class="ident">EverUSDBalance</span> <span class="op">=</span> <span class="number">60_000_000_000_000_000</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TimeStep</span>: <span class="ident">pallet_evercity</span>::<span class="ident">BondPeriod</span> <span class="op">=</span> <span class="ident">DEFAULT_DAY_DURATION</span>;
+}
+
+<span class="kw">impl</span> <span class="ident">pallet_evercity</span>::<span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
+    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+    <span class="kw">type</span> <span class="ident">BurnRequestTtl</span> <span class="op">=</span> <span class="ident">BurnRequestTtl</span>;
+    <span class="kw">type</span> <span class="ident">MintRequestTtl</span> <span class="op">=</span> <span class="ident">MintRequestTtl</span>;
+    <span class="kw">type</span> <span class="ident">MaxMintAmount</span> <span class="op">=</span> <span class="ident">MaxMintAmount</span>;
+    <span class="kw">type</span> <span class="ident">TimeStep</span> <span class="op">=</span> <span class="ident">TimeStep</span>;
+    <span class="kw">type</span> <span class="ident">WeightInfo</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">OnAddAccount</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">OnAddBond</span> <span class="op">=</span> ();
+}
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="ident">frame_system</span>::<span class="ident">offchain</span>::<span class="ident">CreateSignedTransaction</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Runtime</span>
 <span class="kw">where</span>
     <span class="ident">Call</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span>,
@@ -993,7 +1036,8 @@
         <span class="ident">Datalog</span>: <span class="ident">pallet_robonomics_datalog</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
         <span class="ident">Launch</span>: <span class="ident">pallet_robonomics_launch</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
         <span class="ident">RWS</span>: <span class="ident">pallet_robonomics_rws</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
-
+        <span class="comment">// Evercity bonds module</span>
+        <span class="ident">Evercity</span>: <span class="ident">pallet_evercity</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
         <span class="comment">// Sudo. Usable initially.</span>
         <span class="ident">Sudo</span>: <span class="ident">pallet_sudo</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Config</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
     }
