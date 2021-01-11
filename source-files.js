@@ -5,6 +5,7 @@ sourcesIndex["node_primitives"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["node_rpc"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_datalog"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_datalog_xcm"] = {"name":"","files":["lib.rs"]};
+sourcesIndex["pallet_robonomics_digital_twin"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_launch"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_launch_xcm"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_liability"] = {"name":"","files":["economics.rs","lib.rs","signed.rs","technics.rs","traits.rs"]};
