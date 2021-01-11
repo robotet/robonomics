@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["robonomics_protocol"] = [{"text":"impl&lt;T:&nbsp;Datalog&gt; Event&lt;T&gt; for NewRecordEvent&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;Datalog&gt; Event&lt;T&gt; for ErasedEvent&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;Launch&gt; Event&lt;T&gt; for NewLaunchEvent&lt;T&gt;","synthetic":false,"types":[]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
