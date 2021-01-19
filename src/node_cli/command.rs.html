@@ -210,6 +210,8 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -325,7 +327,9 @@
                     }
 
                     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>))]</span>
-                    { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Parachain feature isn&#39;t enabled&quot;</span>.<span class="ident">into</span>()) }
+                    {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Parachain feature isn&#39;t enabled&quot;</span>.<span class="ident">into</span>());
+                    }
 
                     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
                     <span class="ident">parachain</span>::<span class="ident">command</span>::<span class="ident">run</span>(
@@ -366,7 +370,7 @@
                 <span class="ident">RobonomicsFamily</span>::<span class="ident">Development</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">runner</span>.<span class="ident">sync_run</span>(<span class="op">|</span><span class="ident">config</span><span class="op">|</span> {
                     <span class="ident">subcommand</span>.<span class="ident">run</span>::<span class="op">&lt;</span><span class="ident">node_primitives</span>::<span class="ident">Block</span>, <span class="ident">robonomics</span>::<span class="ident">Executor</span><span class="op">&gt;</span>(<span class="ident">config</span>)
                 }),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Unknown chain&quot;</span>)<span class="question-mark">?</span>
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Unknown chain&quot;</span>)<span class="question-mark">?</span>,
             }
         }
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
