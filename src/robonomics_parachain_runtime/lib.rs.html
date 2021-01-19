@@ -762,6 +762,16 @@
 <span id="761">761</span>
 <span id="762">762</span>
 <span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -815,7 +825,7 @@
     <span class="ident">AccountId</span>, <span class="ident">AccountIndex</span>, <span class="ident">Balance</span>, <span class="ident">BlockNumber</span>, <span class="ident">Hash</span>, <span class="ident">Index</span>, <span class="ident">Moment</span>, <span class="ident">Signature</span>,
 };
 <span class="kw">use</span> <span class="ident">pallet_transaction_payment</span>::{<span class="ident">CurrencyAdapter</span>, <span class="ident">Multiplier</span>, <span class="ident">TargetedFeeAdjustment</span>};
-<span class="kw">use</span> <span class="ident">pallet_transaction_payment_rpc_runtime_api</span>::<span class="ident">RuntimeDispatchInfo</span>;
+<span class="kw">use</span> <span class="ident">pallet_transaction_payment_rpc_runtime_api</span>::{<span class="ident">FeeDetails</span>, <span class="ident">RuntimeDispatchInfo</span>};
 <span class="kw">use</span> <span class="ident">sp_api</span>::<span class="ident">impl_runtime_apis</span>;
 <span class="kw">use</span> <span class="ident">sp_core</span>::{
     <span class="ident">crypto</span>::<span class="ident">KeyTypeId</span>,
@@ -853,8 +863,8 @@
     <span class="ident">spec_name</span>: <span class="macro">create_runtime_str</span><span class="macro">!</span>(<span class="string">&quot;robonomics&quot;</span>),
     <span class="ident">impl_name</span>: <span class="macro">create_runtime_str</span><span class="macro">!</span>(<span class="string">&quot;robonomics-airalab&quot;</span>),
     <span class="ident">authoring_version</span>: <span class="number">1</span>,
-    <span class="ident">spec_version</span>: <span class="number">1</span>,
-    <span class="ident">impl_version</span>: <span class="number">1</span>,
+    <span class="ident">spec_version</span>: <span class="number">2</span>,
+    <span class="ident">impl_version</span>: <span class="number">2</span>,
     <span class="ident">apis</span>: <span class="ident">RUNTIME_API_VERSIONS</span>,
     <span class="ident">transaction_version</span>: <span class="number">1</span>,
 };
@@ -1254,6 +1264,7 @@
 
 <span class="kw">impl</span> <span class="ident">cumulus_parachain_upgrade</span>::<span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
     <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+    <span class="kw">type</span> <span class="ident">SelfParaId</span> <span class="op">=</span> <span class="ident">parachain_info</span>::<span class="ident">Module</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">OnValidationData</span> <span class="op">=</span> ();
 }
 
@@ -1292,6 +1303,10 @@
     <span class="kw">type</span> <span class="ident">PointsLimit</span> <span class="op">=</span> <span class="ident">PointsLimit</span>;
     <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
     <span class="kw">type</span> <span class="ident">Call</span> <span class="op">=</span> <span class="ident">Call</span>;
+}
+
+<span class="kw">impl</span> <span class="ident">pallet_robonomics_digital_twin</span>::<span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
+    <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="ident">frame_system</span>::<span class="ident">offchain</span>::<span class="ident">CreateSignedTransaction</span><span class="op">&lt;</span><span class="ident">LocalCall</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Runtime</span>
@@ -1380,6 +1395,7 @@
         <span class="ident">Launch</span>: <span class="ident">pallet_robonomics_launch</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
         <span class="ident">LaunchXcm</span>: <span class="ident">pallet_robonomics_launch_xcm</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
         <span class="ident">RWS</span>: <span class="ident">pallet_robonomics_rws</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
+        <span class="ident">DigitalTwin</span>: <span class="ident">pallet_robonomics_digital_twin</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
 
         <span class="comment">// Parachain modules.</span>
         <span class="ident">MessageBroker</span>: <span class="ident">cumulus_message_broker</span>::{<span class="ident">Module</span>, <span class="ident">Storage</span>, <span class="ident">Call</span>, <span class="ident">Inherent</span>},
@@ -1509,6 +1525,10 @@
     <span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
         <span class="kw">fn</span> <span class="ident">query_info</span>(<span class="ident">uxt</span>: <span class="op">&lt;</span><span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span><span class="op">&gt;</span>::<span class="ident">Extrinsic</span>, <span class="ident">len</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RuntimeDispatchInfo</span><span class="op">&lt;</span><span class="ident">Balance</span><span class="op">&gt;</span> {
             <span class="ident">TransactionPayment</span>::<span class="ident">query_info</span>(<span class="ident">uxt</span>, <span class="ident">len</span>)
+        }
+
+        <span class="kw">fn</span> <span class="ident">query_fee_details</span>(<span class="ident">uxt</span>: <span class="op">&lt;</span><span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span><span class="op">&gt;</span>::<span class="ident">Extrinsic</span>, <span class="ident">len</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FeeDetails</span><span class="op">&lt;</span><span class="ident">Balance</span><span class="op">&gt;</span> {
+            <span class="ident">TransactionPayment</span>::<span class="ident">query_fee_details</span>(<span class="ident">uxt</span>, <span class="ident">len</span>)
         }
     }
 

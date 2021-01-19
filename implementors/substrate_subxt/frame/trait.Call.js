@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["robonomics_protocol"] = [{"text":"impl&lt;T:&nbsp;Datalog&gt; Call&lt;T&gt; for RecordCall&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;Datalog&gt; Call&lt;T&gt; for EreaseCall&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;Launch&gt; Call&lt;T&gt; for LaunchCall&lt;T&gt;","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

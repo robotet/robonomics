@@ -203,6 +203,13 @@
 <span id="202">202</span>
 <span id="203">203</span>
 <span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -228,7 +235,6 @@
     <span class="ident">Cli</span>, <span class="ident">Subcommand</span>,
 };
 <span class="kw">use</span> <span class="ident">codec</span>::<span class="ident">Encode</span>;
-<span class="kw">use</span> <span class="ident">cumulus_primitives</span>::<span class="ident">genesis</span>::<span class="ident">generate_genesis_block</span>;
 <span class="kw">use</span> <span class="ident">sc_cli</span>::{<span class="ident">ChainSpec</span>, <span class="ident">InitLoggerParams</span>, <span class="ident">Role</span>, <span class="ident">RuntimeVersion</span>, <span class="ident">SubstrateCli</span>};
 <span class="kw">use</span> <span class="ident">sp_api</span>::<span class="ident">BlockT</span>;
 <span class="kw">use</span> <span class="ident">sp_core</span>::<span class="ident">hexdisplay</span>::<span class="ident">HexDisplay</span>;
@@ -236,6 +242,8 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">parachain</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">cumulus_primitives</span>::<span class="ident">genesis</span>::<span class="ident">generate_genesis_block</span>;
 
 <span class="kw">impl</span> <span class="ident">SubstrateCli</span> <span class="kw">for</span> <span class="ident">Cli</span> {
     <span class="kw">fn</span> <span class="ident">impl_name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
@@ -273,7 +281,7 @@
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
             <span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">parachain</span>::<span class="ident">load_spec</span>(<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">run</span>.<span class="ident">parachain_id</span>.<span class="ident">unwrap_or</span>(<span class="number">3000</span>).<span class="ident">into</span>())<span class="question-mark">?</span>,
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>))]</span>
-            <span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Unknown spec&quot;</span>),
+            <span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Unknown spec&quot;</span>)<span class="question-mark">?</span>,
         })
     }
 
@@ -283,6 +291,8 @@
             <span class="ident">RobonomicsFamily</span>::<span class="ident">Development</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">robonomics_runtime</span>::<span class="ident">VERSION</span>,
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
             <span class="ident">RobonomicsFamily</span>::<span class="ident">Parachain</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">robonomics_parachain_runtime</span>::<span class="ident">VERSION</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>))]</span>
+            <span class="ident">RobonomicsFamily</span>::<span class="ident">Parachain</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">robonomics_runtime</span>::<span class="ident">VERSION</span>,
         }
     }
 }
@@ -309,12 +319,15 @@
                     }
                 }),
 
-                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
                 <span class="ident">RobonomicsFamily</span>::<span class="ident">Parachain</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">runner</span>.<span class="ident">run_node_until_exit</span>(<span class="op">|</span><span class="ident">config</span><span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
                     <span class="kw">if</span> <span class="macro">matches</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">role</span>, <span class="ident">Role</span>::<span class="ident">Light</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Light client not supporter!&quot;</span>.<span class="ident">into</span>());
                     }
 
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>))]</span>
+                    { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Parachain feature isn&#39;t enabled&quot;</span>.<span class="ident">into</span>()) }
+
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parachain&quot;</span>)]</span>
                     <span class="ident">parachain</span>::<span class="ident">command</span>::<span class="ident">run</span>(
                         <span class="ident">config</span>,
                         <span class="kw-2">&amp;</span><span class="ident">cli</span>.<span class="ident">relaychain_args</span>,
@@ -324,6 +337,7 @@
                     .<span class="ident">await</span>
                 }),
             }
+            .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
         }
         <span class="prelude-val">Some</span>(<span class="ident">Subcommand</span>::<span class="ident">Key</span>(<span class="ident">cmd</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cmd</span>.<span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="ident">cli</span>),
         <span class="prelude-val">Some</span>(<span class="ident">Subcommand</span>::<span class="ident">Sign</span>(<span class="ident">cmd</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cmd</span>.<span class="ident">run</span>(),
