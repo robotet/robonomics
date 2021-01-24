@@ -276,6 +276,13 @@
 <span id="275">275</span>
 <span id="276">276</span>
 <span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -298,8 +305,8 @@
 
 <span class="kw">use</span> <span class="ident">node_primitives</span>::{<span class="ident">AccountId</span>, <span class="ident">Balance</span>};
 <span class="kw">use</span> <span class="ident">robonomics_parachain_runtime</span>::{
-    <span class="ident">wasm_binary_unwrap</span>, <span class="ident">BalancesConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">IndicesConfig</span>, <span class="ident">ParachainInfoConfig</span>,
-    <span class="ident">SudoConfig</span>, <span class="ident">SystemConfig</span>,
+    <span class="ident">wasm_binary_unwrap</span>, <span class="ident">BalancesConfig</span>, <span class="ident">GenesisConfig</span>, <span class="ident">ParachainInfoConfig</span>, <span class="ident">SudoConfig</span>,
+    <span class="ident">SystemConfig</span>,
 };
 <span class="kw">use</span> <span class="ident">sc_chain_spec</span>::<span class="ident">ChainSpecExtension</span>;
 <span class="kw">use</span> <span class="ident">sc_service</span>::<span class="ident">ChainType</span>;
@@ -344,14 +351,19 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_chain_spec</span>(<span class="ident">id</span>: <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
     <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>::<span class="ident">from</span>(<span class="ident">EARTH_ID</span>) {
-        <span class="ident">earth_parachain_config</span>()
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>::<span class="ident">from</span>(<span class="ident">MARS_ID</span>) {
-        <span class="ident">mars_parachain_config</span>()
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>::<span class="ident">from</span>(<span class="ident">ROCOCO_ID</span>) {
-        <span class="ident">rococo_parachain_config</span>()
-    } <span class="kw">else</span> {
-        <span class="ident">test_chain_spec</span>(<span class="ident">id</span>)
+        <span class="kw">return</span> <span class="ident">earth_parachain_config</span>();
     }
+
+    <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>::<span class="ident">from</span>(<span class="ident">MARS_ID</span>) {
+        <span class="kw">return</span> <span class="ident">mars_parachain_config</span>();
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rococo-parachain&quot;</span>)]</span>
+    <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>::<span class="ident">from</span>(<span class="ident">ROCOCO_ID</span>) {
+        <span class="kw">return</span> <span class="ident">rococo_parachain_config</span>();
+    }
+
+    <span class="ident">test_chain_spec</span>(<span class="ident">id</span>)
 }
 
 <span class="kw">fn</span> <span class="ident">test_chain_spec</span>(<span class="ident">id</span>: <span class="ident">cumulus_primitives</span>::<span class="ident">ParaId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
@@ -402,7 +414,6 @@
             <span class="ident">code</span>,
             <span class="ident">changes_trie_config</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         }),
-        <span class="ident">pallet_indices</span>: <span class="prelude-val">Some</span>(<span class="ident">IndicesConfig</span> { <span class="ident">indices</span>: <span class="macro">vec</span><span class="macro">!</span>[] }),
         <span class="ident">pallet_balances</span>: <span class="prelude-val">Some</span>(<span class="ident">BalancesConfig</span> { <span class="ident">balances</span> }),
         <span class="ident">pallet_elections_phragmen</span>: <span class="prelude-val">Some</span>(<span class="ident">Default</span>::<span class="ident">default</span>()),
         <span class="ident">pallet_collective_Instance1</span>: <span class="prelude-val">Some</span>(<span class="ident">Default</span>::<span class="ident">default</span>()),
@@ -412,91 +423,91 @@
     }
 }
 
+<span class="doccomment">/// Earth parachain genesis.</span>
+<span class="kw">fn</span> <span class="ident">earth_parachain_genesis</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GenesisConfig</span> {
+    <span class="kw">use</span> <span class="ident">hex_literal</span>::<span class="ident">hex</span>;
+    <span class="kw">use</span> <span class="ident">robonomics_parachain_runtime</span>::<span class="ident">constants</span>::<span class="ident">currency</span>;
+
+    <span class="comment">// akru</span>
+    <span class="kw">let</span> <span class="ident">sudo_key</span>: <span class="ident">AccountId</span> <span class="op">=</span>
+        <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;</span>].<span class="ident">into</span>();
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">balances</span> <span class="op">=</span> <span class="ident">currency</span>::<span class="ident">STAKE_HOLDERS</span>.<span class="ident">clone</span>();
+    <span class="ident">balances</span>.<span class="ident">extend</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">sudo_key</span>.<span class="ident">clone</span>(), <span class="number">50_000</span> <span class="op">*</span> <span class="ident">currency</span>::<span class="ident">XRT</span>)]);
+
+    <span class="ident">mk_genesis</span>(
+        <span class="ident">balances</span>.<span class="ident">to_vec</span>(),
+        <span class="ident">sudo_key</span>,
+        <span class="ident">wasm_binary_unwrap</span>().<span class="ident">to_vec</span>(),
+        <span class="ident">EARTH_ID</span>.<span class="ident">into</span>(),
+    )
+}
+
+<span class="doccomment">/// Earth parachain config.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">earth_parachain_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
+    <span class="kw">let</span> <span class="ident">boot_nodes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+    <span class="ident">ChainSpec</span>::<span class="ident">from_genesis</span>(
+        <span class="string">&quot;Earth&quot;</span>,
+        <span class="string">&quot;earth&quot;</span>,
+        <span class="ident">ChainType</span>::<span class="ident">Live</span>,
+        <span class="ident">earth_parachain_genesis</span>,
+        <span class="ident">boot_nodes</span>,
+        <span class="prelude-val">Some</span>(
+            <span class="ident">sc_telemetry</span>::<span class="ident">TelemetryEndpoints</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">STAGING_TELEMETRY_URL</span>.<span class="ident">to_string</span>(), <span class="number">0</span>)])
+                .<span class="ident">unwrap</span>(),
+        ),
+        <span class="prelude-val">Some</span>(<span class="ident">ROBONOMICS_PROTOCOL_ID</span>),
+        <span class="prelude-val">None</span>,
+        <span class="ident">Extensions</span> {
+            <span class="ident">relay_chain</span>: <span class="string">&quot;rococo_local_testnet&quot;</span>.<span class="ident">into</span>(),
+            <span class="ident">para_id</span>: <span class="ident">EARTH_ID</span>.<span class="ident">into</span>(),
+        },
+    )
+}
+
+<span class="doccomment">/// Mars parachain genesis.</span>
+<span class="kw">fn</span> <span class="ident">mars_parachain_genesis</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GenesisConfig</span> {
+    <span class="kw">use</span> <span class="ident">hex_literal</span>::<span class="ident">hex</span>;
+    <span class="kw">use</span> <span class="ident">robonomics_parachain_runtime</span>::<span class="ident">constants</span>::<span class="ident">currency</span>;
+
+    <span class="comment">// akru</span>
+    <span class="kw">let</span> <span class="ident">sudo_key</span>: <span class="ident">AccountId</span> <span class="op">=</span>
+        <span class="macro">hex</span><span class="macro">!</span>[<span class="string">&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;</span>].<span class="ident">into</span>();
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">balances</span> <span class="op">=</span> <span class="ident">currency</span>::<span class="ident">STAKE_HOLDERS</span>.<span class="ident">clone</span>();
+    <span class="ident">balances</span>.<span class="ident">extend</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">sudo_key</span>.<span class="ident">clone</span>(), <span class="number">50_000</span> <span class="op">*</span> <span class="ident">currency</span>::<span class="ident">XRT</span>)]);
+
+    <span class="ident">mk_genesis</span>(
+        <span class="ident">balances</span>.<span class="ident">to_vec</span>(),
+        <span class="ident">sudo_key</span>,
+        <span class="ident">wasm_binary_unwrap</span>().<span class="ident">to_vec</span>(),
+        <span class="ident">MARS_ID</span>.<span class="ident">into</span>(),
+    )
+}
+
+<span class="doccomment">/// Mars parachain config.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mars_parachain_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
+    <span class="kw">let</span> <span class="ident">boot_nodes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+    <span class="ident">ChainSpec</span>::<span class="ident">from_genesis</span>(
+        <span class="string">&quot;Mars&quot;</span>,
+        <span class="string">&quot;mars&quot;</span>,
+        <span class="ident">ChainType</span>::<span class="ident">Live</span>,
+        <span class="ident">mars_parachain_genesis</span>,
+        <span class="ident">boot_nodes</span>,
+        <span class="prelude-val">Some</span>(
+            <span class="ident">sc_telemetry</span>::<span class="ident">TelemetryEndpoints</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">STAGING_TELEMETRY_URL</span>.<span class="ident">to_string</span>(), <span class="number">0</span>)])
+                .<span class="ident">unwrap</span>(),
+        ),
+        <span class="prelude-val">Some</span>(<span class="ident">ROBONOMICS_PROTOCOL_ID</span>),
+        <span class="prelude-val">None</span>,
+        <span class="ident">Extensions</span> {
+            <span class="ident">relay_chain</span>: <span class="string">&quot;rococo_local_testnet&quot;</span>.<span class="ident">into</span>(),
+            <span class="ident">para_id</span>: <span class="ident">MARS_ID</span>.<span class="ident">into</span>(),
+        },
+    )
+}
+
 <span class="comment">/*
-/// Earth parachain genesis.
-fn earth_parachain_genesis() -&gt; GenesisConfig {
-    use hex_literal::hex;
-    use robonomics_parachain_runtime::constants::currency;
-
-    // akru
-    let sudo_key: AccountId =
-        hex![&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;].into();
-
-    let mut balances = currency::STAKE_HOLDERS.clone();
-    balances.extend(vec![(sudo_key.clone(), 50_000 * currency::XRT)]);
-
-    mk_genesis(
-        balances.to_vec(),
-        sudo_key,
-        wasm_binary_unwrap().to_vec(),
-        EARTH_ID.into(),
-    )
-}
-
-/// Earth parachain config.
-pub fn earth_parachain_config() -&gt; ChainSpec {
-    let boot_nodes = vec![];
-    ChainSpec::from_genesis(
-        &quot;Earth&quot;,
-        &quot;earth&quot;,
-        ChainType::Live,
-        earth_parachain_genesis,
-        boot_nodes,
-        Some(
-            sc_telemetry::TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)])
-                .unwrap(),
-        ),
-        Some(ROBONOMICS_PROTOCOL_ID),
-        None,
-        Extensions {
-            relay_chain: &quot;rococo_local_testnet&quot;.into(),
-            para_id: EARTH_ID.into(),
-        },
-    )
-}
-
-/// Mars parachain genesis.
-fn mars_parachain_genesis() -&gt; GenesisConfig {
-    use hex_literal::hex;
-    use robonomics_parachain_runtime::constants::currency;
-
-    // akru
-    let sudo_key: AccountId =
-        hex![&quot;16eb796bee0c857db3d646ee7070252707aec0c7d82b2eda856632f6a2306a58&quot;].into();
-
-    let mut balances = currency::STAKE_HOLDERS.clone();
-    balances.extend(vec![(sudo_key.clone(), 50_000 * currency::XRT)]);
-
-    mk_genesis(
-        balances.to_vec(),
-        sudo_key,
-        wasm_binary_unwrap().to_vec(),
-        MARS_ID.into(),
-    )
-}
-
-/// Mars parachain config.
-pub fn mars_parachain_config() -&gt; ChainSpec {
-    let boot_nodes = vec![];
-    ChainSpec::from_genesis(
-        &quot;Mars&quot;,
-        &quot;mars&quot;,
-        ChainType::Live,
-        mars_parachain_genesis,
-        boot_nodes,
-        Some(
-            sc_telemetry::TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)])
-                .unwrap(),
-        ),
-        Some(ROBONOMICS_PROTOCOL_ID),
-        None,
-        Extensions {
-            relay_chain: &quot;rococo_local_testnet&quot;.into(),
-            para_id: MARS_ID.into(),
-        },
-    )
-}
-
 /// Rococo parachain genesis.
 fn rococo_parachain_genesis() -&gt; GenesisConfig {
     use hex_literal::hex;
@@ -540,17 +551,20 @@ pub fn rococo_parachain_config() -&gt; ChainSpec {
 }
 */</span>
 
-<span class="doccomment">/// Earth parachain confing.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">earth_parachain_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
-    <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../../res/earth.json&quot;</span>)[..]).<span class="ident">unwrap</span>()
+<span class="comment">/*
+/// Earth parachain confing.
+pub fn earth_parachain_config() -&gt; ChainSpec {
+    ChainSpec::from_json_bytes(&amp;include_bytes!(&quot;../../res/earth.json&quot;)[..]).unwrap()
 }
 
-<span class="doccomment">/// Mars parachain confing.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mars_parachain_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
-    <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../../res/mars.json&quot;</span>)[..]).<span class="ident">unwrap</span>()
+/// Mars parachain confing.
+pub fn mars_parachain_config() -&gt; ChainSpec {
+    ChainSpec::from_json_bytes(&amp;include_bytes!(&quot;../../res/mars.json&quot;)[..]).unwrap()
 }
+*/</span>
 
 <span class="doccomment">/// Rococo parachain confing.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rococo-parachain&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rococo_parachain_config</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChainSpec</span> {
     <span class="ident">ChainSpec</span>::<span class="ident">from_json_bytes</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../../res/rococo.json&quot;</span>)[..]).<span class="ident">unwrap</span>()
 }
