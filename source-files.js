@@ -1,8 +1,10 @@
 var N = null;var sourcesIndex = {};
+sourcesIndex["node_bench"] = {"name":"","files":["common.rs","construct.rs","core.rs","generator.rs","import.rs","main.rs","simple_trie.rs","state_sizes.rs","tempdb.rs","trie.rs","txpool.rs"]};
 sourcesIndex["node_cli"] = {"name":"","dirs":[{"name":"parachain","files":["chain_spec.rs","cli.rs","collator.rs","command.rs"]}],"files":["chain_spec.rs","cli.rs","command.rs","lib.rs","parachain.rs","service.rs"]};
 sourcesIndex["node_primitives"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["node_rpc"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["node_runtime"] = {"name":"","files":["constants.rs","lib.rs"]};
+sourcesIndex["node_testing"] = {"name":"","files":["bench.rs","client.rs","genesis.rs","keyring.rs","lib.rs"]};
 sourcesIndex["pallet_robonomics_datalog"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_datalog_xcm"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["pallet_robonomics_digital_twin"] = {"name":"","files":["lib.rs"]};

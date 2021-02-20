@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["new_full","Create a new Robonomics service for a full node."],["new_light",""]],"struct":[["Executor","A unit struct which implements `NativeExecutionDispatch` feeding in the hard-coded runtime."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["earth_parachain_config","Earth parachain confing."],["get_chain_spec",""],["mars_parachain_config","Mars parachain confing."],["rococo_parachain_config","Rococo parachain confing."]],"struct":[["Extensions","Node `ChainSpec` extensions."]],"type":[["ChainSpec","Specialized `ChainSpec`."]]});
