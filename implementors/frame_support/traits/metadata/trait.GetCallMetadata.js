@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["node_runtime"] = [{"text":"impl GetCallMetadata for <a class=\"enum\" href=\"node_runtime/enum.Call.html\" title=\"enum node_runtime::Call\">Call</a>","synthetic":false,"types":["node_runtime::Call"]}];
+implementors["parachain_runtime"] = [{"text":"impl GetCallMetadata for <a class=\"enum\" href=\"parachain_runtime/enum.Call.html\" title=\"enum parachain_runtime::Call\">Call</a>","synthetic":false,"types":["parachain_runtime::Call"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

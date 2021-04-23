@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["PureIPFS","Using IPFS to handle technical aspects of agreement without confirmation."]]});
+initSidebarItems({"struct":[["IPFS","Using IPFS to handle technical aspects of agreement without confirmation."]]});
