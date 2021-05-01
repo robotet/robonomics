@@ -578,7 +578,7 @@
 
     <span class="doccomment">/// Ringbuffer start/end pointers</span>
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">storage</span>]</span>
-    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">datalogidx</span>)]</span>
+    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">datalog_index</span>)]</span>
     <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DatalogIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageMap</span><span class="op">&lt;</span>
         <span class="kw">_</span>,
         <span class="ident">Twox64Concat</span>,
@@ -589,7 +589,7 @@
 
     <span class="doccomment">/// Ringbuffer items</span>
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">storage</span>]</span>
-    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">datalogitem</span>)]</span>
+    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">datalog_item</span>)]</span>
     <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DatalogItem</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageMap</span><span class="op">&lt;</span>
         <span class="kw">_</span>,
         <span class="ident">Twox64Concat</span>,

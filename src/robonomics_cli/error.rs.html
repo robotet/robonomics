@@ -49,6 +49,8 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
@@ -81,6 +83,8 @@
     <span class="ident">IoFailure</span>(<span class="ident">robonomics_io</span>::<span class="ident">error</span>::<span class="ident">Error</span>),
     <span class="doccomment">/// Standard I/O error.</span>
     <span class="ident">Io</span>(<span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Error</span>),
+    <span class="doccomment">/// Unable to decode address.</span>
+    <span class="ident">Ss58CodecError</span>,
     <span class="doccomment">/// Other error.</span>
     <span class="ident">Other</span>(<span class="ident">String</span>),
 }
