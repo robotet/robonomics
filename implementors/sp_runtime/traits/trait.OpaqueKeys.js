@@ -1,4 +1,4 @@
 (function() {var implementors = {};
-implementors["node_runtime"] = [{"text":"impl OpaqueKeys for <a class=\"struct\" href=\"node_runtime/struct.SessionKeys.html\" title=\"struct node_runtime::SessionKeys\">SessionKeys</a>","synthetic":false,"types":["node_runtime::SessionKeys"]}];
-implementors["parachain_runtime"] = [{"text":"impl OpaqueKeys for <a class=\"struct\" href=\"parachain_runtime/struct.SessionKeys.html\" title=\"struct parachain_runtime::SessionKeys\">SessionKeys</a>","synthetic":false,"types":["parachain_runtime::SessionKeys"]}];
+implementors["node_runtime"] = [{"text":"impl OpaqueKeys for SessionKeys","synthetic":false,"types":[]}];
+implementors["parachain_runtime"] = [{"text":"impl OpaqueKeys for SessionKeys","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

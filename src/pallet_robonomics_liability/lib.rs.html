@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `robonomics/frame/liability/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `robonomics/frame/liability/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../pallet_robonomics_liability/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../pallet_robonomics_liability/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -418,10 +418,98 @@
 <span id="415">415</span>
 <span id="416">416</span>
 <span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//</span>
-<span class="comment">//  Copyright 2018-2021 Robonomics Network &lt;research@robonomics.network&gt;</span>
+<span class="comment">//  Copyright 2018-2020 Airalab &lt;research@aira.life&gt;</span>
 <span class="comment">//</span>
 <span class="comment">//  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="comment">//  you may not use this file except in compliance with the License.</span>
@@ -445,87 +533,104 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">traits</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">pallet</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">signed</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">traits</span>::<span class="kw-2">*</span>;
 
 <span class="attribute">#[<span class="ident">frame_support</span>::<span class="ident">pallet</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pallet</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">traits</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">dispatch</span>, <span class="ident">pallet_prelude</span>::<span class="kw-2">*</span>};
+    <span class="kw">use</span> <span class="ident">frame_support</span>::<span class="ident">pallet_prelude</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">frame_system</span>::<span class="ident">pallet_prelude</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">sp_std</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+    <span class="doccomment">/// Type synonym for technical trait parameter.</span>
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">TechnicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Technics</span> <span class="kw">as</span> <span class="ident">Technical</span><span class="op">&gt;</span>::<span class="ident">Parameter</span>;
+
+    <span class="doccomment">/// Type synonym for technical report trait parameter.</span>
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">TechnicalReport</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Technics</span> <span class="kw">as</span> <span class="ident">Technical</span><span class="op">&gt;</span>::<span class="ident">Report</span>;
+
+    <span class="doccomment">/// Type synonym for economical trait parameter.</span>
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">EconomicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Economics</span> <span class="kw">as</span> <span class="ident">Economical</span><span class="op">&gt;</span>::<span class="ident">Parameter</span>;
+
+    <span class="doccomment">/// Type synonym for liability proof parameter.</span>
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ProofParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Liability</span> <span class="kw">as</span> <span class="ident">Agreement</span><span class="op">&lt;</span>
+        <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Technics</span>,
+        <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Economics</span>,
+    <span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Proof</span>;
+
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Liability</span> <span class="kw">as</span> <span class="ident">Agreement</span><span class="op">&lt;</span>
+        <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Technics</span>,
+        <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Economics</span>,
+    <span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Index</span>;
 
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">config</span>]</span>
     <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Config</span>: <span class="ident">frame_system</span>::<span class="ident">Config</span> {
-        <span class="doccomment">/// How to make and process agreement between two parties.</span>
-        <span class="kw">type</span> <span class="ident">Agreement</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span> <span class="op">+</span> <span class="ident">Processing</span> <span class="op">+</span> <span class="ident">Agreement</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">AccountId</span><span class="op">&gt;</span>;
+        <span class="doccomment">/// Technical aspects of agreement.</span>
+        <span class="kw">type</span> <span class="ident">Technics</span>: <span class="ident">Technical</span>;
 
-        <span class="doccomment">/// How to report of agreement execution.</span>
-        <span class="kw">type</span> <span class="ident">Report</span>: <span class="ident">dispatch</span>::<span class="ident">Parameter</span> <span class="op">+</span> <span class="ident">Report</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Index</span>, <span class="self">Self</span>::<span class="ident">AccountId</span><span class="op">&gt;</span>;
+        <span class="doccomment">/// Economical aspects of agreement.</span>
+        <span class="kw">type</span> <span class="ident">Economics</span>: <span class="ident">Economical</span>;
+
+        <span class="doccomment">/// How to make and process agreement between two parties.</span>
+        <span class="kw">type</span> <span class="ident">Liability</span>: <span class="ident">codec</span>::<span class="ident">Codec</span>
+            <span class="op">+</span> <span class="ident">Processing</span>
+            <span class="op">+</span> <span class="ident">Agreement</span><span class="op">&lt;</span>
+                <span class="self">Self</span>::<span class="ident">Technics</span>,
+                <span class="self">Self</span>::<span class="ident">Economics</span>,
+                <span class="ident">AccountId</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">AccountId</span>,
+                <span class="ident">Index</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">Index</span>,
+            <span class="op">&gt;</span>;
 
         <span class="doccomment">/// The overarching event type.</span>
         <span class="kw">type</span> <span class="ident">Event</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">IsType</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">frame_system</span>::<span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Event</span><span class="op">&gt;</span>;
     }
 
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">TechnicsFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span>
-        <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Agreement</span> <span class="kw">as</span> <span class="ident">Agreement</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">frame_system</span>::<span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">AccountId</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Technical</span>;
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">EconomicsFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span>
-        <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Agreement</span> <span class="kw">as</span> <span class="ident">Agreement</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">frame_system</span>::<span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">AccountId</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Economical</span>;
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ReportFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Report</span>;
-
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">event</span>]</span>
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">generate_deposit</span>(<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">deposit_event</span>)]</span>
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">metadata</span>(
-        <span class="ident">T</span>::<span class="ident">Index</span> <span class="op">=</span> <span class="string">&quot;LiabilityIndex&quot;</span>,
         <span class="ident">T</span>::<span class="ident">AccountId</span> <span class="op">=</span> <span class="string">&quot;AccountId&quot;</span>,
-        <span class="ident">TechnicsFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;Technics&quot;</span>,
-        <span class="ident">EconomicsFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;Economics&quot;</span>,
-        <span class="ident">ReportFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;Report&quot;</span>,
+        <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;LiabilityIndex&quot;</span>,
+        <span class="ident">TechnicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;TechnicalParam&quot;</span>,
+        <span class="ident">EconomicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;EconomicalParam&quot;</span>,
+        <span class="ident">TechnicalReport</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;TechnicalReport&quot;</span>,
     )]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> {
         <span class="doccomment">/// Yay! New liability created.</span>
         <span class="ident">NewLiability</span>(
-            <span class="ident">T</span>::<span class="ident">Index</span>,
-            <span class="ident">TechnicsFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-            <span class="ident">EconomicsFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">TechnicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">EconomicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
             <span class="ident">T</span>::<span class="ident">AccountId</span>,
             <span class="ident">T</span>::<span class="ident">AccountId</span>,
         ),
 
         <span class="doccomment">/// Liability report published.</span>
-        <span class="ident">NewReport</span>(<span class="ident">T</span>::<span class="ident">Index</span>, <span class="ident">ReportFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>),
+        <span class="ident">NewReport</span>(<span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">TechnicalReport</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>),
     }
 
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">error</span>]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="doccomment">/// Agreement proof verification failed.</span>
-        <span class="ident">BadAgreementProof</span>,
-        <span class="doccomment">/// Report proof verification failed.</span>
+        <span class="doccomment">/// Promisor agreement proof verification failed</span>
+        <span class="ident">BadPromisorProof</span>,
+        <span class="doccomment">/// Promisee agreement proof verification failed</span>
+        <span class="ident">BadPromiseeProof</span>,
+        <span class="doccomment">/// Promisor report proof verification failed</span>
         <span class="ident">BadReportProof</span>,
-        <span class="doccomment">/// Wrong report sender account.</span>
-        <span class="ident">BadReportSender</span>,
-        <span class="doccomment">/// Liability already finalized.</span>
-        <span class="ident">AlreadyFinalized</span>,
-        <span class="doccomment">/// Real world oracle is not ready for this report.</span>
-        <span class="ident">OracleIsNotReady</span>,
-        <span class="doccomment">/// Unable to load agreement from storage.</span>
-        <span class="ident">AgreementNotFound</span>,
+        <span class="doccomment">/// Unable to decode liability at given index</span>
+        <span class="ident">LiabilityDecodeFailure</span>,
     }
 
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">storage</span>]</span>
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">latest_index</span>)]</span>
     <span class="doccomment">/// Latest liability index.</span>
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type</span> <span class="ident">LatestIndex</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageValue</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">T</span>::<span class="ident">Index</span><span class="op">&gt;</span>;
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type</span> <span class="ident">LatestIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageValue</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">storage</span>]</span>
-    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">agreement_of</span>)]</span>
-    <span class="doccomment">/// Technical and economical parameters of liability.</span>
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type</span> <span class="ident">AgreementOf</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageMap</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Twox64Concat</span>, <span class="ident">T</span>::<span class="ident">Index</span>, <span class="ident">T</span>::<span class="ident">Agreement</span><span class="op">&gt;</span>;
+    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">liability_of</span>)]</span>
+    <span class="doccomment">/// SCALE-encoded liability parameters.</span>
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type</span> <span class="ident">LiabilityOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageMap</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Twox64Concat</span>, <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">storage</span>]</span>
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">getter</span>(<span class="kw">fn</span> <span class="ident">report_of</span>)]</span>
-    <span class="doccomment">/// Result of liability execution.</span>
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type</span> <span class="ident">ReportOf</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageMap</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Twox64Concat</span>, <span class="ident">T</span>::<span class="ident">Index</span>, <span class="ident">ReportFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// SCALE-encoded liability report.</span>
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type</span> <span class="ident">ReportOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">StorageMap</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Twox64Concat</span>, <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">hooks</span>]</span>
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="ident">Hooks</span><span class="op">&lt;</span><span class="ident">BlockNumberFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Pallet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
@@ -538,26 +643,52 @@
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="ident">Pallet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="doccomment">/// Create agreement between two parties.</span>
         <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">weight</span>(<span class="number">200_000</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create</span>(<span class="ident">origin</span>: <span class="ident">OriginFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">agreement</span>: <span class="ident">T</span>::<span class="ident">Agreement</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResultWithPostInfo</span> {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">ensure_signed</span>(<span class="ident">origin</span>)<span class="question-mark">?</span>;
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create</span>(
+            <span class="ident">origin</span>: <span class="ident">OriginFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">technics</span>: <span class="ident">TechnicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">economics</span>: <span class="ident">EconomicalParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">promisee</span>: <span class="ident">T</span>::<span class="ident">AccountId</span>,
+            <span class="ident">promisor</span>: <span class="ident">T</span>::<span class="ident">AccountId</span>,
+            <span class="ident">promisee_proof</span>: <span class="ident">ProofParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">promisor_proof</span>: <span class="ident">ProofParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+        ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResultWithPostInfo</span> {
+            <span class="ident">ensure_none</span>(<span class="ident">origin</span>)<span class="question-mark">?</span>;
 
-            <span class="macro">ensure</span><span class="macro">!</span>(<span class="ident">agreement</span>.<span class="ident">verify</span>(), <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">BadAgreementProof</span>);
+            <span class="comment">// Create liability</span>
+            <span class="kw">let</span> <span class="ident">liability</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">Liability</span>::<span class="ident">new</span>(
+                <span class="ident">technics</span>.<span class="ident">clone</span>(),
+                <span class="ident">economics</span>.<span class="ident">clone</span>(),
+                <span class="ident">promisee</span>.<span class="ident">clone</span>(),
+                <span class="ident">promisor</span>.<span class="ident">clone</span>(),
+            );
 
-            <span class="comment">// Start agreement processing</span>
-            <span class="ident">agreement</span>.<span class="ident">on_start</span>()<span class="question-mark">?</span>;
+            <span class="comment">// Check promisee proof</span>
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">liability</span>.<span class="ident">check_params</span>(<span class="kw-2">&amp;</span><span class="ident">promisee_proof</span>, <span class="kw-2">&amp;</span><span class="ident">promisee</span>) {
+                <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">BadPromiseeProof</span>)<span class="question-mark">?</span>
+            }
 
-            <span class="comment">// Store agreement on storage</span>
+            <span class="comment">// Check promisor proof</span>
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">liability</span>.<span class="ident">check_params</span>(<span class="kw-2">&amp;</span><span class="ident">promisor_proof</span>, <span class="kw-2">&amp;</span><span class="ident">promisor</span>) {
+                <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">BadPromisorProof</span>)<span class="question-mark">?</span>
+            }
+
+            <span class="comment">// Run economical processing</span>
+            <span class="ident">liability</span>.<span class="ident">on_start</span>()<span class="question-mark">?</span>;
+
+            <span class="comment">// Store liability params as bytestring</span>
             <span class="kw">let</span> <span class="ident">latest_index</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">LatestIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">get</span>().<span class="ident">unwrap_or</span>(<span class="ident">Default</span>::<span class="ident">default</span>());
-            <span class="op">&lt;</span><span class="ident">AgreementOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">insert</span>(<span class="ident">latest_index</span>, <span class="ident">agreement</span>.<span class="ident">clone</span>());
+            <span class="ident">liability</span>.<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">encoded</span><span class="op">|</span> {
+                <span class="op">&lt;</span><span class="ident">LiabilityOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">insert</span>(<span class="ident">latest_index</span>, <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">encoded</span>))
+            });
             <span class="op">&lt;</span><span class="ident">LatestIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">put</span>(<span class="ident">latest_index</span> <span class="op">+</span> <span class="number">1u32</span>.<span class="ident">into</span>());
 
             <span class="comment">// Emit event</span>
             <span class="self">Self</span>::<span class="ident">deposit_event</span>(<span class="ident">Event</span>::<span class="ident">NewLiability</span>(
                 <span class="ident">latest_index</span>,
-                <span class="ident">agreement</span>.<span class="ident">technical</span>(),
-                <span class="ident">agreement</span>.<span class="ident">economical</span>(),
-                <span class="ident">agreement</span>.<span class="ident">promisee</span>(),
-                <span class="ident">agreement</span>.<span class="ident">promisor</span>(),
+                <span class="ident">technics</span>,
+                <span class="ident">economics</span>,
+                <span class="ident">promisee</span>,
+                <span class="ident">promisor</span>,
             ));
 
             <span class="prelude-val">Ok</span>(().<span class="ident">into</span>())
@@ -565,41 +696,97 @@
 
         <span class="doccomment">/// Publish technical report of complite works.</span>
         <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">weight</span>(<span class="number">200_000</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="ident">origin</span>: <span class="ident">OriginFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">report</span>: <span class="ident">ReportFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResultWithPostInfo</span> {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">ensure_signed</span>(<span class="ident">origin</span>)<span class="question-mark">?</span>;
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finalize</span>(
+            <span class="ident">origin</span>: <span class="ident">OriginFor</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">index</span>: <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">report</span>: <span class="ident">TechnicalReport</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+            <span class="ident">proof</span>: <span class="ident">ProofParam</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+        ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DispatchResultWithPostInfo</span> {
+            <span class="ident">ensure_none</span>(<span class="ident">origin</span>)<span class="question-mark">?</span>;
 
-            <span class="comment">// Check report proof</span>
-            <span class="macro">ensure</span><span class="macro">!</span>(<span class="ident">report</span>.<span class="ident">verify</span>(), <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">BadReportProof</span>);
-
-            <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">report</span>.<span class="ident">index</span>();
             <span class="comment">// Is liability already finalized?</span>
-            <span class="macro">ensure</span><span class="macro">!</span>(
-                <span class="op">&lt;</span><span class="ident">ReportOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">get</span>(<span class="ident">index</span>) <span class="op">=</span><span class="op">=</span> <span class="prelude-val">None</span>,
-                <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">AlreadyFinalized</span>
-            );
+            <span class="macro">ensure</span><span class="macro">!</span>(<span class="op">&lt;</span><span class="ident">ReportOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">get</span>(<span class="ident">index</span>) <span class="op">=</span><span class="op">=</span> <span class="prelude-val">None</span>, <span class="string">&quot;already finalized&quot;</span>);
 
-            <span class="comment">// Decode agreement from storage</span>
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">agreement</span>) <span class="op">=</span> <span class="op">&lt;</span><span class="ident">AgreementOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">get</span>(<span class="ident">index</span>) {
-                <span class="comment">// Check report sender</span>
-                <span class="macro">ensure</span><span class="macro">!</span>(
-                    <span class="ident">report</span>.<span class="ident">sender</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">agreement</span>.<span class="ident">promisor</span>(),
-                    <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">BadReportSender</span>
-                );
+            <span class="comment">// Decode liability from storage</span>
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">encoded</span>) <span class="op">=</span> <span class="op">&lt;</span><span class="ident">LiabilityOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">get</span>(<span class="ident">index</span>) {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">liability</span>) <span class="op">=</span> <span class="ident">T</span>::<span class="ident">Liability</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">encoded</span>.<span class="ident">as_ref</span>()) {
+                    <span class="comment">// Check report proof</span>
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">liability</span>.<span class="ident">check_report</span>(<span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">report</span>, <span class="kw-2">&amp;</span><span class="ident">proof</span>) {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">BadReportProof</span>.<span class="ident">into</span>());
+                    }
 
-                <span class="comment">// Run agreement final processing</span>
-                <span class="kw">match</span> <span class="ident">report</span>.<span class="ident">is_confirmed</span>() {
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">OracleIsNotReady</span>)<span class="question-mark">?</span>,
-                    <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">agreement</span>.<span class="ident">on_finish</span>(<span class="ident">x</span>)<span class="question-mark">?</span>,
+                    <span class="comment">// Run economical processing</span>
+                    <span class="comment">// TODO: get parameter from oracle</span>
+                    <span class="ident">liability</span>.<span class="ident">on_finish</span>(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
+
+                    <span class="comment">// Store report as bytestring</span>
+                    <span class="ident">report</span>.<span class="ident">using_encoded</span>(<span class="op">|</span><span class="ident">bytes</span><span class="op">|</span> <span class="op">&lt;</span><span class="ident">ReportOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">insert</span>(<span class="ident">index</span>, <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">bytes</span>)));
+
+                    <span class="comment">// Emit event</span>
+                    <span class="self">Self</span>::<span class="ident">deposit_event</span>(<span class="ident">Event</span>::<span class="ident">NewReport</span>(<span class="ident">index</span>, <span class="ident">report</span>));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(().<span class="ident">into</span>());
+                }
+            }
+
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">LiabilityDecodeFailure</span>.<span class="ident">into</span>())
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">pallet</span>::<span class="ident">validate_unsigned</span>]</span>
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Config</span><span class="op">&gt;</span> <span class="ident">ValidateUnsigned</span> <span class="kw">for</span> <span class="ident">Pallet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">type</span> <span class="ident">Call</span> <span class="op">=</span> <span class="ident">Call</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
+        <span class="kw">fn</span> <span class="ident">validate_unsigned</span>(<span class="ident">_source</span>: <span class="ident">TransactionSource</span>, <span class="ident">call</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Call</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TransactionValidity</span> {
+            <span class="kw">match</span> <span class="ident">call</span> {
+                <span class="ident">Call</span>::<span class="ident">create</span>(
+                    <span class="ident">technics</span>,
+                    <span class="ident">economics</span>,
+                    <span class="ident">promisee</span>,
+                    <span class="ident">promisor</span>,
+                    <span class="ident">promisee_proof</span>,
+                    <span class="ident">promisor_proof</span>,
+                ) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">let</span> <span class="ident">liability</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">Liability</span>::<span class="ident">new</span>(
+                        <span class="ident">technics</span>.<span class="ident">clone</span>(),
+                        <span class="ident">economics</span>.<span class="ident">clone</span>(),
+                        <span class="ident">promisee</span>.<span class="ident">clone</span>(),
+                        <span class="ident">promisor</span>.<span class="ident">clone</span>(),
+                    );
+
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">liability</span>.<span class="ident">check_params</span>(<span class="ident">promisee_proof</span>, <span class="ident">promisee</span>) {
+                        <span class="kw">return</span> <span class="ident">InvalidTransaction</span>::<span class="ident">BadProof</span>.<span class="ident">into</span>();
+                    }
+
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">liability</span>.<span class="ident">check_params</span>(<span class="ident">promisor_proof</span>, <span class="ident">promisor</span>) {
+                        <span class="kw">return</span> <span class="ident">InvalidTransaction</span>::<span class="ident">BadProof</span>.<span class="ident">into</span>();
+                    }
+
+                    <span class="ident">ValidTransaction</span>::<span class="ident">with_tag_prefix</span>(<span class="string">&quot;liability&quot;</span>)
+                        .<span class="ident">priority</span>(<span class="ident">TransactionPriority</span>::<span class="ident">max_value</span>())
+                        .<span class="ident">and_provides</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">technics</span>, <span class="ident">economics</span>, <span class="ident">promisee</span>, <span class="ident">promisor</span>).<span class="ident">encode</span>()])
+                        .<span class="ident">longevity</span>(<span class="number">64u64</span>)
+                        .<span class="ident">propagate</span>(<span class="bool-val">true</span>)
+                        .<span class="ident">build</span>()
                 }
 
-                <span class="comment">// Store report on storage</span>
-                <span class="op">&lt;</span><span class="ident">ReportOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">insert</span>(<span class="ident">index</span>, <span class="ident">report</span>.<span class="ident">clone</span>());
+                <span class="ident">Call</span>::<span class="ident">finalize</span>(<span class="ident">index</span>, <span class="ident">report</span>, <span class="ident">proof</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">encoded</span>) <span class="op">=</span> <span class="op">&lt;</span><span class="ident">LiabilityOf</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">get</span>(<span class="ident">index</span>) {
+                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">liability</span>) <span class="op">=</span> <span class="ident">T</span>::<span class="ident">Liability</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">encoded</span>.<span class="ident">as_ref</span>()) {
+                            <span class="kw">if</span> <span class="op">!</span><span class="ident">liability</span>.<span class="ident">check_report</span>(<span class="ident">index</span>, <span class="ident">report</span>, <span class="ident">proof</span>) {
+                                <span class="kw">return</span> <span class="ident">InvalidTransaction</span>::<span class="ident">BadProof</span>.<span class="ident">into</span>();
+                            } <span class="kw">else</span> {
+                                <span class="kw">return</span> <span class="ident">ValidTransaction</span>::<span class="ident">with_tag_prefix</span>(<span class="string">&quot;liability&quot;</span>)
+                                    .<span class="ident">priority</span>(<span class="ident">TransactionPriority</span>::<span class="ident">max_value</span>())
+                                    .<span class="ident">and_provides</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">index</span>, <span class="ident">report</span>).<span class="ident">encode</span>()])
+                                    .<span class="ident">longevity</span>(<span class="number">64u64</span>)
+                                    .<span class="ident">propagate</span>(<span class="bool-val">true</span>)
+                                    .<span class="ident">build</span>();
+                            }
+                        }
+                    }
+                    <span class="ident">InvalidTransaction</span>::<span class="ident">Call</span>.<span class="ident">into</span>()
+                }
 
-                <span class="comment">// Emit event</span>
-                <span class="self">Self</span>::<span class="ident">deposit_event</span>(<span class="ident">Event</span>::<span class="ident">NewReport</span>(<span class="ident">index</span>, <span class="ident">report</span>));
-                <span class="prelude-val">Ok</span>(().<span class="ident">into</span>())
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>::<span class="ident">AgreementNotFound</span>.<span class="ident">into</span>())
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">InvalidTransaction</span>::<span class="ident">Call</span>.<span class="ident">into</span>(),
             }
         }
     }
@@ -607,11 +794,13 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">signed</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">technics</span>::<span class="ident">IPFS</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">economics</span>::<span class="ident">Communism</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">signed</span>::{<span class="ident">ProofSigner</span>, <span class="ident">SignedLiability</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">technics</span>::<span class="ident">PureIPFS</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">traits</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="self">self</span> <span class="kw">as</span> <span class="ident">liability</span>, <span class="kw-2">*</span>};
     <span class="kw">use</span> <span class="ident">base58</span>::<span class="ident">FromBase58</span>;
+    <span class="kw">use</span> <span class="ident">codec</span>::<span class="ident">Encode</span>;
     <span class="kw">use</span> <span class="ident">frame_support</span>::{<span class="ident">assert_err</span>, <span class="ident">assert_ok</span>, <span class="ident">parameter_types</span>};
     <span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">crypto</span>::<span class="ident">Pair</span>, <span class="ident">sr25519</span>, <span class="ident">H256</span>};
     <span class="kw">use</span> <span class="ident">sp_runtime</span>::{
@@ -629,8 +818,8 @@
             <span class="ident">NodeBlock</span> <span class="op">=</span> <span class="ident">Block</span>,
             <span class="ident">UncheckedExtrinsic</span> <span class="op">=</span> <span class="ident">UncheckedExtrinsic</span>,
         {
-            <span class="ident">System</span>: <span class="ident">frame_system</span>::{<span class="ident">Pallet</span>, <span class="ident">Call</span>, <span class="ident">Config</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
-            <span class="ident">Liability</span>: <span class="ident">liability</span>::{<span class="ident">Pallet</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
+            <span class="ident">System</span>: <span class="ident">frame_system</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Config</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>},
+            <span class="ident">Liability</span>: <span class="ident">liability</span>::{<span class="ident">Module</span>, <span class="ident">Call</span>, <span class="ident">Storage</span>, <span class="ident">Event</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">ValidateUnsigned</span>},
         }
     );
 
@@ -661,30 +850,18 @@
         <span class="kw">type</span> <span class="ident">BlockWeights</span> <span class="op">=</span> ();
         <span class="kw">type</span> <span class="ident">BlockLength</span> <span class="op">=</span> ();
         <span class="kw">type</span> <span class="ident">SS58Prefix</span> <span class="op">=</span> ();
-        <span class="kw">type</span> <span class="ident">OnSetCode</span> <span class="op">=</span> ();
     }
 
     <span class="kw">impl</span> <span class="ident">Config</span> <span class="kw">for</span> <span class="ident">Runtime</span> {
         <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
-        <span class="kw">type</span> <span class="ident">Agreement</span> <span class="op">=</span> <span class="ident">SignedAgreement</span><span class="op">&lt;</span>
-            <span class="comment">// Provide task in IPFS</span>
-            <span class="ident">IPFS</span>,
-            <span class="comment">// No payments</span>
-            (),
-            <span class="comment">// Use standard accounts</span>
-            <span class="self">Self</span>::<span class="ident">AccountId</span>,
-            <span class="comment">// Use standard signatures</span>
+        <span class="kw">type</span> <span class="ident">Technics</span> <span class="op">=</span> <span class="ident">PureIPFS</span>;
+        <span class="kw">type</span> <span class="ident">Economics</span> <span class="op">=</span> <span class="ident">Communism</span>;
+        <span class="kw">type</span> <span class="ident">Liability</span> <span class="op">=</span> <span class="ident">SignedLiability</span><span class="op">&lt;</span>
+            <span class="self">Self</span>::<span class="ident">Technics</span>,
+            <span class="self">Self</span>::<span class="ident">Economics</span>,
             <span class="ident">MultiSignature</span>,
-        <span class="op">&gt;</span>;
-        <span class="kw">type</span> <span class="ident">Report</span> <span class="op">=</span> <span class="ident">SignedReport</span><span class="op">&lt;</span>
-            <span class="comment">// Indexing liabilities using system index</span>
-            <span class="self">Self</span>::<span class="ident">Index</span>,
-            <span class="comment">// Use standard accounts</span>
-            <span class="self">Self</span>::<span class="ident">AccountId</span>,
-            <span class="comment">// Use standard signatures</span>
-            <span class="ident">MultiSignature</span>,
-            <span class="comment">// Provide report in IPFS</span>
-            <span class="ident">IPFS</span>,
+            <span class="op">&lt;</span><span class="ident">MultiSignature</span> <span class="kw">as</span> <span class="ident">Verify</span><span class="op">&gt;</span>::<span class="ident">Signer</span>,
+            <span class="ident">AccountId32</span>,
         <span class="op">&gt;</span>;
     }
 
@@ -704,59 +881,59 @@
 
     <span class="kw">fn</span> <span class="ident">get_params_proof</span>(
         <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">technics</span>: <span class="kw-2">&amp;</span><span class="ident">TechnicsFor</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
-        <span class="ident">economics</span>: <span class="kw-2">&amp;</span><span class="ident">EconomicsFor</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">AccountId32</span>, <span class="ident">MultiSignature</span>) {
+        <span class="ident">technics</span>: <span class="kw-2">&amp;</span><span class="ident">TechnicalParam</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+        <span class="ident">economics</span>: <span class="kw-2">&amp;</span><span class="ident">EconomicalParam</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">AccountId32</span>, <span class="ident">ProofParam</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> <span class="ident">pair</span> <span class="op">=</span> <span class="ident">sr25519</span>::<span class="ident">Pair</span>::<span class="ident">from_string</span>(<span class="ident">uri</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">MultiSignature</span> <span class="kw">as</span> <span class="ident">Verify</span><span class="op">&gt;</span>::<span class="ident">Signer</span>::<span class="ident">from</span>(<span class="ident">pair</span>.<span class="ident">public</span>()).<span class="ident">into_account</span>();
-        <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">AgreementProofBuilder</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">proof</span>(
-            <span class="ident">technics</span>, <span class="ident">economics</span>, <span class="kw-2">&amp;</span><span class="ident">pair</span>,
-        )
+        <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Pair</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">ProofBuilder</span><span class="op">&lt;</span>
+            <span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Technics</span>,
+            <span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Economics</span>,
+            <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+            <span class="kw">_</span>,
+            <span class="kw">_</span>,
+        <span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">proof_params</span>(<span class="ident">technics</span>, <span class="ident">economics</span>, <span class="ident">pair</span>)
         .<span class="ident">into</span>();
         (<span class="ident">sender</span>, <span class="ident">signature</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">get_report_proof</span>(<span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="ident">u64</span>, <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="ident">IPFS</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">AccountId32</span>, <span class="ident">MultiSignature</span>) {
+    <span class="kw">fn</span> <span class="ident">get_report_proof</span>(
+        <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">index</span>: <span class="kw-2">&amp;</span><span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+        <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">TechnicalReport</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ProofParam</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">pair</span> <span class="op">=</span> <span class="ident">sr25519</span>::<span class="ident">Pair</span>::<span class="ident">from_string</span>(<span class="ident">uri</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">MultiSignature</span> <span class="kw">as</span> <span class="ident">Verify</span><span class="op">&gt;</span>::<span class="ident">Signer</span>::<span class="ident">from</span>(<span class="ident">pair</span>.<span class="ident">public</span>()).<span class="ident">into_account</span>();
-        <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span>
-            <span class="op">&lt;</span><span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">ReportProofBuilder</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">proof</span>(<span class="ident">index</span>, <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="ident">pair</span>).<span class="ident">into</span>();
-        (<span class="ident">sender</span>, <span class="ident">signature</span>)
+        <span class="op">&lt;</span><span class="ident">ProofSigner</span><span class="op">&lt;</span><span class="ident">sr25519</span>::<span class="ident">Pair</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">ProofBuilder</span><span class="op">&lt;</span>
+            <span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Technics</span>,
+            <span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Economics</span>,
+            <span class="ident">LiabilityIndex</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+            <span class="kw">_</span>,
+            <span class="kw">_</span>,
+        <span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">proof_report</span>(<span class="ident">index</span>, <span class="ident">report</span>, <span class="ident">pair</span>)
+        .<span class="ident">into</span>()
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_liability_proofs</span>() {
-        <span class="kw">let</span> <span class="ident">technics</span> <span class="op">=</span> <span class="ident">IPFS</span> {
-            <span class="ident">hash</span>: <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
-                .<span class="ident">from_base58</span>()
-                .<span class="ident">unwrap</span>(),
-        };
+        <span class="kw">let</span> <span class="ident">technics</span> <span class="op">=</span> <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
+            .<span class="ident">from_base58</span>()
+            .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">economics</span> <span class="op">=</span> ();
-        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">signature</span>) <span class="op">=</span> <span class="ident">get_params_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">technics</span>, <span class="kw-2">&amp;</span><span class="ident">economics</span>);
-        <span class="kw">let</span> <span class="ident">agreement</span>: <span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Agreement</span> <span class="op">=</span> <span class="ident">SignedAgreement</span> {
+        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">params_proof</span>) <span class="op">=</span> <span class="ident">get_params_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">technics</span>, <span class="kw-2">&amp;</span><span class="ident">economics</span>);
+        <span class="kw">let</span> <span class="ident">liability</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">Config</span><span class="op">&gt;</span>::<span class="ident">Liability</span>::<span class="ident">new</span>(
             <span class="ident">technics</span>,
             <span class="ident">economics</span>,
-            <span class="ident">promisee</span>: <span class="ident">sender</span>.<span class="ident">clone</span>(),
-            <span class="ident">promisor</span>: <span class="ident">sender</span>.<span class="ident">clone</span>(),
-            <span class="ident">promisee_signature</span>: <span class="ident">signature</span>.<span class="ident">clone</span>(),
-            <span class="ident">promisor_signature</span>: <span class="ident">signature</span>.<span class="ident">clone</span>(),
-        };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">agreement</span>.<span class="ident">verify</span>(), <span class="bool-val">true</span>);
+            <span class="ident">sender</span>.<span class="ident">clone</span>(),
+            <span class="ident">sender</span>.<span class="ident">clone</span>(),
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">liability</span>.<span class="ident">check_params</span>(<span class="kw-2">&amp;</span><span class="ident">params_proof</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>), <span class="bool-val">true</span>);
 
         <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="number">1</span>;
-        <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">IPFS</span> {
-            <span class="ident">hash</span>: <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
-                .<span class="ident">from_base58</span>()
-                .<span class="ident">unwrap</span>(),
-        };
-        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">signature</span>) <span class="op">=</span> <span class="ident">get_report_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">payload</span>);
-        <span class="kw">let</span> <span class="ident">report</span> <span class="op">=</span> <span class="ident">SignedReport</span> {
-            <span class="ident">index</span>,
-            <span class="ident">sender</span>,
-            <span class="ident">payload</span>,
-            <span class="ident">signature</span>,
-        };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">report</span>.<span class="ident">verify</span>(), <span class="bool-val">true</span>);
+        <span class="kw">let</span> <span class="ident">report</span> <span class="op">=</span> <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
+            .<span class="ident">from_base58</span>()
+            .<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">report_proof</span> <span class="op">=</span> <span class="ident">get_report_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">report</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">liability</span>.<span class="ident">check_report</span>(<span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">report</span>, <span class="kw-2">&amp;</span><span class="ident">report_proof</span>), <span class="bool-val">true</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -764,78 +941,76 @@
         <span class="ident">new_test_ext</span>().<span class="ident">execute_with</span>(<span class="op">|</span><span class="op">|</span> {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">latest_index</span>(), <span class="prelude-val">None</span>);
 
-            <span class="kw">let</span> <span class="ident">technics</span> <span class="op">=</span> <span class="ident">IPFS</span> {
-                <span class="ident">hash</span>: <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
-                    .<span class="ident">from_base58</span>()
-                    .<span class="ident">unwrap</span>(),
-            };
+            <span class="kw">let</span> <span class="ident">technics</span> <span class="op">=</span> <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
+                .<span class="ident">from_base58</span>()
+                .<span class="ident">unwrap</span>();
             <span class="kw">let</span> <span class="ident">economics</span> <span class="op">=</span> ();
 
-            <span class="kw">let</span> (<span class="ident">promisee</span>, <span class="ident">promisee_signature</span>) <span class="op">=</span> <span class="ident">get_params_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">technics</span>, <span class="kw-2">&amp;</span><span class="ident">economics</span>);
-            <span class="kw">let</span> (<span class="ident">promisor</span>, <span class="ident">promisor_signature</span>) <span class="op">=</span> <span class="ident">get_params_proof</span>(<span class="string">&quot;//Bob&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">technics</span>, <span class="kw-2">&amp;</span><span class="ident">economics</span>);
-            <span class="kw">let</span> <span class="ident">agreement</span> <span class="op">=</span> <span class="ident">SignedAgreement</span> {
+            <span class="kw">let</span> (<span class="ident">promisee</span>, <span class="ident">promisee_proof</span>) <span class="op">=</span> <span class="ident">get_params_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">technics</span>, <span class="kw-2">&amp;</span><span class="ident">economics</span>);
+            <span class="kw">let</span> (<span class="ident">promisor</span>, <span class="ident">promisor_proof</span>) <span class="op">=</span> <span class="ident">get_params_proof</span>(<span class="string">&quot;//Bob&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">technics</span>, <span class="kw-2">&amp;</span><span class="ident">economics</span>);
+
+            <span class="macro">assert_err</span><span class="macro">!</span>(
+                <span class="ident">Liability</span>::<span class="ident">create</span>(
+                    <span class="ident">Origin</span>::<span class="ident">none</span>(),
+                    <span class="ident">technics</span>.<span class="ident">clone</span>(),
+                    <span class="ident">economics</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisee</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisor</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisor_proof</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisor_proof</span>.<span class="ident">clone</span>(),
+                ),
+                <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">BadPromiseeProof</span>
+            );
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">latest_index</span>(), <span class="prelude-val">None</span>);
+
+            <span class="macro">assert_err</span><span class="macro">!</span>(
+                <span class="ident">Liability</span>::<span class="ident">create</span>(
+                    <span class="ident">Origin</span>::<span class="ident">none</span>(),
+                    <span class="ident">technics</span>.<span class="ident">clone</span>(),
+                    <span class="ident">economics</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisee</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisor</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisee_proof</span>.<span class="ident">clone</span>(),
+                    <span class="ident">promisee_proof</span>.<span class="ident">clone</span>(),
+                ),
+                <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">BadPromisorProof</span>
+            );
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">latest_index</span>(), <span class="prelude-val">None</span>);
+
+            <span class="macro">assert_ok</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">create</span>(
+                <span class="ident">Origin</span>::<span class="ident">none</span>(),
                 <span class="ident">technics</span>,
                 <span class="ident">economics</span>,
                 <span class="ident">promisee</span>,
                 <span class="ident">promisor</span>,
-                <span class="ident">promisee_signature</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
-                <span class="ident">promisor_signature</span>,
-            };
-
-            <span class="macro">assert_err</span><span class="macro">!</span>(
-                <span class="ident">Liability</span>::<span class="ident">create</span>(
-                    <span class="ident">Origin</span>::<span class="ident">signed</span>(<span class="ident">agreement</span>.<span class="ident">promisor</span>.<span class="ident">clone</span>()),
-                    <span class="ident">agreement</span>.<span class="ident">clone</span>()
-                ),
-                <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">BadAgreementProof</span>,
-            );
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">latest_index</span>(), <span class="prelude-val">None</span>);
-
-            <span class="kw">let</span> <span class="ident">agreement</span> <span class="op">=</span> <span class="ident">SignedAgreement</span> {
-                <span class="ident">promisee_signature</span>,
-                ..<span class="ident">agreement</span>
-            };
-            <span class="macro">assert_ok</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">create</span>(
-                <span class="ident">Origin</span>::<span class="ident">signed</span>(<span class="ident">agreement</span>.<span class="ident">promisor</span>.<span class="ident">clone</span>()),
-                <span class="ident">agreement</span>.<span class="ident">clone</span>()
-            ),);
+                <span class="ident">promisee_proof</span>,
+                <span class="ident">promisor_proof</span>
+            ));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">latest_index</span>(), <span class="prelude-val">Some</span>(<span class="number">1</span>));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">report_of</span>(<span class="number">0</span>), <span class="prelude-val">None</span>);
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">agreement_of</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">agreement</span>));
 
             <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">IPFS</span> {
-                <span class="ident">hash</span>: <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
-                    .<span class="ident">from_base58</span>()
-                    .<span class="ident">unwrap</span>(),
-            };
-            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">bad_signature</span>) <span class="op">=</span> <span class="ident">get_report_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">payload</span>);
-            <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">signature</span>) <span class="op">=</span> <span class="ident">get_report_proof</span>(<span class="string">&quot;//Bob&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">payload</span>);
+            <span class="kw">let</span> <span class="ident">report</span> <span class="op">=</span> <span class="string">&quot;QmWboFP8XeBtFMbNYK3Ne8Z3gKFBSR5iQzkKgeNgQz3dz4&quot;</span>
+                .<span class="ident">from_base58</span>()
+                .<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">bad_proof</span> <span class="op">=</span> <span class="ident">get_report_proof</span>(<span class="string">&quot;//Alice&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">report</span>);
+            <span class="kw">let</span> <span class="ident">good_proof</span> <span class="op">=</span> <span class="ident">get_report_proof</span>(<span class="string">&quot;//Bob&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">index</span>, <span class="kw-2">&amp;</span><span class="ident">report</span>);
 
-            <span class="kw">let</span> <span class="ident">report</span> <span class="op">=</span> <span class="ident">SignedReport</span> {
-                <span class="ident">index</span>,
-                <span class="ident">sender</span>,
-                <span class="ident">payload</span>,
-                <span class="ident">signature</span>: <span class="ident">bad_signature</span>,
-            };
             <span class="macro">assert_err</span><span class="macro">!</span>(
-                <span class="ident">Liability</span>::<span class="ident">finalize</span>(<span class="ident">Origin</span>::<span class="ident">signed</span>(<span class="ident">report</span>.<span class="ident">sender</span>.<span class="ident">clone</span>()), <span class="ident">report</span>.<span class="ident">clone</span>()),
-                <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">BadReportProof</span>,
+                <span class="ident">Liability</span>::<span class="ident">finalize</span>(<span class="ident">Origin</span>::<span class="ident">none</span>(), <span class="number">0</span>, <span class="ident">report</span>.<span class="ident">clone</span>(), <span class="ident">bad_proof</span>),
+                <span class="ident">Error</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>::<span class="ident">BadReportProof</span>
             );
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">report_of</span>(<span class="number">0</span>), <span class="prelude-val">None</span>);
 
-            <span class="kw">let</span> <span class="ident">report</span> <span class="op">=</span> <span class="ident">SignedReport</span> {
-                <span class="ident">signature</span>,
-                ..<span class="ident">report</span>.<span class="ident">clone</span>()
-            };
             <span class="macro">assert_ok</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">finalize</span>(
-                <span class="ident">Origin</span>::<span class="ident">signed</span>(<span class="ident">report</span>.<span class="ident">sender</span>.<span class="ident">clone</span>()),
-                <span class="ident">report</span>.<span class="ident">clone</span>()
+                <span class="ident">Origin</span>::<span class="ident">none</span>(),
+                <span class="number">0</span>,
+                <span class="ident">report</span>.<span class="ident">clone</span>(),
+                <span class="ident">good_proof</span>
             ));
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">report_of</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">report</span>));
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Liability</span>::<span class="ident">report_of</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">report</span>.<span class="ident">encode</span>()));
         })
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pallet_robonomics_liability" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "pallet_robonomics_liability";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

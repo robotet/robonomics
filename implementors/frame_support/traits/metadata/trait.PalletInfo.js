@@ -1,4 +1,0 @@
-(function() {var implementors = {};
-implementors["node_runtime"] = [{"text":"impl PalletInfo for <a class=\"struct\" href=\"node_runtime/struct.PalletInfo.html\" title=\"struct node_runtime::PalletInfo\">PalletInfo</a>","synthetic":false,"types":["node_runtime::PalletInfo"]}];
-implementors["parachain_runtime"] = [{"text":"impl PalletInfo for <a class=\"struct\" href=\"parachain_runtime/struct.PalletInfo.html\" title=\"struct parachain_runtime::PalletInfo\">PalletInfo</a>","synthetic":false,"types":["parachain_runtime::PalletInfo"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

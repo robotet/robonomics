@@ -1,3 +1,4 @@
 (function() {var implementors = {};
-implementors["parachain_runtime"] = [{"text":"impl <a class=\"trait\" href=\"https://docs.rs/lazy_static/1.4.0/lazy_static/trait.LazyStatic.html\" title=\"trait lazy_static::LazyStatic\">LazyStatic</a> for <a class=\"struct\" href=\"parachain_runtime/constants/currency/struct.STAKE_HOLDERS.html\" title=\"struct parachain_runtime::constants::currency::STAKE_HOLDERS\">STAKE_HOLDERS</a>","synthetic":false,"types":["parachain_runtime::constants::currency::STAKE_HOLDERS"]}];
+implementors["node_bench"] = [{"text":"impl LazyStatic for KUSAMA_STATE_DISTRIBUTION","synthetic":false,"types":[]}];
+implementors["parachain_runtime"] = [{"text":"impl LazyStatic for STAKE_HOLDERS","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

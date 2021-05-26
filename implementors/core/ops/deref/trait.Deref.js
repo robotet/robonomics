@@ -1,4 +1,5 @@
 (function() {var implementors = {};
-implementors["node_cli"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html\" title=\"trait core::ops::deref::Deref\">Deref</a> for <a class=\"struct\" href=\"node_cli/struct.RunCmd.html\" title=\"struct node_cli::RunCmd\">RunCmd</a>","synthetic":false,"types":["node_cli::cli::RunCmd"]}];
-implementors["parachain_runtime"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html\" title=\"trait core::ops::deref::Deref\">Deref</a> for <a class=\"struct\" href=\"parachain_runtime/constants/currency/struct.STAKE_HOLDERS.html\" title=\"struct parachain_runtime::constants::currency::STAKE_HOLDERS\">STAKE_HOLDERS</a>","synthetic":false,"types":["parachain_runtime::constants::currency::STAKE_HOLDERS"]}];
+implementors["node_bench"] = [{"text":"impl Deref for KUSAMA_STATE_DISTRIBUTION","synthetic":false,"types":[]}];
+implementors["node_cli"] = [{"text":"impl Deref for RunCmd","synthetic":false,"types":[]}];
+implementors["parachain_runtime"] = [{"text":"impl Deref for STAKE_HOLDERS","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
