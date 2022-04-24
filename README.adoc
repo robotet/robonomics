@@ -1,6 +1,6 @@
-= The Robonomics Framework
+= The Robotet Framework
 
-:Author: Robonomics Network Developers
+:Author: Robotet Network Developers
 :Revision: 0.4.0
 :toc:
 :sectnums:
